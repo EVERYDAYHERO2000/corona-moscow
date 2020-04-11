@@ -57,11 +57,11 @@ function getData(cb) {
       const cells = row.querySelectorAll(`td`)
 
       if (cells.length >= 3) {
-        const address = `Москва, ${cells[0].textContent}, ${cells[1].textContent}`
+        const address = `${cells[0].textContent}, ${cells[1].textContent}`
         const date = cells[2].textContent.split(`.`)
 
         data.push({
-          point: jsonData.get(address),
+          point: jsonData.get(`Москва, ${address}`),
           address,
           date: +`${date[2]}${date[1]}${date[0]}`
         })
