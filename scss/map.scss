@@ -1,0 +1,21 @@
+#map {
+    width: 100wv;
+    height: 100vh;
+}
+
+.leaflet-tile-container {
+    filter: sepia(1) hue-rotate(170deg) brightness(0.7);
+}
+
+.leaflet-container .leaflet-control-attribution {
+    color: rgba(255,255,255,.5);
+    background: hsla(0,0%,100%,.2);
+    margin: 4px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.leaflet-control-attribution a {
+    text-decoration: none;
+    color: #fff;
+}
