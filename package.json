@@ -1,0 +1,31 @@
+{
+  "name": "coronatimeline",
+  "description": "",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "autoprefixer": "^9.7.6",
+    "gulp": "^4.0.2",
+    "gulp-csso": "^4.0.1",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.0.2",
+    "jsdom": "^16.2.2",
+    "node-fetch": "^2.6.0"
+  },
+  "scripts": {
+    "get-data": "gulp getData",
+    "build": "gulp build",
+    "start": "gulp start"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not ie > 0",
+    "not ie_mob > 0",
+    "not dead"
+  ],
+  "dependencies": {
+    "node-normalize-scss": "^8.0.1"
+  }
+}
