@@ -11,7 +11,7 @@ export default class Shader {
             float a = 0.8;    
             
 
-            float border = 0.1;
+            float border = 0.3;
             float radius = 0.6;
             vec4 color0 = vec4(0.0, 0.0, 0.0, 0.0);
             vec4 color1 = vec4(v_color[0], v_color[1], v_color[2], a);
