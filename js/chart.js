@@ -1,8 +1,9 @@
 export default class Chart {
 
-    constructor() {
+    constructor(map) {
 
         this._data = null;
+        this._map = map;
         
         
         return this;
@@ -90,6 +91,33 @@ export default class Chart {
               right: 40
             }
           });
+        
+        
+        this._chart.on('created', function() {
+            
+            const points = document.querySelectorAll('.ct-point');
+        
+            let count = 0;
+        
+            for (var p of points) {
+                
+                p.setAttribute('data-step', count);
+                
+                count++
+            
+                p.addEventListener('click', function () {
+                    
+                    const step = new Number (this.getAttribute('data-step')) + 0;
+                    
+                    _this._map.drawData(step, 10000);
+                    
+                });
+            
+            }
+
+        });
+        
+        
         
         return this;
         
