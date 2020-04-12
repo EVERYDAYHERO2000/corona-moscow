@@ -1,9 +1,11 @@
 import DataSet from "./data-set.js";
 import Map from "./map.js";
+import Chart from "./chart.js";
 
 (function(){
-  
+    
     const dataSet = new DataSet('./data/data.json');
+    const chart = new Chart();
     const map = new Map({
         lat: 55.751244, 
         lon: 37.618423,
@@ -13,6 +15,8 @@ import Map from "./map.js";
     dataSet.load(function(data){
         
         map.setData(data);
+        
+        chart.setData(data);
         
         map.drawData();
         

@@ -1051,3 +1051,49 @@ body {
 .leaflet-heatmap-layer {
   pointer-events: none;
 }
+
+.leaflet-bar {
+  box-shadow: 0 0px 0px 3px rgba(0, 0, 0, 0.25);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+#chart {
+  height: 300px;
+  width: 100%;
+  position: absolute;
+  bottom: 20px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+#chart * {
+  pointer-events: none;
+}
+
+.ct-point {
+  pointer-events: all;
+  cursor: pointer;
+  transition: all .2s ease;
+  transform-origin: center;
+}
+
+.ct-point:hover {
+  stroke-width: 20px;
+}
+
+.ct-point.focus {
+  stroke-width: 20px;
+}
+
+.ct-series {
+  stroke: red;
+  fill: none;
+  stroke-width: 2px;
+}
+
+.ct-label {
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.8);
+}

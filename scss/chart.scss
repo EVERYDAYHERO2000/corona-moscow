@@ -1,0 +1,44 @@
+#chart {
+    height: 300px;
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+#chart * {
+    pointer-events: none;
+}
+
+.ct-point {
+    pointer-events: all;
+    cursor: pointer;
+    transition: all .2s ease;
+    transform-origin: center;
+}
+
+.ct-point:hover {
+    stroke-width: 20px;
+}
+
+.ct-point.focus {
+    stroke-width: 20px;
+}
+
+.ct-series {
+    
+    stroke: rgba(255,0,0, 1);
+    fill: none;
+    stroke-width: 2px;
+    
+}
+
+.ct-label {
+    font-size: 11px;
+    color: rgba(0,0,0,.8);
+}
+
+.ct-horizontal {
+
+}

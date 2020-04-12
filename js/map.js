@@ -102,20 +102,17 @@ export default class Map {
             const cloneData = JSON.parse(JSON.stringify(data));
             const byDate = {};
             const result = [];
-            let count = 0;
+         
             
             for (var i = 0; i < cloneData.length; i++){
                 
                 if (!byDate[cloneData[i].date]) {
                     byDate[cloneData[i].date] = [];
-                    count++;
                 }
                 
                 byDate[cloneData[i].date].push(cloneData[i]);
                 
             }
-            
-            let prev = null;
             
             for (var d in byDate ){
                 
