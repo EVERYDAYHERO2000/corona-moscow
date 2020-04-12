@@ -36,11 +36,11 @@ export default class Map {
         this._canvas = this._canvasOverlay.canvas();
 
         const controlsContainer = document.querySelector('.leaflet-control-zoom a:last-child');
-        const playButtonTpl = `<a class="leaflet-control-play" href="#" title="Play" role="button" aria-label="Play" data-state="pause">▶</a>`
+        const playButtonTpl = `<a class="leaflet-control-play" href="#" title="Play" role="button" aria-label="Play" data-state="pause"></a>`
         controlsContainer.insertAdjacentHTML('afterend', playButtonTpl);
         this._playButton = document.body.getElementsByClassName('leaflet-control-play')[0]
-        this._playButton.addEventListener("click", function () {
-
+        this._playButton.addEventListener("click", function (e) {
+            
             if (this.getAttribute('data-state') == 'pause') {
                 _this.play();
                 this.setAttribute('data-state', 'play');
@@ -92,6 +92,13 @@ export default class Map {
 
         return this;
 
+    }
+    
+    setChart(chart) {
+        
+        this._chart = chart;
+        
+        return this;
     }
 
     setData(data) {
@@ -290,17 +297,23 @@ export default class Map {
 
                 for (var i = pointsLength; i--;) {
 
-
-
                     setTimeout(function(i){
-
-                        //console.log(i)
 
                         _this.drawData(_this._step, i);
 
                     }, (speed / pointsLength) * i, i)
 
                 }
+                
+                const points = document.querySelectorAll('.ct-point');
+        
+                for (var p of points) {
+                    
+                    p.classList.remove('ct-point_active');
+                    
+                    if ( p.getAttribute('data-step') == _this._step ) p.classList.add('ct-point_active');
+                    
+                }   
 
                 _this._step++;
 

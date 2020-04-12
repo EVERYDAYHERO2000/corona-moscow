@@ -1065,6 +1065,12 @@ canvas {
           user-select: none;
 }
 
+.leaflet-control-play {
+  background-image: url(../assets/play.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 #chart {
   height: 300px;
   width: 100%;
@@ -1096,7 +1102,7 @@ canvas {
   stroke-width: 20px;
 }
 
-.ct-point.focus {
+.ct-point_active {
   stroke-width: 20px;
 }
 

@@ -1,13 +1,19 @@
 export default class Chart {
 
-    constructor(map) {
+    constructor() {
 
         this._data = null;
-        this._map = map;
         
         
         return this;
     }  
+    
+    setMap(map) {
+        
+        this._map = map;
+        
+        return this;
+    }
     
     setData(data) {
         
@@ -108,6 +114,16 @@ export default class Chart {
                 p.addEventListener('click', function () {
                     
                     const step = new Number (this.getAttribute('data-step')) + 0;
+                    
+                    for (var p of points) {
+                        
+                        p.classList.remove('ct-point_active');
+                        
+                    }
+                    
+                    this.classList.add('ct-point_active');
+                    
+                    clearInterval(_this._map._animationTimer);
                     
                     _this._map.drawData(step, 10000);
                     
