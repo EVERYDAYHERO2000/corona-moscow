@@ -9,12 +9,10 @@ export default class Shader {
             void main() {
     
             float a = 0.8;    
-            if (v_color[0] == 1.0 && v_color[1] == 1.0 && v_color[2] == 1.0)
-            a = 0.3;
             
 
-            float border = 0.05;
-            float radius = 0.3;
+            float border = 0.1;
+            float radius = 0.6;
             vec4 color0 = vec4(0.0, 0.0, 0.0, 0.0);
             vec4 color1 = vec4(v_color[0], v_color[1], v_color[2], a);
     

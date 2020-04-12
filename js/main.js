@@ -11,10 +11,10 @@ import Map from "./map.js";
     });
     
     dataSet.load(function(data){
-       
-        console.log(data)
         
         map.setData(data);
+        
+        map.drawData(14);
         
     });
   

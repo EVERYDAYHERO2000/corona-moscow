@@ -1,10 +1,11 @@
 #map {
-    width: 100wv;
+    width: 100vw;
     height: 100vh;
+    position: absolute;
 }
 
 .leaflet-tile-container {
-    filter: sepia(1) hue-rotate(170deg) brightness(0.7);
+    
 }
 
 .leaflet-container .leaflet-control-attribution {
@@ -18,4 +19,8 @@
 .leaflet-control-attribution a {
     text-decoration: none;
     color: #fff;
+}
+
+.leaflet-heatmap-layer {
+    pointer-events: none;
 }
