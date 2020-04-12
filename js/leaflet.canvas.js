@@ -1,13 +1,13 @@
 
 /*
-  Generic  Canvas Overlay for leaflet, 
+  Generic  Canvas Overlay for leaflet,
  Stanislav Sumbera, April , 2014
 
  - added userDrawFunc that is called when Canvas need to be redrawn
  - added few useful params fro userDrawFunc callback
   - fixed resize map bug
   inspired & portions taken from  :   https://github.com/Leaflet/Leaflet.heat
-  
+
 
 */
 
@@ -40,15 +40,19 @@ L.CanvasOverlay = L.Class.extend({
         return this;
     },
 
-    
-  
+
+
     onAdd: function (map) {
         this._map = map;
         this._canvas = L.DomUtil.create('canvas', 'leaflet-heatmap-layer');
+        this._dpr = L.Browser.retina ? 2 : 1;
 
         var size = this._map.getSize();
-        this._canvas.width = size.x;
-        this._canvas.height = size.y;
+        this._canvas.width = size.x * this._dpr;
+        this._canvas.height = size.y * this._dpr;
+
+        this._canvas.style.width = size.x + 'px';
+        this._canvas.style.height = size.y + 'px';
 
         var animated = this._map.options.zoomAnimation && L.Browser.any3d;
         L.DomUtil.addClass(this._canvas, 'leaflet-zoom-' + (animated ? 'animated' : 'hide'));
@@ -68,7 +72,7 @@ L.CanvasOverlay = L.Class.extend({
 
     onRemove: function (map) {
         map.getPanes().overlayPane.removeChild(this._canvas);
- 
+
         map.off('moveend', this._reset, this);
         map.off('resize', this._resize, this);
 
@@ -85,8 +89,11 @@ L.CanvasOverlay = L.Class.extend({
     },
 
     _resize: function (resizeEvent) {
-        this._canvas.width  = resizeEvent.newSize.x;
-        this._canvas.height = resizeEvent.newSize.y;
+        this._canvas.width  = resizeEvent.newSize.x * this._dpr;
+        this._canvas.height = resizeEvent.newSize.y * this._dpr;
+
+        this._canvas.style.width = resizeEvent.newSize.x + 'px';
+        this._canvas.style.height = resizeEvent.newSize.y + 'px';
     },
     _reset: function () {
         var topLeft = this._map.containerPointToLayerPoint([0, 0]);
@@ -99,7 +106,7 @@ L.CanvasOverlay = L.Class.extend({
         var bounds   = this._map.getBounds();
         var zoomScale = (size.x * 180) / (20037508.34  * (bounds.getEast() - bounds.getWest())); // resolution = 1/zoomScale
         var zoom = this._map.getZoom();
-     
+
         // console.time('process');
 
         if (this._userDrawFunc) {
@@ -113,10 +120,10 @@ L.CanvasOverlay = L.Class.extend({
                                     options: this.options
                                });
         }
-       
-       
+
+
         // console.timeEnd('process');
-        
+
         this._frame = null;
     },
 

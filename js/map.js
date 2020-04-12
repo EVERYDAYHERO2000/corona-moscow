@@ -3,7 +3,7 @@ import Shader from "./shader.js";
 export default class Map {
 
     constructor(options) {
-        
+
         window.map = this;
 
         const _this = this;
@@ -16,6 +16,7 @@ export default class Map {
         this._map = L.map('map', {
             attributionControl: false
         });
+        this._dpr = L.Browser.retina ? 2 : 1;
 
         L.control.attribution({
             position: 'bottomleft'
@@ -24,10 +25,10 @@ export default class Map {
         this._tileLayer = L.tileLayer(this._tileUrl, {
             attribution: 'Участник &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | Данные на карте <a href="https://coronavirus.mash.ru">mash</a>',
             subdomains: 'abcd',
-            r: '',
+            r: L.Browser.retina ? '@2x' : '',
             maxZoom: 19
         });
-        
+
         this._canvasOverlay = L.canvasOverlay();
         this._map.setView([options.lat, options.lon], options.zoom);
         this._tileLayer.addTo(this._map);
@@ -94,38 +95,38 @@ export default class Map {
     }
 
     setData(data) {
-        
+
         const _this = this;
-        
+
         this._data = (function(data){
-            
+
             const cloneData = JSON.parse(JSON.stringify(data));
             const byDate = {};
             const result = [];
-         
-            
+
+
             for (var i = 0; i < cloneData.length; i++){
-                
+
                 if (!byDate[cloneData[i].date]) {
                     byDate[cloneData[i].date] = [];
                 }
-                
+
                 byDate[cloneData[i].date].push(cloneData[i]);
-                
+
             }
-            
+
             for (var d in byDate ){
-                
+
                 result.push(byDate[d]);
-                
+
             }
-                        
+
             return result;
-            
+
         })(data);
-                
+
         this._step = this._data.length - 1;
-        
+
         return this;
 
     }
@@ -134,56 +135,56 @@ export default class Map {
 
         this._verts = [];
         this._vertsLength = 0;
-        
+
         this._step = (typeof step == 'number') ? step : this._step;
-        this._point = (typeof point == 'number') ? point : null; 
-        
+        this._point = (typeof point == 'number') ? point : null;
+
         const _this = this;
-        
+
         if (this._data) {
-            
+
             for (var d = 0; d < this._data.length; d++) {
-                
-                
+
+
                 if (d < this._step) {
-                    
+
                     for (var i = 0; i < this._data[d].length; i++) {
-                        
+
                         addPoint(_this, d, i, false);
-                        
+
                     }
-                    
+
                 }
-                
+
                 if (d == this._step) {
-                    
+
                     for (var i = 0; i < this._data[d].length; i++) {
-                        
+
                             if (i <= this._point){
-                                
+
                                 addPoint(_this, d, i, true)
-                                
+
                             }
 
                     }
-                    
+
                 }
-                
-                
-                
+
+
+
             }
-            
+
             function addPoint(_this, d, i, now) {
-                    
+
                 const dot = _this._data[d][i].point;
                 const pixel = LatLongToPixelXY(dot[0], dot[1]);
                 const color = (now) ? [1,0.01,0] : [1,0,0];
 
                 _this._verts.push(pixel.x, pixel.y, color[0], color[1], color[2]);
                 _this._vertsLength++;
-                
+
             }
-            
+
 
             const vertBuffer = this._gl.createBuffer();
             const vertArray = new Float32Array(this._verts);
@@ -193,7 +194,7 @@ export default class Map {
             this._gl.bufferData(this._gl.ARRAY_BUFFER, vertArray, this._gl.STATIC_DRAW);
             this._gl.vertexAttribPointer(this._vertLoc, 2, this._gl.FLOAT, false, fsize * 5, 0);
             this._gl.enableVertexAttribArray(this._vertLoc);
-            
+
             this._gl.vertexAttribPointer(this._colorLoc, 3, this._gl.FLOAT, false, fsize * 5, fsize * 2);
             this._gl.enableVertexAttribArray(this._colorLoc);
 
@@ -210,7 +211,7 @@ export default class Map {
             _this._pixelsToWebGLMatrix.set([2 / _this._canvas.width, 0, 0, 0, 0, -2 / _this._canvas.height, 0, 0, 0, 0, 0, 0, -1, 1, 0, 1]);
             _this._gl.viewport(0, 0, _this._canvas.width, _this._canvas.height);
 
-            const pointSize = Math.max(_this._map.getZoom() - 4.0, 1.0);
+            const pointSize = Math.max(_this._map.getZoom() - 4.0, 1.0) * _this._dpr;
 
             _this._gl.vertexAttrib1f(_this._gl.aPointSize, pointSize);
 
@@ -230,7 +231,7 @@ export default class Map {
 
 
             function translateMatrix(matrix, tx, ty) {
-                
+
                 matrix[12] += matrix[0] * tx + matrix[4] * ty;
                 matrix[13] += matrix[1] * tx + matrix[5] * ty;
                 matrix[14] += matrix[2] * tx + matrix[6] * ty;
@@ -238,7 +239,7 @@ export default class Map {
             }
 
             function scaleMatrix(matrix, scaleX, scaleY) {
-                
+
                 matrix[0] *= scaleX;
                 matrix[1] *= scaleX;
                 matrix[2] *= scaleX;
@@ -252,7 +253,7 @@ export default class Map {
 
         }
 
-        
+
 
         function LatLongToPixelXY(latitude, longitude) {
             var pi_180 = Math.PI / 180.0;
@@ -262,8 +263,8 @@ export default class Map {
             var pixelX = ((longitude + 180) / 360) * 256;
 
             var pixel = {
-                x: pixelX,
-                y: pixelY
+                x: pixelX * _this._dpr,
+                y: pixelY * _this._dpr
             };
 
             return pixel;
@@ -272,7 +273,7 @@ export default class Map {
         return this;
 
     }
-    
+
     play (fromStep) {
 
         const _this = this;
@@ -282,25 +283,25 @@ export default class Map {
         if ( _this._step >= maxStep ) _this._step = 0;
 
         this._animationTimer = setInterval(function(){
-            
+
             if ( _this._step <= maxStep ) {
-                
+
                 const pointsLength = _this._data[_this._step].length;
-            
+
                 for (var i = pointsLength; i--;) {
 
-                    
-                    
+
+
                     setTimeout(function(i){
-                        
+
                         //console.log(i)
-                            
+
                         _this.drawData(_this._step, i);
-                        
+
                     }, (speed / pointsLength) * i, i)
-                    
+
                 }
-                
+
                 _this._step++;
 
             } else {
