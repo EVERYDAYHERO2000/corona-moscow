@@ -125,7 +125,8 @@ export default class Map {
             
         })(data);
         
-        console.log(this);
+        
+        this._step = this._data.length;
         
         return this;
 
@@ -135,23 +136,23 @@ export default class Map {
 
         this._verts = [];
         this._vertsLength = 0;
+        
         this._step = step || this._step;
 
         const _this = this;
-
+        
         if (this._data) {
             
             for (var d = 0; d < this._data.length; d++) {
                 
-                if (d <= step) {
+                if (d <= this._step) {
                     
-                    for (var i = 0; i < this._data.length; i++) {
-                        
-                        
+                    for (var i = 0; i < this._data[d].length; i++) {
                         
                         const dot = this._data[d][i].point;
                         const pixel = LatLongToPixelXY(dot[0], dot[1]);
                         const color = [1,0,0];
+                        
                         
                         this._verts.push(pixel.x, pixel.y, color[0], color[1], color[2]);
                         this._vertsLength++;

@@ -7,14 +7,14 @@ import Map from "./map.js";
     const map = new Map({
         lat: 55.751244, 
         lon: 37.618423,
-        zoom: 12,
+        zoom: 10,
     });
     
     dataSet.load(function(data){
         
         map.setData(data);
         
-        map.drawData(14);
+        map.drawData();
         
     });
   
