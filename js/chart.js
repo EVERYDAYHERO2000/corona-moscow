@@ -43,8 +43,6 @@ export default class Chart {
                             date.substr(6,2) + ''
                         ]
                         
-                        console.log(date, arr)
-                        
                         return `${arr[2]}.${arr[1]}`
                         
                     })(i),

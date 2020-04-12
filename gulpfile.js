@@ -67,6 +67,8 @@ function getData(cb) {
         })
       }
     }
+      
+    console.log('Done')  
 
     fs.writeFileSync(`./data/data.json`, JSON.stringify(data), `utf-8`);
   })
