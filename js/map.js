@@ -22,7 +22,7 @@ export default class Map {
         }).addTo(this._map);
 
         this._tileLayer = L.tileLayer(this._tileUrl, {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Data source from <a href="https://coronavirus.mash.ru">mash</a>',
+            attribution: 'Участник &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | Данные на карте <a href="https://coronavirus.mash.ru">mash</a>',
             subdomains: 'abcd',
             r: '',
             maxZoom: 19
