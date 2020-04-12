@@ -3,6 +3,8 @@ import Shader from "./shader.js";
 export default class Map {
 
     constructor(options) {
+        
+        window.map = this;
 
         const _this = this;
 
@@ -124,42 +126,68 @@ export default class Map {
             return result;
             
         })(data);
-        
-        
-        this._step = this._data.length;
+                
+        this._step = this._data.length - 1;
         
         return this;
 
     }
 
-    drawData(step) {
+    drawData(step, point) {
 
         this._verts = [];
         this._vertsLength = 0;
         
-        this._step = step || this._step;
-
+        this._step = (typeof step == 'number') ? step : this._step;
+        this._point = (typeof point == 'number') ? point : null; 
+        
         const _this = this;
         
         if (this._data) {
             
             for (var d = 0; d < this._data.length; d++) {
                 
-                if (d <= this._step) {
+                
+                if (d < this._step) {
                     
                     for (var i = 0; i < this._data[d].length; i++) {
                         
-                        const dot = this._data[d][i].point;
-                        const pixel = LatLongToPixelXY(dot[0], dot[1]);
-                        const color = [1,0,0];
-                        
-                        
-                        this._verts.push(pixel.x, pixel.y, color[0], color[1], color[2]);
-                        this._vertsLength++;
+                        addPoint(_this, d, i)
                         
                     }
                     
                 }
+                
+                if (d <= this._step) {
+                    
+                    for (var i = 0; i < this._data[d].length; i++) {
+                        
+                       
+                        
+                            if (i <= this._point){
+                                
+                                addPoint(_this, d, i)
+
+                            }
+                            
+                        
+
+                    }
+                    
+                }
+                
+                
+                
+            }
+            
+            function addPoint(_this, d, i) {
+                
+                const dot = _this._data[d][i].point;
+                const pixel = LatLongToPixelXY(dot[0], dot[1]);
+                const color = [1,0,0];
+
+                _this._verts.push(pixel.x, pixel.y, color[0], color[1], color[2]);
+                _this._vertsLength++;
                 
             }
             
@@ -255,17 +283,31 @@ export default class Map {
     play (fromStep) {
 
         const _this = this;
-        const maxStep = this._data.length;
-        const speed = 300;
+        const maxStep = this._data.length - 1;
+        const speed = 1000;
 
         if ( _this._step >= maxStep ) _this._step = 0;
 
         this._animationTimer = setInterval(function(){
-
+            
             if ( _this._step <= maxStep ) {
+                
+                const pointsLength = _this._data[_this._step].length;
+            
+                for (var i = pointsLength; i--;) {
 
-                _this.drawData(_this._step);
-
+                    
+                    
+                    setTimeout(function(i){
+                        
+                        //console.log(i)
+                            
+                        _this.drawData(_this._step, i);
+                        
+                    }, (speed / pointsLength) * i, i)
+                    
+                }
+                
                 _this._step++;
 
             } else {
