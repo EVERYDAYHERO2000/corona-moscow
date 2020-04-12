@@ -1068,15 +1068,22 @@ body {
   pointer-events: none;
 }
 
-#chart * {
+#chart svg {
+  pointer-events: none;
+}
+
+#chart *:not(.ct-point) {
   pointer-events: none;
 }
 
 .ct-point {
+  stroke: red;
+  stroke-width: 10px;
   pointer-events: all;
   cursor: pointer;
   transition: all .2s ease;
   transform-origin: center;
+  stroke-linecap: round;
 }
 
 .ct-point:hover {
@@ -1090,7 +1097,7 @@ body {
 .ct-series {
   stroke: red;
   fill: none;
-  stroke-width: 2px;
+  stroke-width: 3px;
 }
 
 .ct-label {

@@ -7,15 +7,22 @@
     pointer-events: none;
 }
 
-#chart * {
+#chart svg {
+    pointer-events: none;
+}
+
+#chart *:not(.ct-point) {
     pointer-events: none;
 }
 
 .ct-point {
+    stroke: rgba(255,0,0,1);
+    stroke-width: 10px;
     pointer-events: all;
     cursor: pointer;
     transition: all .2s ease;
     transform-origin: center;
+    stroke-linecap: round;
 }
 
 .ct-point:hover {
@@ -30,7 +37,7 @@
     
     stroke: rgba(255,0,0, 1);
     fill: none;
-    stroke-width: 2px;
+    stroke-width: 3px;
     
 }
 

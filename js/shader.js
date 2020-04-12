@@ -8,13 +8,21 @@ export default class Shader {
     
             void main() {
     
-            float a = 0.8;    
+            float alpha = 0.8;    
+            
             
 
             float border = 0.3;
-            float radius = 0.6;
+
+            float radius = 0.5;
+            if (v_color[0] == 1.0 && v_color[1] == 0.01 && v_color[2] == 0.0) {
+            border = 0.4;
+            radius = 0.7;
+            }
+
+
             vec4 color0 = vec4(0.0, 0.0, 0.0, 0.0);
-            vec4 color1 = vec4(v_color[0], v_color[1], v_color[2], a);
+            vec4 color1 = vec4(v_color[0], v_color[1], v_color[2], alpha);
     
             vec2 m = gl_PointCoord.xy - vec2(0.5, 0.5);
             float dist = radius - sqrt(m.x * m.x + m.y * m.y);

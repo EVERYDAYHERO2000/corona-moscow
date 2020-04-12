@@ -149,25 +149,21 @@ export default class Map {
                     
                     for (var i = 0; i < this._data[d].length; i++) {
                         
-                        addPoint(_this, d, i)
+                        addPoint(_this, d, i, false);
                         
                     }
                     
                 }
                 
-                if (d <= this._step) {
+                if (d == this._step) {
                     
                     for (var i = 0; i < this._data[d].length; i++) {
                         
-                       
-                        
                             if (i <= this._point){
                                 
-                                addPoint(_this, d, i)
-
+                                addPoint(_this, d, i, true)
+                                
                             }
-                            
-                        
 
                     }
                     
@@ -177,11 +173,11 @@ export default class Map {
                 
             }
             
-            function addPoint(_this, d, i) {
-                
+            function addPoint(_this, d, i, now) {
+                    
                 const dot = _this._data[d][i].point;
                 const pixel = LatLongToPixelXY(dot[0], dot[1]);
-                const color = [1,0,0];
+                const color = (now) ? [1,0.01,0] : [1,0,0];
 
                 _this._verts.push(pixel.x, pixel.y, color[0], color[1], color[2]);
                 _this._vertsLength++;
