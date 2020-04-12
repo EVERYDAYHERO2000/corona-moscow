@@ -5,8 +5,9 @@
     position: absolute;
 }
 
-.leaflet-tile-container {
 
+.leaflet-tile-container, .leaflet-container {
+    background: #f6f8f5;
 }
 
 .leaflet-container .leaflet-control-attribution {

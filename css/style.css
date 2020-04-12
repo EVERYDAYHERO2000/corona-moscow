@@ -1041,6 +1041,10 @@ canvas {
   position: absolute;
 }
 
+.leaflet-tile-container, .leaflet-container {
+  background: #f6f8f5;
+}
+
 .leaflet-container .leaflet-control-attribution {
   color: rgba(255, 255, 255, 0.5);
   background: rgba(0, 0, 0, 0.5);
