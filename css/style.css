@@ -1120,7 +1120,7 @@ canvas {
 }
 
 .ct-series-d {
-  stroke: rgba(255, 0, 0, 0.5);
+  stroke: rgba(255, 0, 0, 0.8);
   fill: none;
   stroke-width: 3px;
 }
@@ -1132,7 +1132,7 @@ canvas {
 }
 
 .ct-series-a {
-  stroke: black;
+  stroke: rgba(0, 0, 0, 0);
   fill: none;
   stroke-width: 3px;
 }
