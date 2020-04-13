@@ -1271,6 +1271,13 @@ canvas {
   }
 }
 
+@media screen and (max-width: 500px) {
+  .content__total {
+    font-size: 15px;
+    padding-top: 5px;
+  }
+}
+
 .content__title span:before {
   content: '';
   display: block;

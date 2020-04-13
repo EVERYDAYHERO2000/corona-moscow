@@ -38,17 +38,17 @@ export default class Content {
                     <div class="content__cases">
                         <div class="content__title"><span>Заболело</span></div>
                         <div class="content__value content__cases-total">${format(current.cases.new)}</div>
-                        <div class="content__cases-new">${format(current.cases.total)} всего</div>
+                        <div class="content__total content__cases-new">${format(current.cases.total)} всего</div>
                     </div>
                     <div class="content__recovered">
                         <div class="content__title"><span>Выздоровело</span></div>
                         <div class="content__value content__recovered-total">${format(current.recovered.new)}</div>
-                        <div class="content__recovered-new">${format(current.recovered.total)} всего</div>
+                        <div class="content__total content__recovered-new">${format(current.recovered.total)} всего</div>
                     </div>  
                     <div class="content__deaths">
                         <div class="content__title"><span>Умерло</span></div>
                         <div class="content__value  content__deaths-total">${format(current.deaths.new)}</div>
-                        <div class="content__deaths-new">${format(current.deaths.total)} всего</div>
+                        <div class="content__total content__deaths-new">${format(current.deaths.total)} всего</div>
                     </div>    
                 </div>    
             </div>
