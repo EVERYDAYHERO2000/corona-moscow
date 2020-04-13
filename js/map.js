@@ -302,7 +302,11 @@ export default class Map {
         const speed = 300;
 
         
-        if ( _this._step == maxStep ) _this._step = 0;
+        
+        if ( _this._step >= maxStep ) {
+            _this._step = 0;
+            
+        }
 
         this._animationTimer = setInterval(function(){
 
@@ -327,8 +331,6 @@ export default class Map {
 
             } else {
                 
-                
-
                 _this._playButton.setAttribute('data-state', 'pause');
                 clearInterval(_this._animationTimer);
 

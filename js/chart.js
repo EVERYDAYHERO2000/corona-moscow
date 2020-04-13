@@ -158,6 +158,8 @@ export default class Chart {
                     
                     this.classList.add('ct-point_active');
                     
+                    _this._map._playButton.setAttribute('data-state', 'pause');
+                    
                     clearInterval(_this._map._animationTimer);
                     
                     _this._content.drawData(step);
