@@ -1051,6 +1051,9 @@ canvas {
   margin: 4px;
   border-radius: 3px;
   font-size: 11px;
+  text-align: center;
+  word-break: keep-all;
+  white-space: nowrap;
 }
 
 .leaflet-control-attribution a {
@@ -1092,7 +1095,7 @@ canvas {
   pointer-events: none;
 }
 
-.ct-point {
+.ct-series-c .ct-point {
   stroke: red;
   stroke-width: 10px;
   pointer-events: all;
@@ -1102,16 +1105,40 @@ canvas {
   stroke-linecap: round;
 }
 
-.ct-point:hover {
+.ct-series-c .ct-point:hover {
   stroke-width: 20px;
 }
 
-.ct-point_active {
+.ct-series-c .ct-point_active {
   stroke-width: 20px;
 }
 
-.ct-series {
+.ct-series-c {
   stroke: red;
+  fill: none;
+  stroke-width: 3px;
+}
+
+.ct-series-d {
+  stroke: rgba(255, 0, 0, 0.5);
+  fill: none;
+  stroke-width: 3px;
+}
+
+.ct-series-d .ct-area {
+  stroke: none;
+  stroke-width: none;
+  fill: rgba(255, 0, 0, 0.2);
+}
+
+.ct-series-a {
+  stroke: black;
+  fill: none;
+  stroke-width: 3px;
+}
+
+.ct-series-b {
+  stroke: #2c9138;
   fill: none;
   stroke-width: 3px;
 }
@@ -1119,4 +1146,14 @@ canvas {
 .ct-label {
   font-size: 11px;
   color: rgba(0, 0, 0, 0.8);
+}
+
+.ct-labels foreignObject[y="270"] span {
+  opacity: 0;
+}
+
+.ct-labels foreignObject[y="270"] span.visible {
+  opacity: 1;
+  transform: translate(-30px, 10px);
+  position: absolute;
 }

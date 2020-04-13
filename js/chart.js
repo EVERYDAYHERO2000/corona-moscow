@@ -42,19 +42,40 @@ export default class Chart {
         const series = (function (data) {
          
             const allCases = [];
+            const allDeaths = [];
+            const allRecovered = [];
+            
             const mashCases = [];
             
             for (var i = 0; i < data.length; i++ ) {
                 allCases.push( data[i].moscowAndOblast.total.cases );
+                allDeaths.push( data[i].moscowAndOblast.total.deaths );
+                allRecovered.push( data[i].moscowAndOblast.total.recovered );
             }
             
+            
             for (var i = 0; i < data.length; i++ ) {
-                mashCases.push( data[i].points.total.length );
-
                 
+                const length = (data[i].points.new.length) ? data[i].points.total.length : null;
+                
+                mashCases.push( length ); 
             }
       
-            return [allCases];
+            return [
+                {
+                    name : 'series-1',
+                    data : allDeaths
+                }, {
+                    name : 'series-2',
+                    data : allRecovered
+                }, {
+                    name : 'series-3',
+                    data : allCases
+                }, {
+                    name : 'series-4',
+                    data : mashCases
+                }
+            ];
               
         })(this._data);
         
@@ -62,17 +83,39 @@ export default class Chart {
         this._chart = new Chartist.Line('#chart', {
             labels: labels,
             series: series
-          }, {
+        }, {
             fullWidth: true,
+            series: {
+                'series-1': {
+                    lineSmooth: Chartist.Interpolation.none(),
+                    showPoint: false
+                },
+                'series-2': {
+                    lineSmooth: Chartist.Interpolation.none(),
+                    showPoint: false
+                },
+                'series-3': {
+                    lineSmooth: Chartist.Interpolation.none()
+                },
+                'series-4': {
+                    lineSmooth: Chartist.Interpolation.none(),
+                    showPoint: false,
+                    showArea: true
+                }
+            },
             chartPadding: {
-              right: 40
+                right: 40
             }
-          });
+        });
         
         
         this._chart.on('created', function() {
             
-            const points = document.querySelectorAll('.ct-point');
+            const points = document.querySelectorAll('.ct-series-c .ct-point');
+            const dateLabels = document.querySelectorAll('.ct-labels foreignObject[y="270"] span');
+            
+            dateLabels[0].classList.add('visible');
+            dateLabels[dateLabels.length - 1].classList.add('visible');
         
             let count = 0;
         

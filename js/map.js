@@ -277,7 +277,7 @@ export default class Map {
 
                 _this.drawData(_this._step, 10000);
                     
-                const points = document.querySelectorAll('.ct-point');
+                const points = document.querySelectorAll('.ct-series-c .ct-point');
         
                 for (var p of points) {
                     

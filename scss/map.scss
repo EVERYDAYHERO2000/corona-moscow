@@ -16,6 +16,9 @@
     margin: 4px;
     border-radius: 3px;
     font-size: 11px;
+    text-align: center;
+    word-break: keep-all;
+    white-space: nowrap;
 }
 
 .leaflet-control-attribution a {

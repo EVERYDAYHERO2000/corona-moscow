@@ -15,7 +15,7 @@
     pointer-events: none;
 }
 
-.ct-point {
+.ct-series-c .ct-point {
     stroke: rgba(255,0,0,1);
     stroke-width: 10px;
     pointer-events: all;
@@ -25,20 +25,46 @@
     stroke-linecap: round;
 }
 
-.ct-point:hover {
+.ct-series-c .ct-point:hover {
     stroke-width: 20px;
 }
 
-.ct-point_active {
+.ct-series-c .ct-point_active {
     stroke-width: 20px;
 }
 
-.ct-series {
+.ct-series-c {
     
     stroke: rgba(255,0,0, 1);
     fill: none;
     stroke-width: 3px;
     
+}
+
+.ct-series-d {
+    
+    stroke: rgba(255,0,0, .5);
+    fill: none;
+    stroke-width: 3px;
+    
+}
+
+.ct-series-d .ct-area {
+    stroke: none;
+    stroke-width: none;
+    fill: rgba(255,0,0, .2);
+}
+
+.ct-series-a {
+    stroke: rgba(0,0,0, 1); 
+    fill: none;
+    stroke-width: 3px;
+}
+
+.ct-series-b {
+    stroke: rgb(44, 145, 56); 
+    fill: none;
+    stroke-width: 3px;
 }
 
 .ct-label {
@@ -48,4 +74,15 @@
 
 .ct-horizontal {
 
+}
+
+.ct-labels foreignObject[y="270"] span {
+    opacity: 0;
+}
+
+.ct-labels foreignObject[y="270"] span.visible {
+    opacity: 1;
+    transform: translate(-30px, 10px);
+    position: absolute;
+    
 }

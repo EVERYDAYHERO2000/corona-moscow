@@ -152,7 +152,7 @@ export default class DataSet {
                             ]
                         };
 
-                        resultobj[ stats[datakey][i].date ].date = `${resultobj[ stats[datakey][i].date ].dateArr[2]}.${resultobj[ stats[datakey][i].date ].dateArr[1]}`;
+                        resultobj[ stats[datakey][i].date ].date = `${resultobj[ stats[datakey][i].date ].dateArr[2]}.${resultobj[ stats[datakey][i].date ].dateArr[1]}.${resultobj[ stats[datakey][i].date ].dateArr[0]}`;
 
                     }
 
