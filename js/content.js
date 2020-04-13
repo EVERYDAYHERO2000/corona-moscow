@@ -37,18 +37,18 @@ export default class Content {
                 <div class="content__body">
                     <div class="content__cases">
                         <div class="content__title"><span>Заболело</span></div>
-                        <div class="content__value content__cases-total">${format(current.cases.total)}</div>
-                        <div class="content__cases-new">${format(current.cases.new)}</div>
+                        <div class="content__value content__cases-total">${format(current.cases.new)}</div>
+                        <div class="content__cases-new">${format(current.cases.total)} всего</div>
                     </div>
                     <div class="content__recovered">
                         <div class="content__title"><span>Выздоровело</span></div>
-                        <div class="content__value content__recovered-total">${format(current.recovered.total)}</div>
-                        <div class="content__recovered-new">${format(current.recovered.new)}</div>
+                        <div class="content__value content__recovered-total">${format(current.recovered.new)}</div>
+                        <div class="content__recovered-new">${format(current.recovered.total)} всего</div>
                     </div>  
                     <div class="content__deaths">
                         <div class="content__title"><span>Умерло</span></div>
-                        <div class="content__value  content__deaths-total">${format(current.deaths.total)}</div>
-                        <div class="content__deaths-new">${format(current.deaths.new)}</div>
+                        <div class="content__value  content__deaths-total">${format(current.deaths.new)}</div>
+                        <div class="content__deaths-new">${format(current.deaths.total)} всего</div>
                     </div>    
                 </div>    
             </div>
@@ -74,15 +74,15 @@ export default class Content {
 
             date: this._data[step].date,
             cases: {
-                new: (this._data[step].moscowAndOblast.new.cases) ? '+' + this._data[step].moscowAndOblast.new.cases : '',
+                new: (this._data[step].moscowAndOblast.new.cases) ? '+' + this._data[step].moscowAndOblast.new.cases : '-',
                 total: this._data[step].moscowAndOblast.total.cases
             },
             deaths: {
-                new: (this._data[step].moscowAndOblast.new.deaths) ? '+' + this._data[step].moscowAndOblast.new.deaths : '',
+                new: (this._data[step].moscowAndOblast.new.deaths) ? '+' + this._data[step].moscowAndOblast.new.deaths : '-',
                 total: this._data[step].moscowAndOblast.total.deaths
             },
             recovered: {
-                new: (this._data[step].moscowAndOblast.new.recovered) ? '+' + this._data[step].moscowAndOblast.new.recovered : '',
+                new: (this._data[step].moscowAndOblast.new.recovered) ? '+' + this._data[step].moscowAndOblast.new.recovered : '-',
                 total: this._data[step].moscowAndOblast.total.recovered
             }
 
