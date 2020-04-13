@@ -28,17 +28,17 @@ export default class Content {
                 <div class="content__header">в Москве и Московской области</div>
                 <div class="content__body">
                     <div class="content__cases">
-                        <div class="content__title">Заболело</div>
+                        <div class="content__title"><span>Заболело</span></div>
                         <div class="content__value content__cases-total">${current.cases.total}</div>
                         <div class="content__cases-new">${current.cases.new}</div>
                     </div>
                     <div class="content__recovered">
-                        <div class="content__title">Выздоровело</div>
+                        <div class="content__title"><span>Выздоровело</span></div>
                         <div class="content__value content__recovered-total">${current.recovered.total}</div>
                         <div class="content__recovered-new">${current.recovered.new}</div>
                     </div>  
                     <div class="content__deaths">
-                        <div class="content__title">Умерло</div>
+                        <div class="content__title"><span>Умерло</span></div>
                         <div class="content__value  content__deaths-total">${current.deaths.total}</div>
                         <div class="content__deaths-new">${current.deaths.new}</div>
                     </div>    

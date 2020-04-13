@@ -64,6 +64,11 @@
     }
 }
 
+.content__title span {
+    position: relative;
+    display: inline-block;
+}
+
 .content__value {
     font-size: 40px;
     font-weight: 800;
@@ -72,5 +77,27 @@
        font-size: 28px;     
     }
     
+}
+
+.content__title span:before {
+    
+    content:'';
+    display:block;
+    position: absolute;
+    width: 10px;
+    height: 3px;
+    transform: translate(-13px, 7px);
+}
+
+.content__cases .content__title span:before {
+    background: rgba(255,0,0,1);
+}
+
+.content__recovered .content__title span:before {
+    background: rgba(67, 145, 57,1);
+}
+
+.content__deaths .content__title span:before {
+    //background: rgba(0,0,0,1);
 }
 

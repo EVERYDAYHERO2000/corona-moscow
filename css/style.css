@@ -1259,6 +1259,11 @@ canvas {
   }
 }
 
+.content__title span {
+  position: relative;
+  display: inline-block;
+}
+
 .content__value {
   font-size: 40px;
   font-weight: 800;
@@ -1268,4 +1273,21 @@ canvas {
   .content__value {
     font-size: 28px;
   }
+}
+
+.content__title span:before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 3px;
+  transform: translate(-13px, 7px);
+}
+
+.content__cases .content__title span:before {
+  background: red;
+}
+
+.content__recovered .content__title span:before {
+  background: #439139;
 }
