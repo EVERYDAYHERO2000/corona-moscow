@@ -79,7 +79,6 @@ export default class Chart {
               
         })(this._data);
         
-        
         this._chart = new Chartist.Line('#chart', {
             labels: labels,
             series: series
@@ -103,6 +102,19 @@ export default class Chart {
                     showArea: true
                 }
             },
+            plugins: [
+                Chartist.plugins.ctPointLabels({
+                  textAnchor: 'middle',
+                  labelInterpolationFnc: function(data) {
+                      
+                      let currentValue = data.value.y;
+                      let prevValue = (data.series.data[data.index - 1]) ? data.series.data[data.index - 1] : 0;
+                      let differenceValue = currentValue - prevValue;
+                      
+                      return (differenceValue) ? `+${differenceValue}` : '';
+                  }
+                })
+              ],
             chartPadding: {
                 right: 40
             }
