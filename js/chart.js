@@ -117,7 +117,8 @@ export default class Chart {
               ],
             chartPadding: {
                 right: 40
-            }
+            },
+            low: 0
         });
         
         

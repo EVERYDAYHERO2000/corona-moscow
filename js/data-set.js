@@ -142,17 +142,35 @@ export default class DataSet {
                 for (var i = 0; i < stats[datakey].length; i++) {
 
                     if ( !resultobj[ stats[datakey][i].date ] ) {
+                        
+                        let dataArr = [
+                            (stats[datakey][i].date + '').substr(0, 4) + '',
+                            (stats[datakey][i].date + '').substr(4,2) + '',
+                            (stats[datakey][i].date + '').substr(6,2) + ''
+                        ];
+                        
+                        let month = {
+                            1  : 'января',
+                            2  : 'февраля',
+                            3  : 'марта',
+                            4  : 'апреля',
+                            5  : 'мая',
+                            6  : 'июня',
+                            7  : 'июля',
+                            8  : 'августа',
+                            9  : 'сентября',
+                            10 : 'октября',
+                            11 : 'ноября',
+                            12 : 'декабря'
+                        }
+                        
                         resultobj[ stats[datakey][i].date ] = {
 
                             dateIndex: stats[datakey][i].date,
-                            dateArr: [
-                                (stats[datakey][i].date + '').substr(0, 4) + '',
-                                (stats[datakey][i].date + '').substr(4,2) + '',
-                                (stats[datakey][i].date + '').substr(6,2) + ''
-                            ]
+                            dateArr: dataArr
                         };
 
-                        resultobj[ stats[datakey][i].date ].date = `${resultobj[ stats[datakey][i].date ].dateArr[2]}.${resultobj[ stats[datakey][i].date ].dateArr[1]}.${resultobj[ stats[datakey][i].date ].dateArr[0]}`;
+                        resultobj[ stats[datakey][i].date ].date = `${dataArr[2]} ${month[ new Number (dataArr[1]) ]}`;
 
                     }
 
