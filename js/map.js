@@ -61,10 +61,7 @@ export default class Map {
                 y : e.containerPoint.y
             }
         
-            
             const popup = L.popup();
-            
-            console.log(popup)
             
             if (_this._points.length) {
                 
@@ -160,13 +157,12 @@ export default class Map {
         
     }
 
-    drawData(step, point) {
+    drawData(step) {
 
         this._verts = [];
         this._vertsLength = 0;
 
         this._step = (typeof step == 'number') ? step : this._step;
-        this._point = (typeof point == 'number') ? point : null;
 
         const _this = this;
 
@@ -212,6 +208,8 @@ export default class Map {
             
             _this._points = [];
             
+            if (_this._step <= _this._data.length - 1) {
+            
             for (var i = 0; i < _this._data[_this._step].points.total.length; i++) {
                 
                 const dot = _this._data[_this._step].points.total[i];
@@ -222,6 +220,8 @@ export default class Map {
                     y : pixel.y,
                     label : dot[2]
                 });
+                
+            }
                 
             }
             
@@ -301,13 +301,15 @@ export default class Map {
         const maxStep = this._data.length - 1;
         const speed = 300;
 
-        if ( _this._step >= maxStep ) _this._step = 0;
+        
+        if ( _this._step == maxStep ) _this._step = 0;
 
         this._animationTimer = setInterval(function(){
 
             if ( _this._step <= maxStep ) {
-
-                _this.drawData(_this._step, 10000);
+                
+                
+                _this.drawData(_this._step);
                     
                 const points = document.querySelectorAll('.ct-series-c .ct-point');
         
@@ -324,11 +326,14 @@ export default class Map {
                 _this._step++;
 
             } else {
+                
+                
 
                 _this._playButton.setAttribute('data-state', 'pause');
                 clearInterval(_this._animationTimer);
 
             }
+            
 
         },speed);
 

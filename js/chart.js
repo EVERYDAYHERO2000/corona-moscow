@@ -162,7 +162,7 @@ export default class Chart {
                     
                     _this._content.drawData(step);
                     
-                    _this._map.drawData(step, 10000);
+                    _this._map.drawData(step);
                     
                     
                     
