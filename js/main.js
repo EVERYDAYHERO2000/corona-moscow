@@ -14,7 +14,7 @@ import Content from "./content.js";
     const map = new Map({
         lat: 55.751244,
         lon: 37.618423,
-        zoom: 10,
+        zoom: 8,
     });
 
     dataSet.load(function(data){
