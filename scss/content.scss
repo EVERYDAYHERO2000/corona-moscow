@@ -15,16 +15,29 @@
     text-align: center;
     margin-top: 5vh;
     max-width: 600px;
+    
+    @media screen and (max-width: 500px) {
+        width: 100vw;
+        margin-top: 10vh;
+    }
 }
 
 .content__date {
     font-size: 40px;
     font-weight: 800;
+    
+    @media screen and (max-width: 500px) {
+        font-size: 28px;     
+    }
 }
 
 .content__header {
     padding: 15px 0 5px 0;
     font-size: 24px;
+    
+    @media screen and (max-width: 500px) {
+        font-size: 15px;
+    }
 }
 
 .content__body {
@@ -36,14 +49,28 @@
 .content__body > div {
     width: 33%;
     pointer-events: all;
+    
+    @media screen and (max-width: 500px) {
+        pointer-events: none;
+    }
 }
 
 .content__title {
     padding-bottom: 15px;
+    
+    @media screen and (max-width: 500px) {
+        font-size: 15px;
+        padding-bottom: 5px;
+    }
 }
 
 .content__value {
     font-size: 40px;
     font-weight: 800;
+    
+    @media screen and (max-width: 500px) {
+       font-size: 28px;     
+    }
+    
 }
 

@@ -31,6 +31,7 @@
 
 .ct-series-c .ct-point_active {
     stroke-width: 20px;
+    pointer-events: none;
 }
 
 .ct-series-c {
@@ -77,6 +78,10 @@
     stroke-width: 0;
     fill: rgba(0,0,0,.8);
     font-size: 10px;
+    
+    @media screen and (max-width: 500px) {
+        display: none;    
+    }
 }
 
 .ct-vertical {

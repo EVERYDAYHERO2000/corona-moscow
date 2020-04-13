@@ -1112,6 +1112,7 @@ canvas {
 
 .ct-series-c .ct-point_active {
   stroke-width: 20px;
+  pointer-events: none;
 }
 
 .ct-series-c {
@@ -1156,6 +1157,12 @@ canvas {
   font-size: 10px;
 }
 
+@media screen and (max-width: 500px) {
+  .ct-series .ct-label {
+    display: none;
+  }
+}
+
 .ct-label.ct-vertical.ct-start {
   align-items: flex-end;
   justify-content: flex-end;
@@ -1195,14 +1202,33 @@ canvas {
   max-width: 600px;
 }
 
+@media screen and (max-width: 500px) {
+  .content__inner {
+    width: 100vw;
+    margin-top: 10vh;
+  }
+}
+
 .content__date {
   font-size: 40px;
   font-weight: 800;
 }
 
+@media screen and (max-width: 500px) {
+  .content__date {
+    font-size: 28px;
+  }
+}
+
 .content__header {
   padding: 15px 0 5px 0;
   font-size: 24px;
+}
+
+@media screen and (max-width: 500px) {
+  .content__header {
+    font-size: 15px;
+  }
 }
 
 .content__body {
@@ -1216,11 +1242,30 @@ canvas {
   pointer-events: all;
 }
 
+@media screen and (max-width: 500px) {
+  .content__body > div {
+    pointer-events: none;
+  }
+}
+
 .content__title {
   padding-bottom: 15px;
+}
+
+@media screen and (max-width: 500px) {
+  .content__title {
+    font-size: 15px;
+    padding-bottom: 5px;
+  }
 }
 
 .content__value {
   font-size: 40px;
   font-weight: 800;
+}
+
+@media screen and (max-width: 500px) {
+  .content__value {
+    font-size: 28px;
+  }
 }
