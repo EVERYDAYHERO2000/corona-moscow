@@ -105,33 +105,8 @@ export default class Map {
 
         const _this = this;
 
-        this._data = (function(data){
-
-            const cloneData = JSON.parse(JSON.stringify(data));
-            const byDate = {};
-            const result = [];
-
-
-            for (var i = 0; i < cloneData.length; i++){
-
-                if (!byDate[cloneData[i].date]) {
-                    byDate[cloneData[i].date] = [];
-                }
-
-                byDate[cloneData[i].date].push(cloneData[i]);
-
-            }
-
-            for (var d in byDate ){
-
-                result.push(byDate[d]);
-
-            }
-
-            return result;
-
-        })(data);
-
+        this._data = data
+        
         this._step = this._data.length - 1;
 
         return this;
@@ -155,7 +130,7 @@ export default class Map {
 
                 if (d < this._step) {
 
-                    for (var i = 0; i < this._data[d].length; i++) {
+                    for (var i = 0; i < this._data[d].points.total.length; i++) {
 
                         addPoint(_this, d, i, false);
 
@@ -165,7 +140,7 @@ export default class Map {
 
                 if (d == this._step) {
 
-                    for (var i = 0; i < this._data[d].length; i++) {
+                    for (var i = 0; i < this._data[d].points.total.length; i++) {
 
                             if (i <= this._point){
 
@@ -183,7 +158,7 @@ export default class Map {
 
             function addPoint(_this, d, i, now) {
 
-                const dot = _this._data[d][i].point;
+                const dot = _this._data[d].points.total[i];
                 const pixel = LatLongToPixelXY(dot[0], dot[1]);
                 const color = (now) ? [1,0.01,0] : [1,0,0];
 
@@ -205,9 +180,16 @@ export default class Map {
             this._gl.vertexAttribPointer(this._colorLoc, 3, this._gl.FLOAT, false, fsize * 5, fsize * 2);
             this._gl.enableVertexAttribArray(this._colorLoc);
 
+            
+            
+                
             this._canvasOverlay.drawing(drawingOnCanvas);
+                
+            
 
             this._canvasOverlay.redraw();
+                
+            
 
         }
 
@@ -234,7 +216,7 @@ export default class Map {
             translateMatrix(_this._mapMatrix, -offset.x, -offset.y);
 
             _this._gl.uniformMatrix4fv(_this._u_matLoc, false, _this._mapMatrix);
-            _this._gl.drawArrays(_this._gl.POINTS, 0, _this._vertsLength);
+            if (_this._vertsLength) _this._gl.drawArrays(_this._gl.POINTS, 0, _this._vertsLength);
 
 
             function translateMatrix(matrix, tx, ty) {
@@ -285,7 +267,7 @@ export default class Map {
 
         const _this = this;
         const maxStep = this._data.length - 1;
-        const speed = 1000;
+        const speed = 300;
 
         if ( _this._step >= maxStep ) _this._step = 0;
 

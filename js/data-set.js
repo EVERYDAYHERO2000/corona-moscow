@@ -47,12 +47,133 @@ export default class DataSet {
             _this._dataRequest(_this._url[1], function (stats) {
                 
                 _this.data = [data,stats];
+                
+                collect([data,stats], callback);
 
-                callback( [data,stats] );
+                
                 
             });
 
         });
+        
+        
+        function collect(data, callback) {
+            
+            const points = data[0];
+            const stats = data[1];
+            
+            const byDates = {};
+            const result = [];
+            
+            statsToObj('city','moscow', byDates);
+            statsToObj('oblast','oblast', byDates);
+            
+            for (var i in byDates) {
+                
+                if (!byDates[i].oblast) {
+                    
+                    byDates[i].oblast = {
+                        new: {
+                            cases: 0, 
+                            deaths: 0, 
+                            recovered: 0
+                        },
+                        total: {
+                            cases: 0, 
+                            deaths: 0, 
+                            recovered: 0
+                        }
+                    }
+                
+                }
+                
+                byDates[i].moscowAndOblast = {
+                    
+                    new: {
+                        
+                        cases: byDates[i].moscow.new.cases + byDates[i].oblast.new.cases,
+                        deaths: byDates[i].moscow.new.deaths + byDates[i].oblast.new.deaths,
+                        recovered: byDates[i].moscow.new.recovered + byDates[i].oblast.new.recovered,
+                        
+                    },
+                    total: {
+                        
+                        cases: byDates[i].moscow.total.cases + byDates[i].oblast.total.cases,
+                        deaths: byDates[i].moscow.total.deaths + byDates[i].oblast.total.deaths,
+                        recovered: byDates[i].moscow.total.recovered + byDates[i].oblast.total.recovered,
+                        
+                    }
+                    
+                }
+                
+                byDates[i].points = {
+                    new : [],
+                    total : []
+                };
+                
+            }
+            
+            for (var i = 0; i < points.length; i++){
+                
+                byDates[points[i].date].points.new.push( points[i].point );
+                byDates[points[i].date].points.total.push( points[i].point );
+                
+            }
+            
+            let lastkey = null;
+            
+            for (var i in byDates) {
+                
+                if ( lastkey != null && byDates[lastkey] ) {
+                    byDates[i].points.total = byDates[i].points.new.concat( byDates[lastkey].points.total );
+                    
+                }
+                
+                lastkey = i;
+                
+                result.push( byDates[i] );
+                
+            }
+            
+            
+            
+            function statsToObj(datakey, resultkey, resultobj){
+            
+                for (var i = 0; i < stats[datakey].length; i++) {
+
+                    if ( !resultobj[ stats[datakey][i].date ] ) {
+                        resultobj[ stats[datakey][i].date ] = {
+
+                            dateIndex: stats[datakey][i].date,
+                            dateArr: [
+                                (stats[datakey][i].date + '').substr(0, 4) + '',
+                                (stats[datakey][i].date + '').substr(4,2) + '',
+                                (stats[datakey][i].date + '').substr(6,2) + ''
+                            ]
+                        };
+
+                        resultobj[ stats[datakey][i].date ].date = `${resultobj[ stats[datakey][i].date ].dateArr[2]}.${resultobj[ stats[datakey][i].date ].dateArr[1]}`;
+
+                    }
+
+                    resultobj[ stats[datakey][i].date ][resultkey] = {
+                        new : stats[datakey][i].new,
+                        total : stats[datakey][i].total
+                    }
+
+
+                }
+                
+            }
+            
+
+            
+            
+            
+            if (callback) callback(result);
+            
+        }
+        
 
         return this;
 

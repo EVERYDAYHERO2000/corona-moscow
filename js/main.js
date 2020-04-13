@@ -17,11 +17,9 @@ import setResponsiveHeight from "./responsiveHeight.js";
 
     dataSet.load(function(data){
         
-        console.log(data[1])
+        map.setChart(chart).setData(data);
 
-        map.setChart(chart).setData(data[0]);
-
-        chart.setMap(map).setData(data[0]);
+        chart.setMap(map).setData(data);
 
         map.drawData();
 

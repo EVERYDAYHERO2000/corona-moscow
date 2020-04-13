@@ -21,55 +21,16 @@ export default class Chart {
         
         
         
-        this._data = (function(data){
-            
-            const cloneData = JSON.parse(JSON.stringify(data));
-            const byDate = {};
-            const result = [];
-            
-            
-            for (var i = 0; i < cloneData.length; i++){
-                
-                if (!byDate[cloneData[i].date]) {
-                    byDate[cloneData[i].date] = [];
-                }
-                
-                byDate[cloneData[i].date].push(cloneData[i]);
-                
-            }
-            
-            let countLength = 0;
-            
-            for (var i in byDate) {
-                
-                countLength += byDate[i].length;
-                result.push({
-                    date : (function(date){
-                        
-                        let arr = [
-                            date.substr(0, 4) + '',
-                            date.substr(4,2) + '',
-                            date.substr(6,2) + ''
-                        ]
-                        
-                        return `${arr[2]}.${arr[1]}`
-                        
-                    })(i),
-                    length : countLength
-                });
-                
-            }
-                            
-            return result;
-            
-        })(data);
+        this._data = data
         
         
         const labels = (function (data) {
          
             var arr = [];
             for (var i = 0; i < data.length; i++ ) {
+                
                 arr.push( data[i].date );
+                
             }
       
             return arr;
@@ -80,19 +41,27 @@ export default class Chart {
         
         const series = (function (data) {
          
-            var arr = [];
+            const allCases = [];
+            const mashCases = [];
+            
             for (var i = 0; i < data.length; i++ ) {
-                arr.push( data[i].length );
+                allCases.push( data[i].moscowAndOblast.total.cases );
+            }
+            
+            for (var i = 0; i < data.length; i++ ) {
+                mashCases.push( data[i].points.total.length );
+
+                
             }
       
-            return arr;
+            return [allCases];
               
         })(this._data);
         
         
         this._chart = new Chartist.Line('#chart', {
             labels: labels,
-            series: [series]
+            series: series
           }, {
             fullWidth: true,
             chartPadding: {
