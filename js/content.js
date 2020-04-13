@@ -21,6 +21,14 @@ export default class Content {
         }
 
         this._tpl = function (current) {
+            
+            function format(value) {
+
+                value = (/\.\d/.test(value)) ? value + '' : value + '.00';
+                value = (value).replace(/\d(?=(\d{3})+\.)/g, '$& ').split('.')[0]
+                
+                return value;
+            }
 
             return `<div class="content__inner">       
             <div class="content__date">${current.date}</div>
@@ -29,18 +37,18 @@ export default class Content {
                 <div class="content__body">
                     <div class="content__cases">
                         <div class="content__title"><span>Заболело</span></div>
-                        <div class="content__value content__cases-total">${current.cases.total}</div>
-                        <div class="content__cases-new">${current.cases.new}</div>
+                        <div class="content__value content__cases-total">${format(current.cases.total)}</div>
+                        <div class="content__cases-new">${format(current.cases.new)}</div>
                     </div>
                     <div class="content__recovered">
                         <div class="content__title"><span>Выздоровело</span></div>
-                        <div class="content__value content__recovered-total">${current.recovered.total}</div>
-                        <div class="content__recovered-new">${current.recovered.new}</div>
+                        <div class="content__value content__recovered-total">${format(current.recovered.total)}</div>
+                        <div class="content__recovered-new">${format(current.recovered.new)}</div>
                     </div>  
                     <div class="content__deaths">
                         <div class="content__title"><span>Умерло</span></div>
-                        <div class="content__value  content__deaths-total">${current.deaths.total}</div>
-                        <div class="content__deaths-new">${current.deaths.new}</div>
+                        <div class="content__value  content__deaths-total">${format(current.deaths.total)}</div>
+                        <div class="content__deaths-new">${format(current.deaths.new)}</div>
                     </div>    
                 </div>    
             </div>
