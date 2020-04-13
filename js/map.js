@@ -112,6 +112,14 @@ export default class Map {
         return this;
 
     }
+    
+    setContent(content) {
+        
+        this._content = content;
+        
+        return this;
+        
+    }
 
     drawData(step, point) {
 
@@ -286,6 +294,8 @@ export default class Map {
                     if ( p.getAttribute('data-step') == _this._step ) p.classList.add('ct-point_active');
                     
                 }   
+                
+                _this._content.drawData(_this._step);
 
                 _this._step++;
 

@@ -15,6 +15,14 @@ export default class Chart {
         return this;
     }
     
+    setContent(content) {
+        
+        this._content = content;
+        
+        return this;
+        
+    }
+    
     setData(data) {
         
         const _this = this;
@@ -152,7 +160,11 @@ export default class Chart {
                     
                     clearInterval(_this._map._animationTimer);
                     
+                    _this._content.drawData(step);
+                    
                     _this._map.drawData(step, 10000);
+                    
+                    
                     
                 });
             
