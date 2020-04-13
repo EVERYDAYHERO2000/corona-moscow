@@ -19,6 +19,8 @@ export default class Chart {
         
         const _this = this;
         
+        
+        
         this._data = (function(data){
             
             const cloneData = JSON.parse(JSON.stringify(data));

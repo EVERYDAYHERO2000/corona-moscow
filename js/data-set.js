@@ -2,7 +2,7 @@ export default class DataSet {
 
     constructor(url) {
 
-        this._url = url;
+        this._url = ['./data/data.json', './data/stats.json'];
 
         const _this = this;
 
@@ -42,11 +42,15 @@ export default class DataSet {
         const _this = this;
 
 
-        this._dataRequest(this._url, function (data) {
+        this._dataRequest(this._url[0], function (data) {
 
-            _this.data = data;
+            _this._dataRequest(_this._url[1], function (stats) {
+                
+                _this.data = [data,stats];
 
-            callback(_this.data);
+                callback( [data,stats] );
+                
+            });
 
         });
 
