@@ -10,6 +10,7 @@ export default class Map {
 
         this._data = [];
         this._step = 0;
+        this._points = [];
 
         this._tileUrl = `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png`;
 
@@ -51,6 +52,43 @@ export default class Map {
             }
 
         });
+        
+        //const canvasElement = document.querySelector('.leaflet-heatmap-layer');
+        this._map.on("click", function(e) {
+            
+            let clickPoint = {
+                x : e.containerPoint.x,
+                y : e.containerPoint.y
+            }
+        
+            
+            const popup = L.popup();
+            
+            console.log(popup)
+            
+            if (_this._points.length) {
+                
+                for (var i = 0; i < _this._points.length; i++) {
+                    
+                    if (clickPoint.x > _this._points[i].x && 
+                        clickPoint.x < _this._points[i].x + 6 &&
+                        clickPoint.y > _this._points[i].y &&
+                        clickPoint.y < _this._points[i].y + 6) {
+                        
+                        popup.setLatLng(e.latlng).setContent(_this._points[i].label).openOn(_this._map);
+                        
+                        break;
+                        
+                    }
+                    
+                } 
+                
+            }
+            
+        });
+        
+        
+        
 
         this._gl = this._canvas.getContext('experimental-webgl', {
             antialias: true
@@ -89,6 +127,7 @@ export default class Map {
         this._gl.uniformMatrix4fv(this._u_matLoc, false, this._pixelsToWebGLMatrix);
 
 
+        
 
         return this;
 
@@ -133,34 +172,9 @@ export default class Map {
 
         if (this._data) {
 
-            for (var d = 0; d < this._data.length; d++) {
+            for (var i = 0; i < this._data[this._step].points.total.length; i++) {
 
-
-                if (d < this._step) {
-
-                    for (var i = 0; i < this._data[d].points.total.length; i++) {
-
-                        addPoint(_this, d, i, false);
-
-                    }
-
-                }
-
-                if (d == this._step) {
-
-                    for (var i = 0; i < this._data[d].points.total.length; i++) {
-
-                            if (i <= this._point){
-
-                                addPoint(_this, d, i, true)
-
-                            }
-
-                    }
-
-                }
-
-
+                addPoint(_this, this._step, i, false);
 
             }
 
@@ -188,20 +202,29 @@ export default class Map {
             this._gl.vertexAttribPointer(this._colorLoc, 3, this._gl.FLOAT, false, fsize * 5, fsize * 2);
             this._gl.enableVertexAttribArray(this._colorLoc);
 
-            
-            
-                
             this._canvasOverlay.drawing(drawingOnCanvas);
-                
-            
-
             this._canvasOverlay.redraw();
-                
             
 
         }
 
-        function drawingOnCanvas(canvasOverlay, params) {
+        function drawingOnCanvas() {
+            
+            _this._points = [];
+            
+            for (var i = 0; i < _this._data[_this._step].points.total.length; i++) {
+                
+                const dot = _this._data[_this._step].points.total[i];
+                const pixel = _this._map.latLngToContainerPoint([dot[0], dot[1]]);
+                
+                _this._points.push({
+                    x : pixel.x,
+                    y : pixel.y,
+                    label : dot[2]
+                });
+                
+            }
+            
 
             _this._gl.clear(_this._gl.COLOR_BUFFER_BIT);
 
@@ -226,6 +249,7 @@ export default class Map {
             _this._gl.uniformMatrix4fv(_this._u_matLoc, false, _this._mapMatrix);
             if (_this._vertsLength) _this._gl.drawArrays(_this._gl.POINTS, 0, _this._vertsLength);
 
+            
 
             function translateMatrix(matrix, tx, ty) {
 

@@ -1075,6 +1075,16 @@ canvas {
   background-repeat: no-repeat;
 }
 
+.leaflet-popup-pane {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 5px;
+}
+
 #chart {
   height: 300px;
   width: 100%;
@@ -1150,7 +1160,7 @@ canvas {
   stroke: none;
   stroke-width: 0;
   fill: rgba(0, 0, 0, 0.8);
-  font-size: 10px;
+  font-size: 9px;
 }
 
 @media screen and (max-width: 500px) {

@@ -115,8 +115,14 @@ export default class DataSet {
             
             for (var i = 0; i < points.length; i++){
                 
-                byDates[points[i].date].points.new.push( points[i].point );
-                byDates[points[i].date].points.total.push( points[i].point );
+                let point = [
+                    points[i].point[0],
+                    points[i].point[1],
+                    points[i].address
+                ] 
+                
+                byDates[points[i].date].points.new.push( point );
+                byDates[points[i].date].points.total.push( point );
                 
             }
             
