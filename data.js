@@ -82,11 +82,21 @@ module.exports = function (cb) {
     getStats(stats.city, moscowCityRows)
     getStats(stats.oblast, moscowOblastRows)
 
+
+    if (data.length) {
+      fs.writeFileSync(`./data/data.json`, JSON.stringify(data), `utf-8`);
+    } else {
+      console.log('Mash data failure');
+    }
+
+    if (stats.city.length && stats.oblast.length) {
+      fs.writeFileSync(`./data/stats.json`, JSON.stringify(stats), `utf-8`);
+    } else {
+      console.log('Wikipedia data failure');
+    }
+
     console.log('Done')
 
-    fs.writeFileSync(`./data/data.json`, JSON.stringify(data), `utf-8`);
-    fs.writeFileSync(`./data/stats.json`, JSON.stringify(stats), `utf-8`);
-
     return cb()
-  })
+  }).catch(error => console.log(error))
 }
