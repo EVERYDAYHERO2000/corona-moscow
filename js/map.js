@@ -67,9 +67,9 @@ export default class Map {
                 
                 for (var i = 0; i < _this._points.length; i++) {
                     
-                    if (clickPoint.x > _this._points[i].x && 
+                    if (clickPoint.x > _this._points[i].x - 6 && 
                         clickPoint.x < _this._points[i].x + 6 &&
-                        clickPoint.y > _this._points[i].y &&
+                        clickPoint.y > _this._points[i].y - 6 &&
                         clickPoint.y < _this._points[i].y + 6) {
                         
                         popup.setLatLng(e.latlng).setContent(_this._points[i].label).openOn(_this._map);
