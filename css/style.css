@@ -1317,3 +1317,11 @@ canvas {
     display: none;
   }
 }
+
+.content__news a {
+  pointer-events: all;
+  color: #0058bf;
+  text-decoration: none;
+  margin-left: 10px;
+  font-size: 13px;
+}

@@ -53,7 +53,7 @@ export default class Content {
                     </div>    
                 </div> 
                 <div class="content__footer">
-                    <div class="content__news">${current.news}</div>
+                    <div class="content__news">${(current.news.text) ? `<span>${current.news.text}</span> <a target="_blank" href="${current.news.url}">источник</a>` : ''}</div>
                 </div>
             </div>
         </div>`
@@ -89,7 +89,10 @@ export default class Content {
                 new: (this._data[step].moscowAndOblast.new.recovered) ? '+' + this._data[step].moscowAndOblast.new.recovered : '-',
                 total: this._data[step].moscowAndOblast.total.recovered
             },
-            news : (this._data[step].news) ? this._data[step].news : ''
+            news : { 
+                text : (this._data[step].news) ? this._data[step].news.text : '',
+                url : (this._data[step].news) ? this._data[step].news.url : ''
+            }
 
         }
 

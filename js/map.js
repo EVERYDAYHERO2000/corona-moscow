@@ -213,13 +213,14 @@ export default class Map {
             
             for (var i = 0; i < _this._data[_this._step].points.total.length; i++) {
                 
+                
                 const dot = _this._data[_this._step].points.total[i];
                 const pixel = _this._map.latLngToContainerPoint([dot[0], dot[1]]);
                 
                 _this._points.push({
                     x : pixel.x,
                     y : pixel.y,
-                    label : dot[2]
+                    label : `${dot[3]}, ${dot[2]}`
                 });
                 
             }

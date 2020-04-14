@@ -117,7 +117,10 @@ export default class DataSet {
                 
                 if (news[i]) {
                     
-                    byDates[i].news = news[i];
+                    byDates[i].news = {
+                        text : news[i][0],
+                        url : news[i][1]
+                    }
                     
                 }
                 
@@ -128,7 +131,8 @@ export default class DataSet {
                 let point = [
                     points[i].point[0],
                     points[i].point[1],
-                    points[i].address
+                    points[i].address,
+                    byDates[points[i].date].date
                 ] 
                 
                 byDates[points[i].date].points.new.push( point );
@@ -186,7 +190,7 @@ export default class DataSet {
                             dateArr: dataArr
                         };
 
-                        resultobj[ stats[datakey][i].date ].date = `${dataArr[2]} ${month[ new Number (dataArr[1]) ]}`;
+                        resultobj[ stats[datakey][i].date ].date = `${+dataArr[2]} ${month[ new Number (dataArr[1]) ]}`;
 
                     }
 
