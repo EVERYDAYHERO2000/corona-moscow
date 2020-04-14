@@ -1,3 +1,5 @@
+import News from "./news.js";
+
 export default class DataSet {
 
     constructor(url) {
@@ -59,6 +61,8 @@ export default class DataSet {
         
         function collect(data, callback) {
             
+            
+            const news = new News().data;
             const points = data[0];
             const stats = data[1];
             
@@ -110,6 +114,12 @@ export default class DataSet {
                     new : [],
                     total : []
                 };
+                
+                if (news[i]) {
+                    
+                    byDates[i].news = news[i];
+                    
+                }
                 
             }
             

@@ -17,7 +17,8 @@ export default class Content {
             recovered: {
                 new: '',
                 total: ''
-            }
+            },
+            news : ''
         }
 
         this._tpl = function (current) {
@@ -50,7 +51,10 @@ export default class Content {
                         <div class="content__value  content__deaths-total">${format(current.deaths.new)}</div>
                         <div class="content__total content__deaths-new">${format(current.deaths.total)} всего</div>
                     </div>    
-                </div>    
+                </div> 
+                <div class="content__footer">
+                    <div class="content__news">${current.news}</div>
+                </div>
             </div>
         </div>`
         };
@@ -84,7 +88,8 @@ export default class Content {
             recovered: {
                 new: (this._data[step].moscowAndOblast.new.recovered) ? '+' + this._data[step].moscowAndOblast.new.recovered : '-',
                 total: this._data[step].moscowAndOblast.total.recovered
-            }
+            },
+            news : (this._data[step].news) ? this._data[step].news : ''
 
         }
 

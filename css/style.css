@@ -1304,3 +1304,16 @@ canvas {
 .content__recovered .content__title span:before {
   background: #439139;
 }
+
+.content__footer {
+  padding-top: 20px;
+  line-height: 1.45;
+}
+
+@media screen and (max-width: 500px) {
+  .content__footer {
+    font-size: 15px;
+    padding-top: 5px;
+    display: none;
+  }
+}
