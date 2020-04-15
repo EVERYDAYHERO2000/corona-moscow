@@ -50,6 +50,7 @@ export default class Chart {
         const series = (function (data) {
          
             const allCases = [];
+            const newCases = []
             const allDeaths = [];
             const allRecovered = [];
             
@@ -57,6 +58,7 @@ export default class Chart {
             
             for (var i = 0; i < data.length; i++ ) {
                 allCases.push( data[i].moscowAndOblast.total.cases );
+                newCases.push( data[i].moscowAndOblast.new.cases );
                 allDeaths.push( data[i].moscowAndOblast.total.deaths );
                 allRecovered.push( data[i].moscowAndOblast.total.recovered );
             }

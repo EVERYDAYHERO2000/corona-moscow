@@ -56,6 +56,12 @@
     fill: rgba(255,0,0, .2);
 }
 
+.ct-series-e {
+    stroke: rgba(255, 0, 0, 0.4);
+    stroke-width: 3px;
+    fill: none;
+}
+
 .ct-series-a {
     stroke: rgba(0,0,0, 0); 
     fill: none;
@@ -74,6 +80,11 @@
 }
 
 .ct-series .ct-label {
+    display: none;
+}
+
+.ct-series-c .ct-label {
+    display: block;
     stroke: none;
     stroke-width: 0;
     fill: rgba(0,0,0,.8);
