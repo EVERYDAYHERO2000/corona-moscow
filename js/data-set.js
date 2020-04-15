@@ -4,7 +4,7 @@ export default class DataSet {
 
     constructor(url) {
 
-        this._url = ['./data/data.json', './data/stats.json'];
+        this._url = ['./data/empty.json', './data/stats.json'];
 
         const _this = this;
 
