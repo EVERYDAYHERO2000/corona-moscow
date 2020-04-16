@@ -8,18 +8,14 @@ export default class Shader {
 
             void main() {
 
-            float alpha = 0.8;
+            float alpha = 0.7;
 
 
 
-            float border = 0.3;
+            float border = 0.1;
 
             float radius = 0.5;
-            if (v_color[0] == 1.0 && v_color[1] == 0.01 && v_color[2] == 0.0) {
-            border = 0.4;
-            radius = 0.7;
-            }
-
+            
 
             vec4 color0 = vec4(0.0, 0.0, 0.0, 0.0);
             vec4 color1 = vec4(v_color[0], v_color[1], v_color[2], alpha);
@@ -33,7 +29,7 @@ export default class Shader {
             else if (dist > 0.0)
             t = dist / border;
 
-            //float centerDist = length(gl_PointCoord - 0.5);
+            //float centerDist = length(gl_PointCoord - 0.2);
             // works for overlapping circles if blending is enabled
 
 

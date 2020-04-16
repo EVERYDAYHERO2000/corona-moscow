@@ -27,7 +27,7 @@ export default class Map {
             attribution: 'Участник &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | Источники данных <a href="https://ru.wikipedia.org/wiki/%D0%A5%D1%80%D0%BE%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%D1%80%D0%B0%D1%81%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D1%8F_COVID-19_%D0%B2_%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8">Wikipedia</a>',
             subdomains: 'abcd',
             r: L.Browser.retina ? '@2x' : '',
-            maxZoom: 19,
+            maxZoom: 11,
             minZoom: 7
         });
 
@@ -73,7 +73,7 @@ export default class Map {
                         clickPoint.y > _this._points[i].y - 6 &&
                         clickPoint.y < _this._points[i].y + 6) {
                         
-                        popup.setLatLng(e.latlng).setContent(_this._points[i].label).openOn(_this._map);
+                        //popup.setLatLng(e.latlng).setContent(_this._points[i].label).openOn(_this._map);
                         
                         break;
                         

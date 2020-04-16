@@ -4,7 +4,7 @@ export default class DataSet {
 
     constructor(url) {
 
-        this._url = ['./data/empty.json', './data/stats.json'];
+        this._url = ['./data/data.json', './data/stats.json'];
 
         const _this = this;
 
@@ -129,8 +129,8 @@ export default class DataSet {
             for (var i = 0; i < points.length; i++){
                 
                 let point = [
-                    points[i].point[0],
-                    points[i].point[1],
+                    new Number(points[i].point[0].toFixed(3)) + 0,
+                    new Number(points[i].point[1].toFixed(3)) + 0,
                     points[i].address,
                     byDates[points[i].date].date
                 ] 
