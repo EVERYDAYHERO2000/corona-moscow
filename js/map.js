@@ -11,6 +11,7 @@ export default class Map {
         this._data = [];
         this._step = 0;
         this._points = [];
+        
 
         this._tileUrl = `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png`;
 
@@ -36,6 +37,7 @@ export default class Map {
         this._tileLayer.addTo(this._map);
         this._canvasOverlay.addTo(this._map);
         this._canvas = this._canvasOverlay.canvas();
+        this._markers = L.layerGroup().addTo(this._map);
 
         const controlsContainer = document.querySelector('.leaflet-control-zoom a:last-child');
         const playButtonTpl = `<a class="leaflet-control-play" href="#" title="Play" role="button" aria-label="Play" data-state="pause"></a>`
@@ -185,7 +187,25 @@ export default class Map {
                 _this._vertsLength++;
 
             }
-
+            
+            
+            //add markers
+            this._markers.clearLayers(); 
+            
+            for (var i = 0; i < this._data[this._step].markers.length; i++){
+                
+                let data = this._data[this._step].markers[i]; 
+                let marker = new L.Marker(data.point, {
+                    icon: new L.DivIcon({
+                        className: 'marker',
+                        html: `<div class="marker__inner">${data.total}</div>`
+                    })
+                }).addTo(this._markers);
+                
+                
+                
+            
+            }
 
             const vertBuffer = this._gl.createBuffer();
             const vertArray = new Float32Array(this._verts);

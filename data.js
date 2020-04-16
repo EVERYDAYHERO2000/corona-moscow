@@ -20,13 +20,13 @@ function getStats (array, rows) {
       date: +`${date[2]}${date[1]}${date[0]}`,
       total: {
         cases: strToNum(cells[1].textContent),
-        deaths: strToNum(cells[4].textContent),
-        recovered: strToNum(cells[7].textContent)
+        deaths: strToNum(cells[5].textContent),
+        recovered: strToNum(cells[9].textContent)
       },
       new: {
         cases: strToNum(cells[2].textContent),
-        deaths: strToNum(cells[5].textContent),
-        recovered: strToNum(cells[8].textContent)
+        deaths: strToNum(cells[6].textContent),
+        recovered: strToNum(cells[10].textContent)
       }
     })
   }

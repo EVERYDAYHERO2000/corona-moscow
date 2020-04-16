@@ -4,7 +4,7 @@ export default class DataSet {
 
     constructor(url) {
 
-        this._url = ['./data/data.json', './data/stats.json'];
+        this._url = ['./data/data.json', './data/stats.json','./data/oblast.json'];
 
         const _this = this;
 
@@ -48,11 +48,14 @@ export default class DataSet {
 
             _this._dataRequest(_this._url[1], function (stats) {
                 
-                _this.data = [data,stats];
+                _this._dataRequest(_this._url[2], function (oblast) {
+                    
+                    _this.data = [data, stats, oblast];
+                    
                 
-                collect([data,stats], callback);
+                    collect(_this.data, callback);
 
-                
+                });
                 
             });
 
@@ -65,6 +68,7 @@ export default class DataSet {
             const news = new News().data;
             const points = data[0];
             const stats = data[1];
+            const markers = data[2];
             
             const byDates = {};
             const result = [];
@@ -126,34 +130,75 @@ export default class DataSet {
                 
             }
             
+            
+            
             for (var i = 0; i < points.length; i++){
                 
-                let point = [
-                    new Number(points[i].point[0].toFixed(3)) + 0,
-                    new Number(points[i].point[1].toFixed(3)) + 0,
-                    points[i].address,
-                    byDates[points[i].date].date
-                ] 
+                if ( points[i].point ){ 
                 
-                byDates[points[i].date].points.new.push( point );
-                byDates[points[i].date].points.total.push( point );
+                    let point = [
+                        new Number(points[i].point[0].toFixed(4)) + 0,
+                        new Number(points[i].point[1].toFixed(4)) + 0,
+                        points[i].address,
+                        byDates[points[i].date].date
+                    ] 
+
+                    byDates[points[i].date].points.new.push( point );
+                    byDates[points[i].date].points.total.push( point );
+                    
+                }
                 
             }
             
+   
             let lastkey = null;
+            let lastMarkers = null
             
             for (var i in byDates) {
                 
                 if ( lastkey != null && byDates[lastkey] ) {
+                    
                     byDates[i].points.total = byDates[i].points.new.concat( byDates[lastkey].points.total );
                     
                 }
                 
+                if (markers[i]) {
+                    
+                    lastMarkers = markers[i];  
+                    
+                }
+                
+                byDates[i].markers = (function(lastMarkers, moscow){
+                    
+                    let moscowMarker = {
+                        name : 'Москва',
+                        new : moscow.new.cases,
+                        total : moscow.total.cases,
+                        point : [55.753215, 37.622504]
+                    };
+                    let markers = (lastMarkers) ? lastMarkers : [];
+                    
+                    
+                    if (markers.length) { 
+                        
+                        markers[markers.length - 1] = moscowMarker;
+                        
+                    } else {
+                        
+                        markers.push(moscowMarker);
+                        
+                    }
+                    
+                    return markers;
+                    
+                })(lastMarkers, byDates[i].moscow)
+                
                 lastkey = i;
                 
                 result.push( byDates[i] );
-                
+                 
             }
+            
             
             
             

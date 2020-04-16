@@ -1085,6 +1085,24 @@ canvas {
   border-radius: 5px;
 }
 
+.marker {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.marker__inner {
+  background-color: rgba(255, 0, 0, 0.5);
+  min-width: 30px;
+  min-height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 50%;
+}
+
 #chart {
   height: 300px;
   width: 100%;
@@ -1104,7 +1122,7 @@ canvas {
 
 .ct-series-c .ct-point {
   stroke: red;
-  stroke-width: 10px;
+  stroke-width: 8px;
   pointer-events: all;
   cursor: pointer;
   transition: all .2s ease;
@@ -1130,13 +1148,13 @@ canvas {
 .ct-series-d {
   stroke: rgba(255, 0, 0, 0.8);
   fill: none;
-  stroke-width: 3px;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
 }
 
 .ct-series-d .ct-area {
   stroke: none;
   stroke-width: none;
-  fill: rgba(255, 0, 0, 0.2);
 }
 
 .ct-series-e {
