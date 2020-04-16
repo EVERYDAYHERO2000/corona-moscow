@@ -3,6 +3,7 @@ export default class News {
     constructor(options) {
         
         this.data = {
+            
             20200415 : ["Очереди в метро и пробки на въездах в город. В Москве запустили пропускной режим","https://www.forbes.ru/newsroom/obshchestvo/398031-ocheredi-v-metro-i-probki-na-vezdah-kak-v-moskve-zapustili-propusknoy"],
             20200414 : ["В Москве оформили 3,2 млн цифровых пропусков. 55 нарушителей карантина оштрафованы", "https://tass.ru/moskva/8238201"],
             20200413 : ["Введен пропускной режим для передвижения по городу на личном или общественном транспорте. Проверять цифровые пропуска в столице начнут с 15 апреля", "https://www.mos.ru/news/item/72567073/"],
