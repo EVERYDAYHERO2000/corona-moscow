@@ -14,7 +14,7 @@
     width: 80vw;
     text-align: center;
     margin-top: 5vh;
-    max-width: 600px;
+    max-width: 680px;
     
     @media screen and (max-width: 500px) {
         width: 100vw;
@@ -49,17 +49,20 @@
 .content__body > div {
     width: 33%;
     pointer-events: all;
+    font-size: 15px;
     
     @media screen and (max-width: 500px) {
         pointer-events: none;
+        margin: 0 10px;
     }
 }
 
 .content__title {
     padding-bottom: 15px;
+    font-size: 15px;
     
     @media screen and (max-width: 500px) {
-        font-size: 15px;
+        font-size: 12px;
         padding-bottom: 5px;
     }
 }
@@ -80,28 +83,23 @@
 }
 
 .content__total {
+    font-size: 15px;
     @media screen and (max-width: 500px) {
-        font-size: 15px;
+        font-size: 12px;
         padding-top: 5px;
     }
 }
 
 .content__title span:before {
     
-    content:'';
-    display:block;
-    position: absolute;
-    width: 10px;
-    height: 3px;
-    transform: translate(-13px, 7px);
 }
 
 .content__cases .content__title span:before {
-    background: rgba(255,0,0,1);
+    //background: rgba(255,0,0,1);
 }
 
 .content__recovered .content__title span:before {
-    background: rgba(67, 145, 57,1);
+    //background: rgba(67, 145, 57,1);
 }
 
 .content__deaths .content__title span:before {
@@ -112,10 +110,15 @@
     padding-top: 20px;
     line-height: 1.45;
     @media screen and (max-width: 500px) {
-        font-size: 15px;
+        font-size: 13px;
         padding-top: 5px;
         display: none;
     }
+}
+
+.content__news {
+    font-size: 15px;
+    padding: 0 50px;
 }
 
 .content__news a {
@@ -125,5 +128,40 @@
     text-decoration: none;
     margin-left: 10px;
     font-size: 13px;
+}
+
+span[data-legend] {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;    
+    
+    @media screen and (max-width: 500px) {
+        
+    }
+}
+
+span[data-legend]:last-child {
+    padding-bottom: 0;
+}
+
+span[data-legend]:before {
+    content:'';
+    display:block;
+    position: absolute;
+    width: 10px;
+    height: 3px;
+    transform: translate(-13px, 7px);
+}
+
+span[data-legend="total-cases"]:before {
+    background: rgba(255,0,0,1);
+}
+
+span[data-legend="current-cases"]:before {
+    background: rgba(255,0,0,.45);
+}
+
+span[data-legend="total-recovered"]:before {
+    background: rgba(67, 145, 57,1);
 }
 

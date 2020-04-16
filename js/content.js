@@ -8,7 +8,8 @@ export default class Content {
             date: '',
             cases: {
                 new: '',
-                total: ''
+                total: '',
+                current: '' 
             },
             deaths: {
                 new: '',
@@ -39,17 +40,17 @@ export default class Content {
                     <div class="content__cases">
                         <div class="content__title"><span>Заболело</span></div>
                         <div class="content__value content__cases-total">${format(current.cases.new)}</div>
-                        <div class="content__total content__cases-new">${format(current.cases.total)} всего</div>
+                        <div class="content__total content__cases-new"><span data-legend="total-cases" ><b>${format(current.cases.total)}</b> за весь период</span><br><span data-legend="current-cases"><b>${format(current.cases.current)}</b> болеют</span></div>
                     </div>
                     <div class="content__recovered">
                         <div class="content__title"><span>Выздоровело</span></div>
                         <div class="content__value content__recovered-total">${format(current.recovered.new)}</div>
-                        <div class="content__total content__recovered-new">${format(current.recovered.total)} всего</div>
+                        <div class="content__total content__recovered-new"><span data-legend="total-recovered"><b>${format(current.recovered.total)}</b></span> за весь период</div>
                     </div>  
                     <div class="content__deaths">
                         <div class="content__title"><span>Умерло</span></div>
                         <div class="content__value  content__deaths-total">${format(current.deaths.new)}</div>
-                        <div class="content__total content__deaths-new">${format(current.deaths.total)} всего</div>
+                        <div class="content__total content__deaths-new"><span><b>${format(current.deaths.total)}</b></span> за весь период</div>
                     </div>    
                 </div> 
                 <div class="content__footer">
@@ -79,7 +80,8 @@ export default class Content {
             date: this._data[step].date,
             cases: {
                 new: (this._data[step].moscowAndOblast.new.cases) ? '+' + this._data[step].moscowAndOblast.new.cases : '-',
-                total: this._data[step].moscowAndOblast.total.cases
+                total: this._data[step].moscowAndOblast.total.cases,
+                current: this._data[step].moscowAndOblast.total.cases - this._data[step].moscowAndOblast.total.deaths - this._data[step].moscowAndOblast.total.recovered
             },
             deaths: {
                 new: (this._data[step].moscowAndOblast.new.deaths) ? '+' + this._data[step].moscowAndOblast.new.deaths : '-',

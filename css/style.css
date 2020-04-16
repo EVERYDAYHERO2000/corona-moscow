@@ -1221,7 +1221,7 @@ canvas {
   width: 80vw;
   text-align: center;
   margin-top: 5vh;
-  max-width: 600px;
+  max-width: 680px;
 }
 
 @media screen and (max-width: 500px) {
@@ -1262,21 +1262,24 @@ canvas {
 .content__body > div {
   width: 33%;
   pointer-events: all;
+  font-size: 15px;
 }
 
 @media screen and (max-width: 500px) {
   .content__body > div {
     pointer-events: none;
+    margin: 0 10px;
   }
 }
 
 .content__title {
   padding-bottom: 15px;
+  font-size: 15px;
 }
 
 @media screen and (max-width: 500px) {
   .content__title {
-    font-size: 15px;
+    font-size: 12px;
     padding-bottom: 5px;
   }
 }
@@ -1297,28 +1300,15 @@ canvas {
   }
 }
 
+.content__total {
+  font-size: 15px;
+}
+
 @media screen and (max-width: 500px) {
   .content__total {
-    font-size: 15px;
+    font-size: 12px;
     padding-top: 5px;
   }
-}
-
-.content__title span:before {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 10px;
-  height: 3px;
-  transform: translate(-13px, 7px);
-}
-
-.content__cases .content__title span:before {
-  background: red;
-}
-
-.content__recovered .content__title span:before {
-  background: #439139;
 }
 
 .content__footer {
@@ -1328,10 +1318,15 @@ canvas {
 
 @media screen and (max-width: 500px) {
   .content__footer {
-    font-size: 15px;
+    font-size: 13px;
     padding-top: 5px;
     display: none;
   }
+}
+
+.content__news {
+  font-size: 15px;
+  padding: 0 50px;
 }
 
 .content__news a {
@@ -1342,10 +1337,33 @@ canvas {
   font-size: 13px;
 }
 
-.leaflet-heatmap-layer {
-  display: none;
+span[data-legend] {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 10px;
 }
 
-.ct-series-d {
-  display: none;
+span[data-legend]:last-child {
+  padding-bottom: 0;
+}
+
+span[data-legend]:before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 3px;
+  transform: translate(-13px, 7px);
+}
+
+span[data-legend="total-cases"]:before {
+  background: red;
+}
+
+span[data-legend="current-cases"]:before {
+  background: rgba(255, 0, 0, 0.45);
+}
+
+span[data-legend="total-recovered"]:before {
+  background: #439139;
 }

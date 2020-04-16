@@ -48,15 +48,19 @@ export default class Chart {
 
         
         const series = (function (data) {
+
+            
          
             const allCases = [];
             const newCases = []
             const allDeaths = [];
             const allRecovered = [];
+            const activeCases = [];
             
             const mashCases = [];
             
             for (var i = 0; i < data.length; i++ ) {
+                activeCases.push( data[i].moscowAndOblast.total.cases - data[i].moscowAndOblast.total.deaths - data[i].moscowAndOblast.total.recovered );
                 allCases.push( data[i].moscowAndOblast.total.cases );
                 newCases.push( data[i].moscowAndOblast.new.cases );
                 allDeaths.push( data[i].moscowAndOblast.total.deaths );
@@ -70,6 +74,8 @@ export default class Chart {
                 
                 mashCases.push( length ); 
             }
+            
+            
       
             return [
                 {
@@ -84,6 +90,9 @@ export default class Chart {
                 }, {
                     name : 'series-4',
                     data : mashCases
+                }, {
+                    name : 'series-5',
+                    data : activeCases
                 }
             ];
               
