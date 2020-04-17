@@ -11,6 +11,7 @@ export default class Map {
         this._data = [];
         this._step = 0;
         this._points = [];
+        
 
         this._tileUrl = `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png`;
 
@@ -24,10 +25,10 @@ export default class Map {
         }).addTo(this._map);
 
         this._tileLayer = L.tileLayer(this._tileUrl, {
-            attribution: 'Участник &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | Источники данных <a href="https://ru.wikipedia.org/wiki/%D0%A5%D1%80%D0%BE%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%D1%80%D0%B0%D1%81%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D1%8F_COVID-19_%D0%B2_%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8">Wikipedia</a>',
+            attribution: 'Участник &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | Источники данных <a href="https://ru.wikipedia.org/wiki/%D0%A5%D1%80%D0%BE%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%D1%80%D0%B0%D1%81%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D1%8F_COVID-19_%D0%B2_%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8">Wikipedia</a>, точки на карте <a href="https://mz.mosreg.ru/">Министерство здравоохранения МО</a>',
             subdomains: 'abcd',
             r: L.Browser.retina ? '@2x' : '',
-            maxZoom: 19,
+            maxZoom: 11,
             minZoom: 7
         });
 
@@ -36,6 +37,7 @@ export default class Map {
         this._tileLayer.addTo(this._map);
         this._canvasOverlay.addTo(this._map);
         this._canvas = this._canvasOverlay.canvas();
+        this._markers = L.layerGroup().addTo(this._map);
 
         const controlsContainer = document.querySelector('.leaflet-control-zoom a:last-child');
         const playButtonTpl = `<a class="leaflet-control-play" href="#" title="Play" role="button" aria-label="Play" data-state="pause"></a>`
@@ -73,7 +75,7 @@ export default class Map {
                         clickPoint.y > _this._points[i].y - 6 &&
                         clickPoint.y < _this._points[i].y + 6) {
                         
-                        popup.setLatLng(e.latlng).setContent(_this._points[i].label).openOn(_this._map);
+                        //popup.setLatLng(e.latlng).setContent(_this._points[i].label).openOn(_this._map);
                         
                         break;
                         
@@ -185,7 +187,27 @@ export default class Map {
                 _this._vertsLength++;
 
             }
-
+            
+            
+            //add markers
+            this._markers.clearLayers(); 
+            
+            
+            for (var i = 0; i < this._data[this._step].markers.length; i++){
+                
+                
+                let data = this._data[this._step].markers[i]; 
+                let size = (data.total < 20) ? 15 : 20 + (data.total / 150);
+                let marker = new L.Marker(data.point, {
+                    icon: new L.DivIcon({
+                        className: 'marker',
+                        html: `<div class="marker__inner" style="max-width:${size}px; max-height:${size}px; min-width:${size}px; min-height:${size}px;"><span>${data.total}</span></div>`
+                    })
+                }).addTo(this._markers);
+                
+            
+            }
+            
 
             const vertBuffer = this._gl.createBuffer();
             const vertArray = new Float32Array(this._verts);

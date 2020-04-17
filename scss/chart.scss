@@ -17,7 +17,7 @@
 
 .ct-series-c .ct-point {
     stroke: rgba(255,0,0,1);
-    stroke-width: 10px;
+    stroke-width: 8px;
     pointer-events: all;
     cursor: pointer;
     transition: all .2s ease;
@@ -46,14 +46,14 @@
     
     stroke: rgba(255,0,0, .8);
     fill: none;
-    stroke-width: 3px;
-    
+    stroke-width: 2px;
+    stroke-dasharray: 3;
 }
 
 .ct-series-d .ct-area {
     stroke: none;
     stroke-width: none;
-    fill: rgba(255,0,0, .2);
+    //fill: rgba(255,0,0, .1);
 }
 
 .ct-series-e {
