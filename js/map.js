@@ -205,7 +205,7 @@ export default class Map {
                     })
                 }).addTo(this._markers);
                 
-            
+                
             }
             
 
