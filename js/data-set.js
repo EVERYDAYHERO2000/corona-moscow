@@ -174,7 +174,7 @@ export default class DataSet {
                         name : 'Москва',
                         new : moscow.new.cases,
                         total : moscow.total.cases,
-                        point : [55.753215, 37.622504]
+                        point : [55.773215, 37.622504]
                     };
                     let markers = (lastMarkers) ? lastMarkers : [];
                     
