@@ -12,15 +12,15 @@ import Content from "./content.js";
     const content = new Content();
 
     const map = new Map({
-        lat: 55.751244,
+        lat: 55.9,
         lon: 37.618423,
         zoom: 8,
     });
 
     dataSet.load(function(data){
-        
+
         content.setData(data);
-        
+
         map.setChart(chart).setContent(content).setData(data);
 
         chart.setMap(map).setContent(content).setData(data);
