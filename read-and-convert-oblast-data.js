@@ -132,7 +132,7 @@ function convert(contents) {
                 
                 if ( !obj[d][p] ) {
                     
-                    console.log(p)
+                    //console.log(p)
                     obj[d][p] = obj[lastkey][p];
                     
                 }
