@@ -1091,6 +1091,7 @@ canvas {
   justify-content: center;
   align-items: center;
   z-index: 10 !important;
+  pointer-events: all;
 }
 
 .marker__inner {
@@ -1367,27 +1368,27 @@ span[data-legend] {
   padding-bottom: 10px;
 }
 
-span[data-legend]:last-child {
+span[data-legend] b:last-child {
   padding-bottom: 0;
 }
 
-span[data-legend]:before {
+span[data-legend] b:before {
   content: '';
-  display: block;
+  display: inline-block;
   position: absolute;
   width: 10px;
   height: 3px;
   transform: translate(-13px, 7px);
 }
 
-span[data-legend="total-cases"]:before {
+span[data-legend="total-cases"] b:before {
   background: red;
 }
 
-span[data-legend="current-cases"]:before {
+span[data-legend="current-cases"] b:before {
   background: rgba(255, 0, 0, 0.45);
 }
 
-span[data-legend="total-recovered"]:before {
+span[data-legend="total-recovered"] b:before {
   background: #439139;
 }
