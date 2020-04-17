@@ -197,16 +197,30 @@ export default class Map {
                 
                 
                 let data = this._data[this._step].markers[i]; 
-                let size = (data.total < 20) ? 15 : 20 + (data.total / 150);
+                let total = (data.name == 'Москва') ? this._data[this._step].moscow.total.cases : data.total;
+                let size = (function(total){
+                    
+                    let _size = 8;
+                    if (total > 1) {
+                        
+                        _size = (total < 20) ? 15 : 20 + (total / 150)
+                        
+                    } 
+                        
+                    return _size;    
+                    
+                })(total);
+                
                 let marker = new L.Marker(data.point, {
                     icon: new L.DivIcon({
                         className: 'marker',
-                        html: `<div class="marker__inner" style="max-width:${size}px; max-height:${size}px; min-width:${size}px; min-height:${size}px;"><span>${data.total}</span></div>`
+                        html: `<div class="marker__inner" style="max-width:${size}px; max-height:${size}px; min-width:${size}px; min-height:${size}px;"><span>${(total > 1) ? total : ''}</span></div>`
                     })
                 }).addTo(this._markers);
                 
                 
             }
+            
             
 
             const vertBuffer = this._gl.createBuffer();

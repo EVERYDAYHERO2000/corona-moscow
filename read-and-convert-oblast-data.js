@@ -63,7 +63,6 @@ const points = {
   'Электросталь': [55.784445, 38.444849],
   'Ногинск': [55.854522, 38.441831],
   'Наро-Фоминск': [55.384170, 36.723201],
-  'Павловский посад': [55.779393, 38.651318],
   'Видное (Ленинский)': [55.556869, 37.708778]
 }
 
@@ -94,49 +93,46 @@ function convert(contents) {
             
             let parts = strings[i].split(' - '),
                 name = parts[0],
-                value = new Number( parts[1] ) + 0;
+                value = new Number( parts[1] ) + 0,
+                _date = date[0]+date[1]+date[2];
             
             
             
             if (name.length > 1) { 
                 
-                if (!obj[date[0]+date[1]+date[2]]) obj[date[0]+date[1]+date[2]] = [];
+                if (!obj[_date]) obj[_date] = {};
                 
-                obj[date[0]+date[1]+date[2]].push({
+                obj[_date][name] = {
                     name : name,
-                    new : value,
                     total : value,
                     point : [
                         new Number(points[name][0].toFixed(3)) + 0,
                         new Number(points[name][1].toFixed(3)) + 0
                     ]
-                })
+                }
                 
-            }
+            } 
 
         }
         
     }
     
-    //calc total
+    //add prev
     let lastkey = null;
     
     for (var d in obj) {
         
         if (lastkey) {
             
-            for (var i = 0; i < obj[d].length; i++){
+            for (var p in obj[lastkey]) {
                 
-                for (var l = 0; l < obj[lastkey].length; l++){
+                if ( !obj[d][p] ) {
                     
-                    if (obj[d][i].name == obj[lastkey][l].name ) {
-                        
-                        //obj[d][i].total = obj[lastkey][l].total + obj[d][i].new;
-                        
-                    }
+                    console.log(p)
+                    obj[d][p] = obj[lastkey][p];
                     
                 }
-                    
+                
             }
             
         }
@@ -144,6 +140,20 @@ function convert(contents) {
         lastkey = d;
         
     }
+    
+    //obj to arr
+    for (var d in obj) {
+        let tempArr = [];
+        for (var p in obj[d]) {
+            
+            tempArr.push(obj[d][p])
+            
+        }
+        
+        obj[d] = tempArr;
+        
+    }
+    
     
     console.log('/oblast.json build')
     
