@@ -172,10 +172,10 @@ export default class DataSet {
                     
                     let moscowMarker = {
                         name : 'Москва',
-                        new : moscow.new.cases,
                         total : moscow.total.cases,
                         point : [55.773215, 37.622504]
                     };
+                    
                     let markers = (lastMarkers) ? lastMarkers : [];
                     
                     let matchMoscow = false;
@@ -184,21 +184,22 @@ export default class DataSet {
                         
                         if (markers[m].name == 'Москва') {
                             matchMoscow = true;
+                            //markers[m] = moscowMarker;
                             break;
                         }
                         
                     }
                     
                     if (!matchMoscow) {
-                        
                         markers.push(moscowMarker);
                         
                     }
                     
                     
+                    
                     return markers;
                     
-                })(lastMarkers, byDates[i].moscow)
+                })(lastMarkers, byDates[i].moscow, i)
                 
                 lastkey = i;
                 
