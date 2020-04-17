@@ -192,20 +192,22 @@ export default class Map {
             //add markers
             this._markers.clearLayers(); 
             
+            
             for (var i = 0; i < this._data[this._step].markers.length; i++){
                 
+                
                 let data = this._data[this._step].markers[i]; 
+                let size = (data.total < 20) ? 15 : 20 + (data.total / 150);
                 let marker = new L.Marker(data.point, {
                     icon: new L.DivIcon({
                         className: 'marker',
-                        html: `<div class="marker__inner">${data.total}</div>`
+                        html: `<div class="marker__inner" style="max-width:${size}px; max-height:${size}px; min-width:${size}px; min-height:${size}px;"><span>${data.total}</span></div>`
                     })
                 }).addTo(this._markers);
                 
-                
-                
             
             }
+            console.log(this._data[this._step])
 
             const vertBuffer = this._gl.createBuffer();
             const vertArray = new Float32Array(this._verts);

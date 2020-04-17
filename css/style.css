@@ -1090,17 +1090,23 @@ canvas {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10 !important;
 }
 
 .marker__inner {
-  background-color: rgba(255, 0, 0, 0.5);
-  min-width: 30px;
-  min-height: 30px;
+  background-color: rgba(255, 0, 0, 0.35);
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   border-radius: 50%;
+  position: relative;
+  font-size: 10px;
+  transition: all .2s ease;
+}
+
+.marker__inner span {
+  position: absolute;
 }
 
 #chart {

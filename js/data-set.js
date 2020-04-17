@@ -4,7 +4,7 @@ export default class DataSet {
 
     constructor(url) {
 
-        this._url = ['./data/data.json', './data/stats.json','./data/oblast.json'];
+        this._url = ['./data/empty.json', './data/stats.json','./data/oblast.json'];
 
         const _this = this;
 
@@ -178,16 +178,23 @@ export default class DataSet {
                     };
                     let markers = (lastMarkers) ? lastMarkers : [];
                     
+                    let matchMoscow = false;
+                    for (var m = 0; m < markers.length; m++) {
+                        
+                        
+                        if (markers[m].name == 'Москва') {
+                            matchMoscow = true;
+                            break;
+                        }
+                        
+                    }
                     
-                    if (markers.length) { 
-                        
-                        markers[markers.length - 1] = moscowMarker;
-                        
-                    } else {
+                    if (!matchMoscow) {
                         
                         markers.push(moscowMarker);
                         
                     }
+                    
                     
                     return markers;
                     
