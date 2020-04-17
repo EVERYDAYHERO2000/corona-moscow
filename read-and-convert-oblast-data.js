@@ -131,7 +131,7 @@ function convert(contents) {
                     
                     if (obj[d][i].name == obj[lastkey][l].name ) {
                         
-                        obj[d][i].total = obj[lastkey][l].total + obj[d][i].new;
+                        //obj[d][i].total = obj[lastkey][l].total + obj[d][i].new;
                         
                     }
                     
