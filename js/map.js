@@ -11,7 +11,7 @@ export default class Map {
         this._data = [];
         this._step = 0;
         this._points = [];
-        
+
 
         this._tileUrl = `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png`;
 
@@ -44,7 +44,7 @@ export default class Map {
         controlsContainer.insertAdjacentHTML('afterend', playButtonTpl);
         this._playButton = document.body.getElementsByClassName('leaflet-control-play')[0]
         this._playButton.addEventListener("click", function (e) {
-            
+
             if (this.getAttribute('data-state') == 'pause') {
                 _this.play();
                 this.setAttribute('data-state', 'play');
@@ -55,40 +55,40 @@ export default class Map {
             }
 
         });
-        
+
         //const canvasElement = document.querySelector('.leaflet-heatmap-layer');
         this._map.on("click", function(e) {
-            
+
             let clickPoint = {
                 x : e.containerPoint.x,
                 y : e.containerPoint.y
             }
-        
+
             const popup = L.popup();
-            
+
             if (_this._points.length) {
-                
+
                 for (var i = 0; i < _this._points.length; i++) {
-                    
-                    if (clickPoint.x > _this._points[i].x - 6 && 
+
+                    if (clickPoint.x > _this._points[i].x - 6 &&
                         clickPoint.x < _this._points[i].x + 6 &&
                         clickPoint.y > _this._points[i].y - 6 &&
                         clickPoint.y < _this._points[i].y + 6) {
-                        
+
                         //popup.setLatLng(e.latlng).setContent(_this._points[i].label).openOn(_this._map);
-                        
+
                         break;
-                        
+
                     }
-                    
-                } 
-                
+
+                }
+
             }
-            
+
         });
-        
-        
-        
+
+
+
 
         this._gl = this._canvas.getContext('experimental-webgl', {
             antialias: true
@@ -127,16 +127,16 @@ export default class Map {
         this._gl.uniformMatrix4fv(this._u_matLoc, false, this._pixelsToWebGLMatrix);
 
 
-        
+
 
         return this;
 
     }
-    
+
     setChart(chart) {
-        
+
         this._chart = chart;
-        
+
         return this;
     }
 
@@ -145,19 +145,19 @@ export default class Map {
         const _this = this;
 
         this._data = data
-        
+
         this._step = this._data.length - 1;
 
         return this;
 
     }
-    
+
     setContent(content) {
-        
+
         this._content = content;
-        
+
         return this;
-        
+
     }
 
     drawData(step) {
@@ -187,41 +187,41 @@ export default class Map {
                 _this._vertsLength++;
 
             }
-            
-            
+
+
             //add markers
-            this._markers.clearLayers(); 
-            
-            
+            this._markers.clearLayers();
+
+
             for (var i = 0; i < this._data[this._step].markers.length; i++){
-                
-                
-                let data = this._data[this._step].markers[i]; 
+
+
+                let data = this._data[this._step].markers[i];
                 let total = (data.name == 'Москва') ? this._data[this._step].moscow.total.cases : data.total;
                 let size = (function(total){
-                    
+
                     let _size = 8;
                     if (total > 1) {
-                        
-                        _size = (total < 20) ? 15 : 20 + (total / 150)
-                        
-                    } 
-                        
-                    return _size;    
-                    
+
+                        _size = Math.max(20, 6 * Math.log(total) / Math.log(2))
+
+                    }
+
+                    return _size;
+
                 })(total);
-                
+
                 let marker = new L.Marker(data.point, {
                     icon: new L.DivIcon({
                         className: 'marker',
                         html: `<div class="marker__inner" style="max-width:${size}px; max-height:${size}px; min-width:${size}px; min-height:${size}px;"><span>${(total > 1) ? total : ''}</span></div>`
                     })
                 }).addTo(this._markers);
-                
-                
+
+
             }
-            
-            
+
+
 
             const vertBuffer = this._gl.createBuffer();
             const vertArray = new Float32Array(this._verts);
@@ -237,32 +237,32 @@ export default class Map {
 
             this._canvasOverlay.drawing(drawingOnCanvas);
             this._canvasOverlay.redraw();
-            
+
 
         }
 
         function drawingOnCanvas() {
-            
+
             _this._points = [];
-            
+
             if (_this._step <= _this._data.length - 1) {
-            
+
             for (var i = 0; i < _this._data[_this._step].points.total.length; i++) {
-                
-                
+
+
                 const dot = _this._data[_this._step].points.total[i];
                 const pixel = _this._map.latLngToContainerPoint([dot[0], dot[1]]);
-                
+
                 _this._points.push({
                     x : pixel.x,
                     y : pixel.y,
                     label : `${dot[3]}, ${dot[2]}`
                 });
-                
+
             }
-                
+
             }
-            
+
 
             _this._gl.clear(_this._gl.COLOR_BUFFER_BIT);
 
@@ -287,7 +287,7 @@ export default class Map {
             _this._gl.uniformMatrix4fv(_this._u_matLoc, false, _this._mapMatrix);
             if (_this._vertsLength) _this._gl.drawArrays(_this._gl.POINTS, 0, _this._vertsLength);
 
-            
+
 
             function translateMatrix(matrix, tx, ty) {
 
@@ -339,41 +339,41 @@ export default class Map {
         const maxStep = this._data.length - 1;
         const speed = 300;
 
-        
-        
+
+
         if ( _this._step >= maxStep ) {
             _this._step = 0;
-            
+
         }
 
         this._animationTimer = setInterval(function(){
 
             if ( _this._step <= maxStep ) {
-                
-                
+
+
                 _this.drawData(_this._step);
-                    
+
                 const points = document.querySelectorAll('.ct-series-c .ct-point');
-        
+
                 for (var p of points) {
-                    
+
                     p.classList.remove('ct-point_active');
-                    
+
                     if ( p.getAttribute('data-step') == _this._step ) p.classList.add('ct-point_active');
-                    
-                }   
-                
+
+                }
+
                 _this._content.drawData(_this._step);
 
                 _this._step++;
 
             } else {
-                
+
                 _this._playButton.setAttribute('data-state', 'pause');
                 clearInterval(_this._animationTimer);
 
             }
-            
+
 
         },speed);
 
