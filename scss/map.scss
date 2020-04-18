@@ -58,7 +58,7 @@
     align-items: center;
     z-index: 10!important;
     pointer-events: all;
-    mix-blend-mode:multiply;
+    //mix-blend-mode:multiply;
 }
 
 .marker__inner {
@@ -78,5 +78,5 @@
 .marker__inner span {
     color:#410000;
     position: absolute;
-    //text-shadow: 1px 0 0 rgba(255, 255, 255, 0.5), -1px 0 0 rgba(255, 255, 255, 0.5), 0 1px 0 rgba(255, 255, 255, 0.5), 0 -1px 0 rgba(255, 255, 255, 0.5), 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+    text-shadow: 1px 0 0 rgba(255, 255, 255, 0.5), -1px 0 0 rgba(255, 255, 255, 0.5), 0 1px 0 rgba(255, 255, 255, 0.5), 0 -1px 0 rgba(255, 255, 255, 0.5), 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
 }

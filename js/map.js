@@ -28,8 +28,8 @@ export default class Map {
             attribution: 'Участник &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | Источники данных <a href="https://ru.wikipedia.org/wiki/%D0%A5%D1%80%D0%BE%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%D1%80%D0%B0%D1%81%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D1%8F_COVID-19_%D0%B2_%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8">Wikipedia</a>, точки на карте <a href="https://mz.mosreg.ru/">Министерство здравоохранения МО</a>',
             subdomains: 'abcd',
             r: L.Browser.retina ? '@2x' : '',
-            maxZoom: 11,
-            minZoom: 7
+            maxZoom: 13,
+            minZoom: 6
         });
 
         this._canvasOverlay = L.canvasOverlay();
@@ -214,7 +214,7 @@ export default class Map {
                 let marker = new L.Marker(data.point, {
                     icon: new L.DivIcon({
                         className: 'marker',
-                        html: `<div class="marker__inner" style="max-width:${size}px; max-height:${size}px; min-width:${size}px; min-height:${size}px;"><span>${(total > 1) ? total : ''}</span></div>`
+                        html: `<div class="marker__inner" style="max-width:${size}px; max-height:${size}px; min-width:${size}px; min-height:${size}px;"><span>${(total > 1) ? format(total) : ''}</span></div>`
                     })
                 }).bindPopup(`<div>${data.name}</div><div><b>${format(total)}</b> за весь период</div>`).addTo(this._markers);
                 
