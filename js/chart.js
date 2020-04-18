@@ -23,6 +23,21 @@ export default class Chart {
         
     }
     
+    setStep(step) {
+        
+        const points = document.querySelectorAll('.ct-series-c .ct-point');
+
+        for (var p of points) {
+
+            p.classList.remove('ct-point_active');
+
+            if ( p.getAttribute('data-step') == step ) p.classList.add('ct-point_active');
+
+        }
+        
+        return this;
+    }
+    
     setData(data) {
         
         const _this = this;
@@ -161,13 +176,7 @@ export default class Chart {
                     
                     const step = new Number (this.getAttribute('data-step')) + 0;
                     
-                    for (var p of points) {
-                        
-                        p.classList.remove('ct-point_active');
-                        
-                    }
-                    
-                    this.classList.add('ct-point_active');
+                    _this.setStep(step);
                     
                     _this._map._playButton.setAttribute('data-state', 'pause');
                     
@@ -182,6 +191,8 @@ export default class Chart {
                 });
             
             }
+            
+            _this.setStep(_this._data.length - 1);
 
         });
         

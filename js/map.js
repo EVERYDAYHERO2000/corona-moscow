@@ -38,7 +38,7 @@ export default class Map {
         this._canvasOverlay.addTo(this._map);
         this._canvas = this._canvasOverlay.canvas();
         this._markers = L.layerGroup().addTo(this._map);
-
+        
         const controlsContainer = document.querySelector('.leaflet-control-zoom a:last-child');
         const playButtonTpl = `<a class="leaflet-control-play" href="#" title="Play" role="button" aria-label="Play" data-state="pause"></a>`
         controlsContainer.insertAdjacentHTML('afterend', playButtonTpl);
@@ -216,8 +216,8 @@ export default class Map {
                         className: 'marker',
                         html: `<div class="marker__inner" style="max-width:${size}px; max-height:${size}px; min-width:${size}px; min-height:${size}px;"><span>${(total > 1) ? total : ''}</span></div>`
                     })
-                }).addTo(this._markers);
-
+                }).bindPopup(`<div>${data.name}</div><div><b>${format(total)}</b> за весь период</div>`).addTo(this._markers);
+                
 
             }
 
@@ -239,6 +239,14 @@ export default class Map {
             this._canvasOverlay.redraw();
 
 
+        }
+        
+        function format(value) {
+
+            value = (/\.\d/.test(value)) ? value + '' : value + '.00';
+            value = (value).replace(/\d(?=(\d{3})+\.)/g, '$& ').split('.')[0]
+                
+            return value;
         }
 
         function drawingOnCanvas() {
@@ -352,16 +360,8 @@ export default class Map {
 
 
                 _this.drawData(_this._step);
-
-                const points = document.querySelectorAll('.ct-series-c .ct-point');
-
-                for (var p of points) {
-
-                    p.classList.remove('ct-point_active');
-
-                    if ( p.getAttribute('data-step') == _this._step ) p.classList.add('ct-point_active');
-
-                }
+                
+                _this._chart.setStep(_this._step);
 
                 _this._content.drawData(_this._step);
 
