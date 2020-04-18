@@ -1140,6 +1140,12 @@ canvas {
   stroke-linecap: round;
 }
 
+@media screen and (max-width: 500px) {
+  .ct-series-c .ct-point {
+    stroke-width: 12px;
+  }
+}
+
 .ct-series-c .ct-point:hover {
   stroke-width: 20px;
 }
@@ -1205,6 +1211,12 @@ canvas {
 @media screen and (max-width: 500px) {
   .ct-series-c .ct-label {
     display: none;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .ct-vertical {
+    display: none !important;
   }
 }
 
@@ -1368,10 +1380,14 @@ canvas {
 span[data-legend] {
   position: relative;
   display: inline-block;
-  padding-bottom: 10px;
 }
 
-span[data-legend] b:last-child {
+.content__total span {
+  padding-bottom: 10px;
+  display: inline-block;
+}
+
+.content__total span:last-child {
   padding-bottom: 0;
 }
 

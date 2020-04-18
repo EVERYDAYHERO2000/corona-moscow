@@ -9,6 +9,11 @@
 
 #chart svg {
     pointer-events: none;
+    
+    @media screen and (max-width: 500px) {
+    
+    }
+    
 }
 
 #chart *:not(.ct-point) {
@@ -23,6 +28,10 @@
     transition: all .2s ease;
     transform-origin: center;
     stroke-linecap: round;
+    
+    @media screen and (max-width: 500px) {
+        stroke-width: 12px;
+    }
 }
 
 .ct-series-c .ct-point:hover {
@@ -96,7 +105,9 @@
 }
 
 .ct-vertical {
-    
+    @media screen and (max-width: 500px) {
+        display: none!important;    
+    }
 }
 
 

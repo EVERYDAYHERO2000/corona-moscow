@@ -31,7 +31,10 @@ export default class Content {
                 
                 return value;
             }
-
+            
+            let mortality = (current.deaths.total / ( current.deaths.total + current.recovered.total ) * 100).toFixed(2);
+                mortality = (mortality == '0.00') ? 0 : mortality;
+ 
             return `<div class="content__inner">       
             <div class="content__date">${current.date}</div>
             <div class="content__table">
@@ -54,7 +57,8 @@ export default class Content {
                         <div class="content__title"><span>Умерло</span></div>
                         <div class="content__value  content__deaths-total">${format(current.deaths.new)}</div>
                         <div class="content__total content__deaths-new">
-                            <span><b>${format(current.deaths.total)}</b> за весь период</span></div>
+                            <span><b>${format(current.deaths.total)}</b> за весь период</span><br>
+                            <span><b>${mortality}%</b> летальность</span></div>
                     </div>    
                 </div> 
                 <div class="content__footer">
