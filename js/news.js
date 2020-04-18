@@ -3,6 +3,7 @@ export default class News {
     constructor(options) {
         
         this.data = {
+            20200418 : ["В Москве аннулировали 554 пропуска у нарушителей карантина","https://ria.ru/20200418/1570236210.html"],
             20200417 : ["В Москве донорам плазмы для заразившихся коронавирусом будут выплачивать деньги","https://tass.ru/obschestvo/8267599"],
             20200416 : ["В Москве пациенты с ОРВИ будут получать предписание об обязательной самоизоляции","https://mosgorzdrav.ru/ru-RU/news/default/card/3791.html"],
             20200415 : ["Очереди в метро и пробки на въездах в город. В Москве запустили пропускной режим","https://www.forbes.ru/newsroom/obshchestvo/398031-ocheredi-v-metro-i-probki-na-vezdah-kak-v-moskve-zapustili-propusknoy"],

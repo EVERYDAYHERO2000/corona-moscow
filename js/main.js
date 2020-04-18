@@ -12,9 +12,9 @@ import Content from "./content.js";
     const content = new Content();
 
     const map = new Map({
-        lat: 55.9,
+        lat: 56.4,
         lon: 37.618423,
-        zoom: 8,
+        zoom: 7,
     });
 
     dataSet.load(function(data){
