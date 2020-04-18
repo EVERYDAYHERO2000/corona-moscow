@@ -133,14 +133,20 @@
 span[data-legend] {
     position: relative;
     display: inline-block;
-    padding-bottom: 10px;    
+      
     
     @media screen and (max-width: 500px) {
         
     }
 }
 
-span[data-legend] b:last-child {
+.content__total span {
+    padding-bottom: 10px;   
+    display: inline-block;
+}
+
+
+.content__total span:last-child {
     padding-bottom: 0;
 }
 
