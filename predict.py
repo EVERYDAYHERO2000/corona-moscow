@@ -3,8 +3,6 @@ import numpy as np
 from scipy.optimize import curve_fit
 from datetime import datetime, timedelta
 
-import matplotlib.pyplot as plt
-
 pd.set_option('display.max_columns', None)
 
 def new_columns(df):
@@ -48,10 +46,8 @@ strToDate = lambda dateStr: datetime.strptime(dateStr, "%Y%m%d")
 
 def predict(df, max_value):
     d0 = df.copy().fillna(0)
-    d0sm = smooth(d0, 5)
     
     d1 = diff(d0)
-    d1sm = smooth(d1, 2)
     
     d2 = diff(d1)
     d2sm = smooth(d2, 4)
@@ -100,5 +96,3 @@ deaths_prediction = predict(deaths, max_cases * fatality)
 prediction = cases_prediction.append(recovered_prediction).append(deaths_prediction)
 prediction.index = ['cases', 'recovered', 'deaths']
 prediction.to_json(path_or_buf ='./data/prediction.json', orient='columns')
-
-print(prediction)
