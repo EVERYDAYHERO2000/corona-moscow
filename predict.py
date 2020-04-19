@@ -83,6 +83,9 @@ def predict(df, max_value):
     date_generated = [(last_date + timedelta(days = x + 1)).strftime("%Y%m%d") for x in range(add_days)]
     prediction.columns = list(d0.columns) + date_generated
     
+    error = df.loc[:, df.columns[-1]] - prediction.loc[:, df.columns[-1]].sum()
+    if int(error) > 0: prediction += int(error)
+    
     return prediction
     
 max_cases = cases.iloc[-1,-1]
