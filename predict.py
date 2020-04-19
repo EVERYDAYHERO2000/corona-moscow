@@ -46,22 +46,22 @@ strToDate = lambda dateStr: datetime.strptime(dateStr, "%Y%m%d")
 
 def predict(df, max_value):
     d0 = df.copy().fillna(0)
-    
+
     d1 = diff(d0)
-    
+
     d2 = diff(d1)
     d2sm = smooth(d2, 4)
-    
+
     d3 = diff(d2)
     d3sm = smooth(d3, 5)
-    
+
     d3_min = d3sm.sum().min(axis=0)
     d2_min = d2sm.sum().min(axis=0)
-    
+
     d3_pos_id = d3sm.sum().gt(1, axis=0).idxmax(axis=1)
     d3_neg_id = d3sm.loc[:,d3_pos_id:].sum().lt(max(-5, d3_min / 3), axis=0).idxmax(axis=1)
     d2_neg_id = d2sm.loc[:,d3_neg_id:].sum().lt(max(-5, d2_min / 3), axis=0).idxmax(axis=1)
-        
+
     last_date = strToDate(d0.columns[-1])
     first_date =  strToDate(d0.columns[0])
     midpoint_min = last_date + timedelta(days=1)
@@ -82,12 +82,12 @@ def predict(df, max_value):
 
     date_generated = [(last_date + timedelta(days = x + 1)).strftime("%Y%m%d") for x in range(add_days)]
     prediction.columns = list(d0.columns) + date_generated
-    
+
     error = df.loc[:, df.columns[-1]] - prediction.loc[:, df.columns[-1]].sum()
     if int(error) > 0: prediction += int(error)
-    
+
     return prediction
-    
+
 max_cases = cases.iloc[-1,-1]
 max_deaths = deaths.iloc[-1,-1]
 fatality = max_deaths / (recovered.iloc[-1,-1] + max_deaths)
@@ -99,3 +99,4 @@ deaths_prediction = predict(deaths, max_cases * fatality)
 prediction = cases_prediction.append(recovered_prediction).append(deaths_prediction)
 prediction.index = ['cases', 'recovered', 'deaths']
 prediction.to_json(path_or_buf ='./data/prediction.json', orient='columns')
+print("done")
