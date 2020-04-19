@@ -15,11 +15,15 @@ function objToCsv (obj) {
     
     let moscowPoint = [55.755814, 37.617635].join(',');
     let header = `Province/State,Country/Region,Lat,Long`;
-    let body = `Moscow and Oblast,Russia,${moscowPoint}`
-    let byDates = {};
+    let body = [`Moscow and Oblast (Cases),Russia,${moscowPoint}`,`Moscow and Oblast (Deaths),Russia,${moscowPoint}`,`Moscow and Oblast (Recovered),Russia,${moscowPoint}`]
+    let casesByDates = {};
+    let deathsByDates = {};
+    let recoveredByDates = {};
     let result = {
         date : [],
-        value : []
+        cases : [],
+        deaths : [],
+        recovered : []
     }
    
     //city
@@ -32,11 +36,16 @@ function objToCsv (obj) {
         ].join('/');
         
         let cases = obj.city[i].total.cases;
+        let deaths = obj.city[i].total.deaths;
+        let recovered = obj.city[i].total.recovered;
         
-        if (!byDates[date]) byDates[date] = 0;
+        if (!casesByDates[date]) casesByDates[date] = 0;
+        if (!deathsByDates[date]) deathsByDates[date] = 0;
+        if (!recoveredByDates[date]) recoveredByDates[date] = 0;
         
-        byDates[date] += cases;
-        
+        casesByDates[date] += cases;
+        deathsByDates[date] += deaths;
+        recoveredByDates[date] += recovered;
     }
     
     //oblast
@@ -49,27 +58,40 @@ function objToCsv (obj) {
         ].join('/');
         
         let cases = obj.oblast[i].total.cases;
+        let deaths = obj.oblast[i].total.deaths;
+        let recovered = obj.oblast[i].total.recovered;
         
-        if (!byDates[date]) byDates[date] = 0;
+        if (!casesByDates[date]) casesByDates[date] = 0;
+        if (!deathsByDates[date]) deathsByDates[date] = 0;
+        if (!recoveredByDates[date]) recoveredByDates[date] = 0;
         
-        byDates[date] += cases;
+        casesByDates[date] += cases;
+        deathsByDates[date] += deaths;
+        recoveredByDates[date] += recovered;
         
     }
     
     
     
     //obj to arr
-    for (var i in byDates) {
+    for (var i in casesByDates) {
         
         result.date.push(i);
-        result.value.push(byDates[i]);
-        
+        result.cases.push(casesByDates[i]);
+        result.deaths.push(deathsByDates[i]);
+        result.recovered.push(recoveredByDates[i]);
     }
     
     result.date.reverse().join(',');
-    result.value.reverse().join(',');
+    result.cases.reverse().join(',');
+    result.deaths.reverse().join(',');
+    result.recovered.reverse().join(',');
     
     
-    return [ [header,result.date].join(','), [body,result.value].join(',') ].join('\n')
+    return [ [header,result.date].join(','), 
+             [body[0],result.cases].join(','), 
+             [body[1],result.deaths].join(','), 
+             [body[2],result.recovered].join(',') 
+           ].join('\n');
     
 }
