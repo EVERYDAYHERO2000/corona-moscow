@@ -32,8 +32,10 @@ export default class Content {
                 return value;
             }
             
-            let mortality = (current.deaths.total / ( current.deaths.total + current.recovered.total ) * 100).toFixed(2);
+            let mortality = (current.deaths.total) ? (current.deaths.total / ( current.deaths.total + current.recovered.total ) * 100).toFixed(2) : 0;
                 mortality = (mortality == '0.00') ? 0 : mortality;
+            
+            
  
             return `<div class="content__inner">       
             <div class="content__date">${current.date}</div>
