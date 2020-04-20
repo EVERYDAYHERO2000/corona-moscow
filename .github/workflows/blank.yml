@@ -40,7 +40,7 @@ jobs:
         npm run get-data
         npm run build
     - name: Run Python file
-        run: |
+      run: |
         pip install pandas
         pip install numpy
         pip install scipy
