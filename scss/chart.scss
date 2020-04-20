@@ -1,5 +1,5 @@
 #chart {
-    height: 300px;
+    height: 400px;
     width: 100%;
     position: absolute;
     bottom: 20px;
@@ -43,6 +43,33 @@
     pointer-events: none;
 }
 
+.ct-series-f {
+    
+    stroke: rgba(255,0,0, 1);
+    fill: none;
+    stroke-width: 2px;
+    stroke-dasharray: 3;
+    stroke-linejoin : round;
+}
+
+.ct-series-h {
+    
+    stroke: rgba(255,0,0, .4);
+    fill: none;
+    stroke-width: 2px;
+    stroke-dasharray: 3;
+    stroke-linejoin : round;
+    
+}
+
+.ct-series-g {
+    stroke: rgb(44, 145, 56); 
+    fill: none;
+    stroke-width: 2px;
+    stroke-dasharray: 3;
+    stroke-linejoin : round;
+}
+
 .ct-series-c {
     
     stroke: rgba(255,0,0, 1);
@@ -58,6 +85,8 @@
     stroke-width: 2px;
     stroke-dasharray: 3;
 }
+
+
 
 .ct-series-d .ct-area {
     stroke: none;
@@ -92,7 +121,7 @@
     display: none;
 }
 
-.ct-series-c .ct-label {
+.ct-series-c .ct-label, .ct-series-f .ct-label:last-of-type {
     display: block;
     stroke: none;
     stroke-width: 0;
@@ -103,6 +132,12 @@
         display: none;    
     }
 }
+
+.ct-series-f .ct-label:last-of-type {
+    transform:translateX(-20px);
+    font-size: 11px;
+}
+
 
 .ct-vertical {
     @media screen and (max-width: 500px) {
@@ -125,17 +160,17 @@
     display: flex;
 }
 
-.ct-labels foreignObject[y="270"] {
+.ct-label.ct-horizontal {
     display:flex;
 }
 
-.ct-labels foreignObject[y="270"] span {
+.ct-label.ct-horizontal {
     opacity: 0;
 }
 
-.ct-labels foreignObject[y="270"] span.visible {
+.ct-label.ct-horizontal.visible {
     opacity: 1;
-    transform: translate(-40px, 10px);
+    transform: translate(-30px, 10px);
     width: 80px!important;
     text-align: center;
     white-space:nowrap;
