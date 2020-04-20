@@ -4,7 +4,7 @@ export default class DataSet {
 
     constructor(url) {
 
-        this._url = ['./data/empty.json', './data/stats.json','./data/oblast.json'];
+        this._url = ['./data/empty.json', './data/stats.json','./data/oblast.json','./data/prediction.json'];
 
         const _this = this;
 
@@ -50,10 +50,13 @@ export default class DataSet {
                 
                 _this._dataRequest(_this._url[2], function (oblast) {
                     
-                    _this.data = [data, stats, oblast];
+                    _this._dataRequest(_this._url[3], function (predict) {
                     
-                
-                    collect(_this.data, callback);
+                    _this.data = [data, stats, oblast, predict];
+                    
+                        collect(_this.data, callback);
+                        
+                    });
 
                 });
                 
@@ -69,6 +72,7 @@ export default class DataSet {
             const points = data[0];
             const stats = data[1];
             const markers = data[2];
+            const predict = data[3];
             
             const byDates = {};
             const result = [];
@@ -258,10 +262,43 @@ export default class DataSet {
             }
             
 
+            const resultPredict = [];
             
+            for (var p in predict) {
+
+                let dataArr = [
+                    (p + '').substr(0, 4) + '',
+                    (p + '').substr(4, 2) + '',
+                    (p + '').substr(6, 2) + ''
+                ];
+
+                let month = {
+                    1: 'января',
+                    2: 'февраля',
+                    3: 'марта',
+                    4: 'апреля',
+                    5: 'мая',
+                    6: 'июня',
+                    7: 'июля',
+                    8: 'августа',
+                    9: 'сентября',
+                    10: 'октября',
+                    11: 'ноября',
+                    12: 'декабря'
+                }
+
+                resultPredict.push({
+                    
+                    dateIndex : +p,
+                    dateArr: dataArr,
+                    date: `${+dataArr[2]} ${month[ new Number (dataArr[1]) ]}`,
+                    value: predict[p]
+
+                })
+
+            }
             
-            
-            if (callback) callback(result);
+            if (callback) callback(result, resultPredict);
             
         }
         
