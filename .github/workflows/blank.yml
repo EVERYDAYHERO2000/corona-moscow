@@ -19,12 +19,6 @@ jobs:
         uses: actions/setup-python@master
         with:
           python-version: 3.7
-    - name: predict
-        run: |
-          pip3 install pandas
-          pip3 install numpy
-          pip3 install scipy
-          python3 predict.py
     - name: Node version
       run: node -v
     - name: Use Node.js ${{ matrix.node-version }}
@@ -45,6 +39,12 @@ jobs:
         npm install
         npm run get-data
         npm run build
+    - name: Make prediction
+        run: |
+        pip3 install pandas
+        pip3 install numpy
+        pip3 install scipy
+        python3 predict.py
     - name: info
       run: |
         ls -al
