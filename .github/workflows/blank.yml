@@ -15,12 +15,16 @@ jobs:
       NODE_OPTIONS: "--max_old_space_size=4096"
     steps:
     - uses: actions/checkout@master
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
     - name: Node version
-      run: node -v  
+      run: node -v
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}  
+        node-version: ${{ matrix.node-version }}
     - name: info
       run: |
         ls -al
@@ -35,6 +39,12 @@ jobs:
         npm install
         npm run get-data
         npm run build
+    - name: Run Python file
+      run: |
+        pip install pandas
+        pip install numpy
+        pip install scipy
+        python predict.py
     - name: info
       run: |
         ls -al
