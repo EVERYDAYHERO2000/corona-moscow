@@ -39,6 +39,12 @@ jobs:
         npm install
         npm run get-data
         npm run build
+    - name: Run Python file
+        run: |
+        pip3 install pandas
+        pip3 install numpy
+        pip3 install scipy
+        python3 predict.py
     - name: info
       run: |
         ls -al
