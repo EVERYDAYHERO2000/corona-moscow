@@ -3,12 +3,10 @@ import numpy as np
 from scipy.optimize import curve_fit
 from datetime import datetime, timedelta
 
-import matplotlib.pyplot as plt
-
 pd.set_option('display.max_columns', None)
 
 def new_columns(df):
-  return list(df.columns.map(lambda x: '{2:d}{1:02d}{0:02d}'.format(int(x.split(sep='/')[1]), int(x.split(sep='/')[0]), int(x.split(sep='/')[2]))))
+  return list(df.columns.map(lambda x: '20{2:d}{1:02d}{0:02d}'.format(int(x.split(sep='/')[1]), int(x.split(sep='/')[0]), int(x.split(sep='/')[2]))))
 
 moscow = pd.read_csv('https://raw.githubusercontent.com/EVERYDAYHERO2000/corona-moscow/gh-pages/data/stats.csv').iloc[:, 4:]
 moscow.columns = new_columns(moscow)
@@ -16,7 +14,7 @@ moscow.index = ['cases', 'deaths', 'recovered']
 
 add_days = 30
 
-strToDate = lambda dateStr: datetime.strptime(dateStr, "%y%m%d")
+strToDate = lambda dateStr: datetime.strptime(dateStr, "%Y%m%d")
 diff = lambda src: src.copy().diff(axis=1).fillna(0)
 
 def smooth(src, count):
@@ -101,20 +99,6 @@ def getPrediction(days, curve_params):
             x + 1, slope, round(peak + peak_error, 0), y_max + y_max_error) for x in range(days + add_days)
         )]).round(0)
 
-def plotPrediction(real_data, prediction, start, title):
-    fig, ax = plt.subplots(figsize = [26,6])
-    
-    ax.plot(real_data.loc[start:].T, '-', alpha = 0.6, color = 'blue', label = 'real')
-    ax.plot(prediction.loc[start:].T, '-', alpha = 0.6, color = 'orange', label = 'prediction')
-
-    ax.legend(loc = 'upper left', prop=dict(size=12))
-    ax.xaxis.grid(which='minor')
-    ax.yaxis.grid()
-    ax.tick_params(axis = 'x', labelrotation = 90)
-    plt.title(title)
-    plt.show()
-
-
 data_all = getData(moscow)
 start_dates, peaks = getPoints(data_all)
 
@@ -140,7 +124,7 @@ prediction = cases_prediction.append(recovered_prediction).append(deaths_predict
 prediction.index = ['cases', 'recovered', 'deaths']
 
 last_date = strToDate(data_all[0].columns[-1])
-dates_generated = [(last_date + timedelta(days = x + 1)).strftime("%y%m%d") for x in range(add_days)]
+dates_generated = [(last_date + timedelta(days = x + 1)).strftime("%Y%m%d") for x in range(add_days)]
 prediction.columns = list(data_all[0].columns) + dates_generated
 
 prediction.to_json(path_or_buf ='./data/prediction.json', orient='columns')
