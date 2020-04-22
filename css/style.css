@@ -1114,7 +1114,7 @@ canvas {
 }
 
 #chart {
-  height: 300px;
+  height: 400px;
   width: 100%;
   position: absolute;
   bottom: 20px;
@@ -1153,6 +1153,30 @@ canvas {
 .ct-series-c .ct-point_active {
   stroke-width: 20px;
   pointer-events: none;
+}
+
+.ct-series-f {
+  stroke: red;
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
+  stroke-linejoin: round;
+}
+
+.ct-series-h {
+  stroke: rgba(255, 0, 0, 0.4);
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
+  stroke-linejoin: round;
+}
+
+.ct-series-g {
+  stroke: #2c9138;
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
+  stroke-linejoin: round;
 }
 
 .ct-series-c {
@@ -1200,7 +1224,7 @@ canvas {
   display: none;
 }
 
-.ct-series-c .ct-label {
+.ct-series-c .ct-label, .ct-series-f .ct-label:last-of-type {
   display: block;
   stroke: none;
   stroke-width: 0;
@@ -1209,9 +1233,14 @@ canvas {
 }
 
 @media screen and (max-width: 500px) {
-  .ct-series-c .ct-label {
+  .ct-series-c .ct-label, .ct-series-f .ct-label:last-of-type {
     display: none;
   }
+}
+
+.ct-series-f .ct-label:last-of-type {
+  transform: translateX(-20px);
+  font-size: 11px;
 }
 
 @media screen and (max-width: 500px) {
@@ -1228,17 +1257,17 @@ canvas {
   display: flex;
 }
 
-.ct-labels foreignObject[y="270"] {
+.ct-label.ct-horizontal {
   display: flex;
 }
 
-.ct-labels foreignObject[y="270"] span {
+.ct-label.ct-horizontal {
   opacity: 0;
 }
 
-.ct-labels foreignObject[y="270"] span.visible {
+.ct-label.ct-horizontal.visible {
   opacity: 1;
-  transform: translate(-40px, 10px);
+  transform: translate(-30px, 10px);
   width: 80px !important;
   text-align: center;
   white-space: nowrap;
@@ -1395,19 +1424,21 @@ span[data-legend] b:before {
   content: '';
   display: inline-block;
   position: absolute;
-  width: 10px;
-  height: 3px;
-  transform: translate(-13px, 7px);
+  background: url(../assets/graph.svg);
+  width: 12px;
+  height: 12px;
+  transform: translate(-16px, 3px);
 }
 
 span[data-legend="total-cases"] b:before {
-  background: red;
+  background-position: 0 0;
 }
 
 span[data-legend="current-cases"] b:before {
-  background: rgba(255, 0, 0, 0.45);
+  background-position: 0 0;
+  opacity: .5;
 }
 
 span[data-legend="total-recovered"] b:before {
-  background: #439139;
+  background-position: 0 100%;
 }

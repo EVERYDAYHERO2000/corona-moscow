@@ -38,41 +38,46 @@ export default class Chart {
         return this;
     }
     
-    setData(data) {
+    setData(data, predict) {
+        
+        
         
         const _this = this;
         
         
+        this._predict = predict;
+        this._data = data;
+        this._predictLength = 14;
         
-        this._data = data
         
-        
-        const labels = (function (data) {
+        const labels = (function (data, predict) {
          
-            var arr = [];
-            for (var i = 0; i < data.length; i++ ) {
+            let arr = [];
+            
+            for (var i = 0; i < data.length + _this._predictLength; i++ ) {
                 
-                arr.push( data[i].date );
-                
+                arr.push( predict[i].date );
             }
-      
+            
             return arr;
               
-        })(this._data);
+        })(this._data, this._predict);
         
-
         
-        const series = (function (data) {
+        const series = (function (data, predict) {
 
             
-         
             const allCases = [];
             const newCases = []
             const allDeaths = [];
             const allRecovered = [];
             const activeCases = [];
-            
             const mashCases = [];
+            const predictCases = [];
+            const predictRecovered = [];
+            const predictDeaths = [];
+            const predictActive = [];
+            
             
             for (var i = 0; i < data.length; i++ ) {
                 activeCases.push( data[i].moscowAndOblast.total.cases - data[i].moscowAndOblast.total.deaths - data[i].moscowAndOblast.total.recovered );
@@ -91,27 +96,75 @@ export default class Chart {
             }
             
             
+            let offsetCase = (allCases[allCases.length - 1] > predict[allCases.length - 1].value.cases ) ? 
+                (allCases[allCases.length - 1] - predict[allCases.length - 1].value.cases) : 
+                -(predict[allCases.length - 1].value.cases - allCases[allCases.length - 1]);
+            
+            let offsetRecovered = (allRecovered[allRecovered.length - 1] > predict[allRecovered.length - 1].value.recovered ) ? 
+                (allRecovered[allCases.length - 1] - predict[allCases.length - 1].value.recovered) : 
+                -(predict[allCases.length - 1].value.recovered - allRecovered[allRecovered.length - 1]);
+            
+            let offsetDeath = (allDeaths[allDeaths.length - 1] > predict[allDeaths.length - 1].value.deaths ) ? 
+                (allDeaths[allDeaths.length - 1] - predict[allDeaths.length - 1].value.deaths) : 
+                -(predict[allDeaths.length - 1].value.deaths - allDeaths[allDeaths.length - 1]); 
+            
+            let offsetActive = offsetDeath + offsetRecovered;
+            
+            
+            for (var i = 0; i < predict.length; i++) {
+                
+                
+                
+                if (i >= allCases.length - 1 ) {
+                    
+                    if (i < allCases.length + _this._predictLength){
+                    
+                        predictCases.push(predict[i].value.cases + offsetCase);
+                        predictRecovered.push(predict[i].value.recovered + offsetRecovered);
+                        predictActive.push( (predict[i].value.cases + offsetCase) - (predict[i].value.recovered + offsetRecovered) - (predict[i].value.deaths + offsetDeath) );
+                        
+                    }
+                    
+                } else {
+                    
+                    predictCases.push(null);
+                    predictRecovered.push(null);
+                    predictActive.push(null);
+                    
+                }
+                
+            }
+            
       
             return [
                 {
-                    name : 'series-1',
+                    name : 'deaths',
                     data : allDeaths
                 }, {
-                    name : 'series-2',
+                    name : 'recovered',
                     data : allRecovered
                 }, {
-                    name : 'series-3',
+                    name : 'cases',
                     data : allCases
                 }, {
-                    name : 'series-4',
+                    name : 'mash',
                     data : mashCases
                 }, {
-                    name : 'series-5',
+                    name : 'active',
                     data : activeCases
+                }, {
+                    name : 'predictCases',
+                    data : predictCases
+                }, {
+                    name : 'predictRedcovered',
+                    data : predictRecovered
+                }, {
+                    name : 'predictActive',
+                    data : predictActive
                 }
             ];
               
-        })(this._data);
+        })(this._data, this._predict);
         
         this._chart = new Chartist.Line('#chart', {
             labels: labels,
@@ -119,18 +172,18 @@ export default class Chart {
         }, {
             fullWidth: true,
             series: {
-                'series-1': {
+                'deaths': {
                     lineSmooth: Chartist.Interpolation.none(),
                     showPoint: false
                 },
-                'series-2': {
+                'recovered': {
                     lineSmooth: Chartist.Interpolation.none(),
                     showPoint: false
                 },
-                'series-3': {
+                'cases': {
                     lineSmooth: Chartist.Interpolation.none()
                 },
-                'series-4': {
+                'mash': {
                     lineSmooth: Chartist.Interpolation.none(),
                     showPoint: false,
                     showArea: true
@@ -140,6 +193,8 @@ export default class Chart {
                 Chartist.plugins.ctPointLabels({
                   textAnchor: 'middle',
                   labelInterpolationFnc: function(data) {
+                      
+                      if (data.series.name == 'predictCases') return '';//`прогноз ${Math.floor(data.value.y/100)*100}`;
                       
                       let currentValue = data.value.y;
                       let prevValue = (data.series.data[data.index - 1]) ? data.series.data[data.index - 1] : 0;
@@ -156,12 +211,13 @@ export default class Chart {
         });
         
         
-        this._chart.on('created', function() {
-            
+        this._chart.on('created', function(e,i) {
+                        
             const points = document.querySelectorAll('.ct-series-c .ct-point');
-            const dateLabels = document.querySelectorAll('.ct-labels foreignObject[y="270"] span');
+            const dateLabels = document.querySelectorAll('.ct-label.ct-horizontal');
             
-            dateLabels[0].classList.add('visible');
+            dateLabels[0].classList.add('visible');    
+            dateLabels[_this._data.length - 1].classList.add('visible');
             dateLabels[dateLabels.length - 1].classList.add('visible');
         
             let count = 0;
