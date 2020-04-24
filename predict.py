@@ -92,11 +92,11 @@ def getCurveParams(df, peak_min, y_max_min, y_max_max):
 
     return slope, peak, y_max, slope_error, peak_error, y_max_error
 
-def getPrediction(days, curve_params):
+def getPrediction(days, curve_params, plusError = False):
     slope, peak, y_max, slope_error, peak_error, y_max_error = curve_params
     
     return pd.DataFrame([list(logistic(
-            x + 1, slope, round(peak + peak_error, 0), y_max + y_max_error) for x in range(days + add_days)
+            x + 1, slope, round(peak + peak_error * plusError, 0), y_max + y_max_error * plusError) for x in range(days + add_days)
         )]).round(0)
 
 data_all = getData(moscow)
@@ -113,10 +113,11 @@ deaths_last = deaths[-1]
 fatality = deaths_last / (recovered_last + deaths_last)
 
 cases_params = getCurveParams(cases, peaks['cases'].days, cases_last + data_all[2].loc['cases'][-1], cases_last + 2000000)
-recovered_params = getCurveParams(recovered, peaks['recovered'].days, int(cases_last * (1 - fatality)), int(cases_params[2] * (1 - fatality)) + 1)
-deaths_params = getCurveParams(deaths, peaks['deaths'].days, int(cases_last * fatality), int(cases_params[2] - recovered_params[2]))
+cases_max = cases_params[2] + cases_params[5]
+recovered_params = getCurveParams(recovered, peaks['recovered'].days, int(cases_max * (1 - fatality)) - 1, int(cases_max * (1 - fatality)))
+deaths_params = getCurveParams(deaths, peaks['deaths'].days, int(cases_max * fatality) - 1, int(cases_max * fatality))
 
-cases_prediction = getPrediction(days, cases_params)
+cases_prediction = getPrediction(days, cases_params, True)
 recovered_prediction = getPrediction(days, recovered_params)
 deaths_prediction = getPrediction(days, deaths_params)
 
