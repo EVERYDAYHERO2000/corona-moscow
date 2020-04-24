@@ -8,6 +8,7 @@ export default class DataSet {
 
         const _this = this;
 
+        
         this._dataRequest = function (url, callback) {
 
             if (window.fetch) {
