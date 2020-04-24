@@ -120,6 +120,7 @@ export default class Chart {
                     if (i < allCases.length + _this._predictLength){
                     
                         predictCases.push(predict[i].value.cases + offsetCase);
+                        predictDeaths.push(predict[i].value.deaths + offsetDeath);
                         predictRecovered.push(predict[i].value.recovered + offsetRecovered);
                         predictActive.push( (predict[i].value.cases + offsetCase) - (predict[i].value.recovered + offsetRecovered) - (predict[i].value.deaths + offsetDeath) );
                         
@@ -128,6 +129,7 @@ export default class Chart {
                 } else {
                     
                     predictCases.push(null);
+                    predictDeaths.push(null);
                     predictRecovered.push(null);
                     predictActive.push(null);
                     
@@ -161,6 +163,9 @@ export default class Chart {
                 }, {
                     name : 'predictActive',
                     data : predictActive
+                }, {
+                    name : 'predictDeaths',
+                    data : predictDeaths
                 }
             ];
               

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="12px" height="23px" viewBox="0 0 12 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path d="M1.14984812,9.95329626 C7.02866137,9.43605127 9.968068,6.4790134 9.968068,1.08218266" id="Path-3" stroke="#FF0000" stroke-width="2" fill-rule="nonzero"></path>
-        <path d="M1.14984812,20.9532963 C7.02866137,20.4360513 9.968068,17.4790134 9.968068,12.0821827" id="Path-3" stroke="#439139" stroke-width="2" fill-rule="nonzero"></path>
+<svg width="12px" height="36px" viewBox="0 0 12 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M1.14984812,9.95329626 C7.02866137,9.43605127 9.968068,6.4790134 9.968068,1.08218266" id="Path-3" stroke="#FF0000" stroke-width="2"></path>
+        <path d="M1.14984812,21.9532963 C7.02866137,21.4360513 9.968068,18.4790134 9.968068,13.0821827" id="Path-3" stroke="#439139" stroke-width="2"></path>
+        <path d="M1.14984812,33.9532963 C7.02866137,33.4360513 9.968068,30.4790134 9.968068,25.0821827" id="Path-3" stroke="#000000" stroke-width="2"></path>
     </g>
 </svg>

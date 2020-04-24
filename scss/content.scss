@@ -170,6 +170,10 @@ span[data-legend="current-cases"] b:before {
 }
 
 span[data-legend="total-recovered"] b:before {
-    background-position: 0 100%;
+    background-position: 0 -12px;
+}
+
+span[data-legend="total-deaths"] b:before {
+    background-position: 0 -24px;
 }
 

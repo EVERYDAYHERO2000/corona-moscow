@@ -70,6 +70,14 @@
     stroke-linejoin : round;
 }
 
+.ct-series-i {
+    stroke: rgba(0, 0, 0, .4); 
+    fill: none;
+    stroke-width: 2px;
+    stroke-dasharray: 3;
+    stroke-linejoin : round;
+}
+
 .ct-series-c {
     
     stroke: rgba(255,0,0, 1);
@@ -88,6 +96,7 @@
 
 
 
+
 .ct-series-d .ct-area {
     stroke: none;
     stroke-width: none;
@@ -101,7 +110,7 @@
 }
 
 .ct-series-a {
-    stroke: rgba(0,0,0, 0); 
+    stroke: rgba(0,0,0, 0.8); 
     fill: none;
     stroke-width: 3px;
 }

@@ -59,7 +59,7 @@ export default class Content {
                         <div class="content__title"><span>Умерло</span></div>
                         <div class="content__value  content__deaths-total">${format(current.deaths.new)}</div>
                         <div class="content__total content__deaths-new">
-                            <span><b>${format(current.deaths.total)}</b> за весь период</span><br>
+                            <span data-legend="total-deaths"><b>${format(current.deaths.total)}</b> за весь период</span><br>
                             <span><b>${mortality}%</b> летальность</span></div>
                     </div>    
                 </div> 

@@ -1179,6 +1179,14 @@ canvas {
   stroke-linejoin: round;
 }
 
+.ct-series-i {
+  stroke: rgba(0, 0, 0, 0.4);
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
+  stroke-linejoin: round;
+}
+
 .ct-series-c {
   stroke: red;
   fill: none;
@@ -1204,7 +1212,7 @@ canvas {
 }
 
 .ct-series-a {
-  stroke: rgba(0, 0, 0, 0);
+  stroke: rgba(0, 0, 0, 0.8);
   fill: none;
   stroke-width: 3px;
 }
@@ -1440,5 +1448,9 @@ span[data-legend="current-cases"] b:before {
 }
 
 span[data-legend="total-recovered"] b:before {
-  background-position: 0 100%;
+  background-position: 0 -12px;
+}
+
+span[data-legend="total-deaths"] b:before {
+  background-position: 0 -24px;
 }
