@@ -103,7 +103,7 @@ function convert(contents) {
                 
                 if (!obj[_date]) obj[_date] = {};
                 
-                console.log(name)
+                //console.log(name)
                 
                 obj[_date][name] = {
                     name : name,
