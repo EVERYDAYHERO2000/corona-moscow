@@ -3,6 +3,9 @@ export default class News {
     constructor(options) {
         
         this.data = {
+            20200501 : ["Скворцова заявила о выходе на плато по заболеваемости коронавирусом", "https://www.kommersant.ru/doc/4335500"],
+            20200429 : ["Глава Подмосковья заявил о выходе на плато по приросту заболевших коронавирусом", "https://forbes-ru.turbopages.org/s/forbes.ru/newsroom/obshchestvo/399417-glava-podmoskovya-zayavil-o-vyhode-na-plato-po-prirostu-zabolevshih"],
+            20200428 : ["Обращение Владимира Путина по ситуации с коронавирусом", "https://youtu.be/cXraExKxJe8"],
             20200427 : ["Власти Москвы назвали условия для снятия ограничений из-за коронавируса","https://www.rbc.ru/rbcfreenews/5ea733899a7947c27e2cfdf7"],
             20200426 : ["Эксперт назвал возможные сроки завершения пандемии в России","https://tass.ru/obschestvo/8339541"],
             20200425 : ["Обнародован список российских врачей, погибших в период пандемии COVID-19", "https://regnum.ru/news/2929037.html"],
