@@ -78,16 +78,51 @@ export default class Chart {
             const predictDeaths = [];
             const predictActive = [];
             
+
+            
+            function interpolation (arr, steps) {
+
+                let tempArr = [];
+
+                steps--
+
+                for (var i = 0; i < arr.length; i++) {
+
+                    let leftP = (arr[i - 1]) ? arr[i - 1] : arr[i];
+                    let rightP = (arr[i + 1]) ? arr[i + 1] : arr[i];
+                    let currentP = arr[i];
+
+                    let left = (leftP + currentP) / 2;
+                    let right = (rightP + currentP) / 2;
+                    let current = (left + right) / 2;
+
+                    tempArr.push(current);
+
+                }
+
+                if (steps) tempArr = interpolation(tempArr, steps);
+
+                return tempArr;
+
+            }
+
             
             for (var i = 0; i < data.length; i++ ) {
                 activeCases.push( data[i].moscowAndOblast.total.cases - data[i].moscowAndOblast.total.deaths - data[i].moscowAndOblast.total.recovered );
                 allCases.push( data[i].moscowAndOblast.total.cases );
-                newCases.push( data[i].moscowAndOblast.new.cases );
+                newCases.push( data[i].moscowAndOblast.new.cases);
                 allDeaths.push( data[i].moscowAndOblast.total.deaths );
                 allRecovered.push( data[i].moscowAndOblast.total.recovered );
             }
             
+            const newCasesInterpolated = interpolation(newCases, 10);   
             
+            for (var i = 0; i < data.length; i++ ){
+                newCasesInterpolated[i] = newCasesInterpolated[i] * 10;
+            }
+
+            console.log(newCasesInterpolated);    
+
             for (var i = 0; i < data.length; i++ ) {
                 
                 const length = (data[i].points.new.length) ? data[i].points.total.length : null;
