@@ -2,6 +2,7 @@ export default class News {
 
     constructor(options) {
         
+        
         this.data = {
             20200501 : ["Скворцова заявила о выходе на плато по заболеваемости коронавирусом", "https://www.kommersant.ru/doc/4335500"],
             20200429 : ["Глава Подмосковья заявил о выходе на плато по приросту заболевших коронавирусом", "https://forbes-ru.turbopages.org/s/forbes.ru/newsroom/obshchestvo/399417-glava-podmoskovya-zayavil-o-vyhode-na-plato-po-prirostu-zabolevshih"],
