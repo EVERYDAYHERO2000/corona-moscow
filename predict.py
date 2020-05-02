@@ -17,116 +17,91 @@ add_days = 30
 strToDate = lambda dateStr: datetime.strptime(dateStr, "%Y%m%d")
 diff = lambda src: src.copy().diff(axis=1).fillna(0)
 
-def smooth(src, count):
-    res = src.copy()
-    for n in range(count):
-        res = res.rolling(window=(max(2*n, 2)), min_periods=1, center=True, axis=1).mean()
-    res = res.round(1)
-    return res
-
-def getData(df):
-    d0 = df.copy().fillna(0)
-    d0sm = smooth(d0, 5)
-
-    d1 = diff(d0)
-    d1sm = smooth(d1, 2)
-
-    d2 = diff(d1)
-    d2sm = smooth(d2, 4)
-
-    d3 = diff(d2)
-    d3sm = smooth(d3, 5)
-
-    return [d0, d0sm, d1, d1sm, d2, d2sm, d3, d3sm]
-
-def getPoints(data_all):
-    d3_min = data_all[-1].min(axis=1)
-    d2_min = data_all[-3].min(axis=1)
-
-    last_date = strToDate(data_all[0].columns[-1])
-    first_date = strToDate(data_all[0].columns[0])
-    start = {}
-    peak_min = {}
-
-    for row in data_all[0].index:
-        d3_pos_id = data_all[-1].loc[row, :].gt(1, axis=0).idxmax(axis=1)
-        d3_neg_id = data_all[-1].loc[row, d3_pos_id:].lt(max(-5, d3_min.loc[row] / 3), axis=0).idxmax(axis=1)
-        d2_neg_id = data_all[-3].loc[row, d3_neg_id:].lt(max(-5, d2_min.loc[row] / 3), axis=0).idxmax(axis=1)
-
-        start[row] = d3_pos_id
-
-        d3_pos = strToDate(d3_pos_id)
-        d3_neg = strToDate(d3_neg_id)
-        d2_neg = strToDate(d2_neg_id)
-        
-        if (d3_neg_id != d3_pos_id):
-            if (d2_neg_id != d3_neg_id):
-                peak_min[row] = d2_neg
-            else:
-                peak_min[row] = max(d3_neg + timedelta(days=4), last_date + timedelta(days=1))
-        else:
-            peak_min[row] = max(d3_pos + timedelta(days=12), last_date + timedelta(days=1))
-
-        peak_min[row] -= first_date
-    return start, peak_min
-
 def logistic(x, a, b, c):
     return c / (1 + np.exp(-(x - b) / a))
 
-def getCurveParams(df, peak_min, y_max_min, y_max_max):
-    if (y_max_max < y_max_min) : print(y_max_min, y_max_max)
+def logisticDerivative(x, a, b, c):
+    return (c * np.exp(-(x - b) / a)) / ( a * (1 + np.exp(-(x - b) / a)) ** 2)
+
+def getCurveParams(df, fn, total_min=0, total_max=0, params=[0, 0, 0, 0, 0, 0]):
     y = df.values.tolist()
     x = list(range(1, len(y) + 1))
-    p0 = 3, peak_min + 7, (y_max_min + y_max_max) / 2
+    
+    min_slope = params[0]
+    min_peak = params[1]
+    min_total = max(total_min, params[2])
+    max_total = total_max or min_total + 2000000
+    
+    p0 = min_slope + 3, min_peak + 7, (min_total + max_total)/2
     bounds=(
-        [0, peak_min, y_max_min],
-        [20, 200, y_max_max]
+        [min_slope, min_peak, min_total],
+        [min_slope + 20, min_peak + 200, max_total]
     )
 
-    fit = curve_fit(logistic, x, y, p0=p0, bounds=bounds, max_nfev=1000)
-
+    fit = curve_fit(fn, x, y, p0=p0, bounds=bounds, max_nfev=99999)
     slope, peak, y_max = fit[0]
+    
     slope_error, peak_error, y_max_error = [
         np.sqrt(fit[1][i][i]) for i in [0, 1, 2]
     ]
 
-    return slope, peak, y_max, slope_error, peak_error, y_max_error
+    return slope, peak, int(y_max), slope_error, peak_error, int(y_max_error)
 
-def getPrediction(days, curve_params, plusError = False):
+def getPrediction(days, curve_params, fn, countError = False):
     slope, peak, y_max, slope_error, peak_error, y_max_error = curve_params
-    
-    return pd.DataFrame([list(logistic(
-            x + 1, slope, round(peak + peak_error * plusError, 0), y_max + y_max_error * plusError) for x in range(days + add_days)
+
+    return pd.DataFrame([list(fn(
+            x + 1, slope + slope_error * countError, peak + peak_error * countError, y_max + y_max_error * countError) for x in range(days + add_days)
         )]).round(0)
 
-data_all = getData(moscow)
-start_dates, peaks = getPoints(data_all)
+cumulative = moscow.copy().fillna(0)
+daily = diff(cumulative)
+    
+start_label = daily.loc['cases', :].gt(1, axis=0).idxmax(axis=1)
 
-days = len(data_all[0].columns)
-cases = data_all[0].loc['cases']
-recovered = data_all[0].loc['recovered']
-deaths = data_all[0].loc['deaths']
+first_date = strToDate(cumulative.columns[0])
+last_date = strToDate(cumulative.columns[-1])
+
+days = len(cumulative.columns)
+cases = cumulative.loc['cases']
+recovered = cumulative.loc['recovered']
+deaths = cumulative.loc['deaths']
 
 cases_last = cases[-1]
+cases_daily_last = daily.loc['cases'][-1]
 recovered_last = recovered[-1]
 deaths_last = deaths[-1]
 fatality = deaths_last / (recovered_last + deaths_last)
 
-cases_params = getCurveParams(cases, peaks['cases'].days, cases_last + data_all[2].loc['cases'][-1], cases_last + 2000000)
-cases_max = cases_params[2] + cases_params[5]
-recovered_params = getCurveParams(recovered, peaks['recovered'].days, int(cases_max * (1 - fatality)) - 1, int(cases_max * (1 - fatality)))
-deaths_params = getCurveParams(deaths, peaks['deaths'].days, int(cases_max * fatality) - 1, int(cases_max * fatality))
+min_total = cases_last + cases_daily_last
 
-cases_prediction = getPrediction(days, cases_params, True)
-recovered_prediction = getPrediction(days, recovered_params)
-deaths_prediction = getPrediction(days, deaths_params)
+cases_params = getCurveParams(cases, logistic)
+deriv_params = getCurveParams(daily.loc['cases'], logisticDerivative, min_total, params=cases_params)
 
-prediction = cases_prediction.append(recovered_prediction).append(deaths_prediction)
+params = deriv_params if deriv_params[5] < deriv_params[2] * 0.25 else cases_params
+
+cases_params_bounded = getCurveParams(cases, logistic, min_total, params=params)
+predicted_cases_max = cases_params_bounded[2] + cases_params_bounded[5]
+
+predicted_cases = getPrediction(days, cases_params_bounded, logistic, True)
+predicted_daily_cases = getPrediction(days, cases_params_bounded, logisticDerivative, True)
+
+min_deaths, max_deaths = int(predicted_cases_max * (fatality - 0.02)), int(predicted_cases_max * (fatality + 0.02))
+deaths_params = getCurveParams(deaths, logistic, min_deaths, max_deaths)
+predicted_deaths_max = deaths_params[2]
+
+predicted_deaths = getPrediction(days, deaths_params, logistic)
+
+min_recovered = predicted_cases_max - predicted_deaths_max
+recovered_params = getCurveParams(recovered, logistic, min_recovered - 1, min_recovered)
+
+predicted_recovered = getPrediction(days, recovered_params, logistic)
+
+prediction = predicted_cases.append(predicted_recovered).append(predicted_deaths)
 prediction.index = ['cases', 'recovered', 'deaths']
 
-last_date = strToDate(data_all[0].columns[-1])
 dates_generated = [(last_date + timedelta(days = x + 1)).strftime("%Y%m%d") for x in range(add_days)]
-prediction.columns = list(data_all[0].columns) + dates_generated
+prediction.columns = list(cumulative.columns) + dates_generated
 
 prediction.to_json(path_or_buf ='./data/prediction.json', orient='columns')
 print("done")
