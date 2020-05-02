@@ -4,6 +4,7 @@ export default class News {
         
         
         this.data = {
+            20200502 : ["Штрафы за нарушения самоизоляции в Москве пойдут на борьбу с COVID-19","https://www.rbc.ru/rbcfreenews/5ead3a7a9a79473382020fd0"],
             20200501 : ["Скворцова заявила о выходе на плато по заболеваемости коронавирусом", "https://www.kommersant.ru/doc/4335500"],
             20200429 : ["Глава Подмосковья заявил о выходе на плато по приросту заболевших коронавирусом", "https://forbes-ru.turbopages.org/s/forbes.ru/newsroom/obshchestvo/399417-glava-podmoskovya-zayavil-o-vyhode-na-plato-po-prirostu-zabolevshih"],
             20200428 : ["Обращение Владимира Путина по ситуации с коронавирусом", "https://youtu.be/cXraExKxJe8"],
