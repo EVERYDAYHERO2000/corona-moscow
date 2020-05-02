@@ -50,9 +50,9 @@ def getCurveParams(df, fn, total_min=0, total_max=0, params=[0, 0, 0, 0, 0, 0]):
 def getPrediction(days, curve_params, fn, countError = False):
     slope, peak, y_max, slope_error, peak_error, y_max_error = curve_params
 
-    return pd.DataFrame([list(fn(
-            x + 1, slope + slope_error * countError, peak + peak_error * countError, y_max + y_max_error * countError) for x in range(days + add_days)
-        )]).round(0)
+    return pd.DataFrame([list(int(fn(
+            x + 1, slope + slope_error * countError, peak + peak_error * countError, y_max + y_max_error * countError)) for x in range(days + add_days)
+        )])
 
 cumulative = moscow.copy().fillna(0)
 daily = diff(cumulative)
@@ -76,7 +76,7 @@ fatality = deaths_last / (recovered_last + deaths_last)
 min_total = cases_last + cases_daily_last
 
 cases_params = getCurveParams(cases, logistic)
-deriv_params = getCurveParams(daily.loc['cases'], logisticDerivative, min_total, params=cases_params)
+deriv_params = getCurveParams(daily.loc['cases'], logisticDerivative)
 
 params = deriv_params if deriv_params[5] < deriv_params[2] * 0.25 else cases_params
 
