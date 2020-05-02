@@ -25,7 +25,7 @@ export default class Chart {
     
     setStep(step) {
         
-        const points = document.querySelectorAll('.ct-series-c .ct-point');
+        const points = document.querySelectorAll('.ct-cases .ct-point');
 
         for (var p of points) {
 
@@ -38,16 +38,15 @@ export default class Chart {
         return this;
     }
     
-    setData(data, predict) {
-        
+    setData(data, predict, type) {
         
         
         const _this = this;
         
-        
+        this._type = type;
         this._predict = predict;
         this._data = data;
-        this._predictLength = 14;
+        this._predictLength = (this._type == 'all') ? 14 : 0;
         
         
         const labels = (function (data, predict) {
@@ -61,15 +60,15 @@ export default class Chart {
             
             return arr;
               
-        })(this._data, this._predict);
-        
+        })(this._data, this._predict);        
         
         const series = (function (data, predict) {
 
-            
             const allCases = [];
-            const newCases = []
+            const newCases = [];
+            const newDeaths = [];
             const allDeaths = [];
+            const newRecovered = [];
             const allRecovered = [];
             const activeCases = [];
             const mashCases = [];
@@ -111,18 +110,15 @@ export default class Chart {
                 activeCases.push( data[i].moscowAndOblast.total.cases - data[i].moscowAndOblast.total.deaths - data[i].moscowAndOblast.total.recovered );
                 allCases.push( data[i].moscowAndOblast.total.cases );
                 newCases.push( data[i].moscowAndOblast.new.cases);
+                newDeaths.push( data[i].moscowAndOblast.new.deaths );
                 allDeaths.push( data[i].moscowAndOblast.total.deaths );
+                newRecovered.push( data[i].moscowAndOblast.new.recovered );
                 allRecovered.push( data[i].moscowAndOblast.total.recovered );
             }
             
-            const newCasesInterpolated = interpolation(newCases, 10);   
+            const newCasesInterpolated = interpolation(newCases, 10);
+            const newRecoveredInterpolated = interpolation(newRecovered, 10);   
             
-            for (var i = 0; i < data.length; i++ ){
-                newCasesInterpolated[i] = newCasesInterpolated[i] * 10;
-            }
-
-            
-
             for (var i = 0; i < data.length; i++ ) {
                 
                 const length = (data[i].points.new.length) ? data[i].points.total.length : null;
@@ -172,39 +168,67 @@ export default class Chart {
                 
             }
             
-      
-            return [
-                {
-                    name : 'deaths',
-                    data : allDeaths
-                }, {
-                    name : 'recovered',
-                    data : allRecovered
-                }, {
-                    name : 'cases',
-                    data : allCases
-                }, {
-                    name : 'mash',
-                    data : mashCases
-                }, {
-                    name : 'active',
-                    data : activeCases
-                }, {
-                    name : 'predictCases',
-                    data : predictCases
-                }, {
-                    name : 'predictRedcovered',
-                    data : predictRecovered
-                }, {
-                    name : 'predictActive',
-                    data : predictActive
-                }, {
-                    name : 'predictDeaths',
-                    data : predictDeaths
-                }
-            ];
+            let result = null;
+
+            if (_this._type == 'all') {
+
+                result = [
+                    {
+                        name : 'deaths',
+                        data : allDeaths
+                    }, {
+                        name : 'recovered',
+                        data : allRecovered 
+                    }, {
+                        name : 'cases',
+                        data : allCases
+                    }, {
+                        name : 'active',
+                        data : activeCases
+                    }, {
+                        name : 'predictCases',
+                        data : predictCases
+                    }, {
+                        name : 'predictRedcovered',
+                        data : predictRecovered
+                    }, {
+                        name : 'predictActive',
+                        data : predictActive
+                    }, {
+                        name : 'predictDeaths',
+                        data : predictDeaths
+                    }
+                ];
+
+            }
+
+            if (_this._type == 'new') {
+
+                result = [
+                    {
+                        name : 'deaths',
+                        data : newDeaths
+                    }, {
+                        name : 'recovered',
+                        data : newRecovered
+                    }, {
+                        name : 'newCasesInterpolated',
+                        data : newCasesInterpolated
+                    }, {
+                        name : 'newRecoveredInterpolated',
+                        data : newRecoveredInterpolated    
+                    }, {
+                        name : 'cases',
+                        data : newCases
+                    }
+                ];
+
+            }
+
+            return result;
               
         })(this._data, this._predict);
+
         
         this._chart = new Chartist.Line('#chart', {
             labels: labels,
@@ -222,11 +246,6 @@ export default class Chart {
                 },
                 'cases': {
                     lineSmooth: Chartist.Interpolation.none()
-                },
-                'mash': {
-                    lineSmooth: Chartist.Interpolation.none(),
-                    showPoint: false,
-                    showArea: true
                 }
             },
             plugins: [
@@ -238,9 +257,9 @@ export default class Chart {
                       
                       let currentValue = data.value.y;
                       let prevValue = (data.series.data[data.index - 1]) ? data.series.data[data.index - 1] : 0;
-                      let differenceValue = currentValue - prevValue;
-                      
-                      return (differenceValue) ? `+${differenceValue}` : '';
+                      let differenceValue = currentValue - prevValue;  
+
+                      return (_this._type == 'all') ? (differenceValue) ? `+${differenceValue}` : '' : (currentValue) ? `+${currentValue}` : '';
                   }
                 })
               ],
@@ -250,10 +269,21 @@ export default class Chart {
             low: 0
         });
         
+
         
         this._chart.on('created', function(e,i) {
-                        
-            const points = document.querySelectorAll('.ct-series-c .ct-point');
+
+            const lines = document.querySelectorAll('.ct-series');
+
+            for (var l of lines) {
+
+                let name = l.getAttribute('ct:series-name')
+
+                l.classList.add('ct-' + name);
+
+            }
+                
+            const points = document.querySelectorAll('.ct-cases .ct-point');
             const dateLabels = document.querySelectorAll('.ct-label.ct-horizontal');
             
             dateLabels[0].classList.add('visible');    
@@ -291,8 +321,39 @@ export default class Chart {
             _this.setStep(_this._data.length - 1);
 
         });
+
+        if (!_this._controls){
+
+        let controls = document.querySelectorAll('#chart-controls .leaflet-control');
+
+        _this._controls = controls;
         
+        for (var c of controls) {
+
+            c.addEventListener('click', function (e) {
+
+                let type = e.target.getAttribute('data-type');
+
+                if (type) {
+
+                    _this.setData(_this._data, _this._predict, type );
+
+                    let controls = document.querySelectorAll('#chart-controls .leaflet-control')
+
+                    for (var el of controls) {
+
+                        if (type == el.getAttribute('data-type')) el.classList.add('leaflet-disabled');
+                        if (type != el.getAttribute('data-type')) el.classList.remove('leaflet-disabled');
+
+                    }
+
+                }
+
+            });    
         
+        }
+
+        }
         
         return this;
         

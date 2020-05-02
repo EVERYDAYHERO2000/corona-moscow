@@ -23,7 +23,7 @@ import Content from "./content.js";
 
         map.setChart(chart).setContent(content).setData(data);
 
-        chart.setMap(map).setContent(content).setData(data, predict);
+        chart.setMap(map).setContent(content).setData(data, predict, 'all');
 
         map.drawData();
 

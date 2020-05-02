@@ -1114,10 +1114,10 @@ canvas {
 }
 
 #chart {
-  height: 400px;
+  height: 380px;
   width: 100%;
   position: absolute;
-  bottom: 20px;
+  bottom: 35px;
   z-index: 1000;
   pointer-events: none;
 }
@@ -1130,7 +1130,7 @@ canvas {
   pointer-events: none;
 }
 
-.ct-series-c .ct-point {
+.ct-cases .ct-point {
   stroke: red;
   stroke-width: 8px;
   pointer-events: all;
@@ -1141,21 +1141,21 @@ canvas {
 }
 
 @media screen and (max-width: 500px) {
-  .ct-series-c .ct-point {
+  .ct-cases .ct-point {
     stroke-width: 12px;
   }
 }
 
-.ct-series-c .ct-point:hover {
+.ct-cases .ct-point:hover {
   stroke-width: 20px;
 }
 
-.ct-series-c .ct-point_active {
+.ct-cases .ct-point_active {
   stroke-width: 20px;
   pointer-events: none;
 }
 
-.ct-series-f {
+.ct-predictCases {
   stroke: red;
   fill: none;
   stroke-width: 2px;
@@ -1163,7 +1163,7 @@ canvas {
   stroke-linejoin: round;
 }
 
-.ct-series-h {
+.ct-predictActive {
   stroke: rgba(255, 0, 0, 0.4);
   fill: none;
   stroke-width: 2px;
@@ -1171,7 +1171,7 @@ canvas {
   stroke-linejoin: round;
 }
 
-.ct-series-g {
+.ct-predictRedcovered {
   stroke: #2c9138;
   fill: none;
   stroke-width: 2px;
@@ -1179,7 +1179,7 @@ canvas {
   stroke-linejoin: round;
 }
 
-.ct-series-i {
+.ct-predictDeaths {
   stroke: rgba(0, 0, 0, 0.4);
   fill: none;
   stroke-width: 2px;
@@ -1187,37 +1187,46 @@ canvas {
   stroke-linejoin: round;
 }
 
-.ct-series-c {
+.ct-cases {
   stroke: red;
   fill: none;
   stroke-width: 3px;
 }
 
-.ct-series-d {
+.ct-newCasesInterpolated {
   stroke: rgba(255, 0, 0, 0.8);
   fill: none;
   stroke-width: 2px;
   stroke-dasharray: 3;
 }
 
-.ct-series-d .ct-area {
-  stroke: none;
-  stroke-width: none;
+.ct-newRecoveredInterpolated {
+  stroke: rgba(44, 145, 56, 0.8);
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
 }
 
-.ct-series-e {
+.ct-predictCases {
+  stroke: rgba(255, 0, 0, 0.8);
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
+}
+
+.ct-active {
   stroke: rgba(255, 0, 0, 0.4);
   stroke-width: 3px;
   fill: none;
 }
 
-.ct-series-a {
+.ct-deaths {
   stroke: rgba(0, 0, 0, 0.8);
   fill: none;
   stroke-width: 3px;
 }
 
-.ct-series-b {
+.ct-recovered {
   stroke: #2c9138;
   fill: none;
   stroke-width: 3px;
@@ -1232,7 +1241,7 @@ canvas {
   display: none;
 }
 
-.ct-series-c .ct-label, .ct-series-f .ct-label:last-of-type {
+.ct-cases .ct-label, .ct-series-f .ct-label:last-of-type {
   display: block;
   stroke: none;
   stroke-width: 0;
@@ -1241,14 +1250,9 @@ canvas {
 }
 
 @media screen and (max-width: 500px) {
-  .ct-series-c .ct-label, .ct-series-f .ct-label:last-of-type {
+  .ct-cases .ct-label, .ct-series-f .ct-label:last-of-type {
     display: none;
   }
-}
-
-.ct-series-f .ct-label:last-of-type {
-  transform: translateX(-20px);
-  font-size: 11px;
 }
 
 @media screen and (max-width: 500px) {
@@ -1280,6 +1284,51 @@ canvas {
   text-align: center;
   white-space: nowrap;
   word-break: break-all;
+}
+
+#chart-controls {
+  position: absolute;
+  bottom: 30px;
+  z-index: 1000;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+#chart-controls .leaflet-bar {
+  font-size: 13px;
+  display: flex;
+  background: white;
+  overflow: hidden;
+}
+
+#chart-controls .leaflet-bar > div {
+  padding: 7px;
+  cursor: pointer;
+}
+
+#chart-controls .leaflet-bar > div:hover {
+  background-color: #f4f4f4;
+}
+
+#chart-controls .leaflet-bar > div.leaflet-disabled {
+  cursor: default;
+  pointer-events: none;
+  background-color: #f4f4f4;
+  color: #bbb;
+}
+
+#chart-controls .leaflet-bar > div.leaflet-disabled:hover {
+  background-color: none;
+}
+
+#chart-controls .leaflet-bar > div:first-child {
+  border-right: 1px solid #ccc;
+}
+
+#chart-controls .leaflet-bar > div:last-child {
+  border-right: none;
 }
 
 #content {
