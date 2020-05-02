@@ -1241,7 +1241,7 @@ canvas {
   display: none;
 }
 
-.ct-cases .ct-label, .ct-series-f .ct-label:last-of-type {
+.ct-cases .ct-label {
   display: block;
   stroke: none;
   stroke-width: 0;
@@ -1250,7 +1250,7 @@ canvas {
 }
 
 @media screen and (max-width: 500px) {
-  .ct-cases .ct-label, .ct-series-f .ct-label:last-of-type {
+  .ct-cases .ct-label {
     display: none;
   }
 }
