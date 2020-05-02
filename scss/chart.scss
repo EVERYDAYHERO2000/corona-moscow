@@ -70,7 +70,7 @@
     stroke-linejoin : round;
 }
 
-.ct-predictDeaths {
+.ct-predictDeaths, .ct-newDeathsInterpolated, .ct-predictNewDeaths {
     stroke: rgba(0, 0, 0, .4); 
     fill: none;
     stroke-width: 2px;
@@ -86,7 +86,7 @@
     
 }
 
-.ct-newCasesInterpolated {
+.ct-newCasesInterpolated, .ct-predictNewCases {
 
     stroke: rgba(255,0,0, .8);
     fill: none;
@@ -95,7 +95,7 @@
 
 }
 
-.ct-newRecoveredInterpolated {
+.ct-newRecoveredInterpolated, .ct-predictNewRecovered {
     stroke: rgba(44, 145, 56, .8); ;
     fill: none;
     stroke-width: 2px;

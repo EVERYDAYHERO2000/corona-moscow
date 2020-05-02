@@ -46,10 +46,10 @@ export default class Chart {
         this._type = type;
         this._predict = predict;
         this._data = data;
-        this._predictLength = (this._type == 'all') ? 14 : 0;
+        this._predictLength = 14;
         
         
-        const labels = (function (data, predict) {
+        const labels = this._labels || (function (data, predict) {
          
             let arr = [];
             
@@ -60,7 +60,9 @@ export default class Chart {
             
             return arr;
               
-        })(this._data, this._predict);        
+        })(this._data, this._predict);   
+        
+        this._labels = labels;
         
         const series = (function (data, predict) {
 
@@ -71,11 +73,16 @@ export default class Chart {
             const newRecovered = [];
             const allRecovered = [];
             const activeCases = [];
-            const mashCases = [];
-            const predictCases = [];
-            const predictRecovered = [];
-            const predictDeaths = [];
+            const predictNewCases = [];
+            const predictAllCases = [];
+            const predictNewRecovered = []; 
+            const predictAllRecovered = [];
+            const predictNewDeaths = [];
+            const predictAllDeaths = [];
             const predictActive = [];
+            let newCasesInterpolated = null;
+            let newRecoveredInterpolated = null;
+            let newDeathsInterpolated = null;
             
 
             
@@ -116,52 +123,68 @@ export default class Chart {
                 allRecovered.push( data[i].moscowAndOblast.total.recovered );
             }
             
-            const newCasesInterpolated = interpolation(newCases, 10);
-            const newRecoveredInterpolated = interpolation(newRecovered, 10);   
-            
-            for (var i = 0; i < data.length; i++ ) {
-                
-                const length = (data[i].points.new.length) ? data[i].points.total.length : null;
-                
-                mashCases.push( length ); 
-            }
+            newCasesInterpolated = interpolation(newCases, 10);
+            newRecoveredInterpolated = interpolation(newRecovered, 10);
+            newDeathsInterpolated = interpolation(newDeaths, 10);   
+
             
             
-            let offsetCase = (allCases[allCases.length - 1] > predict[allCases.length - 1].value.cases ) ? 
+            
+            let offsetNewCase = (newCasesInterpolated[allCases.length - 1] > predict[allCases.length - 1].value.newCases ) ? 
+            (newCasesInterpolated[allCases.length - 1] - predict[allCases.length - 1].value.newCases) : 
+            -(predict[allCases.length - 1].value.newCases - newCasesInterpolated[allCases.length - 1]);
+
+            let offsetNewRecovered = (newRecoveredInterpolated[allCases.length - 1] > predict[allCases.length - 1].value.newRecovered ) ? 
+            (newRecoveredInterpolated[allCases.length - 1] - predict[allCases.length - 1].value.newRecovered) : 
+            -(predict[allCases.length - 1].value.newRecovered - newRecoveredInterpolated[allCases.length - 1]);
+
+            let offsetNewDeaths = (newDeathsInterpolated[allCases.length - 1] > predict[allCases.length - 1].value.newDeaths ) ? 
+            (newDeathsInterpolated[allCases.length - 1] - predict[allCases.length - 1].value.newDeaths) : 
+            -(predict[allCases.length - 1].value.newDeaths - newDeathsInterpolated[allCases.length - 1]);
+
+            
+            let offsetAllCase = (allCases[allCases.length - 1] > predict[allCases.length - 1].value.cases ) ? 
                 (allCases[allCases.length - 1] - predict[allCases.length - 1].value.cases) : 
                 -(predict[allCases.length - 1].value.cases - allCases[allCases.length - 1]);
             
-            let offsetRecovered = (allRecovered[allRecovered.length - 1] > predict[allRecovered.length - 1].value.recovered ) ? 
+            let offsetAllRecovered = (allRecovered[allRecovered.length - 1] > predict[allRecovered.length - 1].value.recovered ) ? 
                 (allRecovered[allCases.length - 1] - predict[allCases.length - 1].value.recovered) : 
                 -(predict[allCases.length - 1].value.recovered - allRecovered[allRecovered.length - 1]);
             
-            let offsetDeath = (allDeaths[allDeaths.length - 1] > predict[allDeaths.length - 1].value.deaths ) ? 
+            let offsetAllDeath = (allDeaths[allDeaths.length - 1] > predict[allDeaths.length - 1].value.deaths ) ? 
                 (allDeaths[allDeaths.length - 1] - predict[allDeaths.length - 1].value.deaths) : 
                 -(predict[allDeaths.length - 1].value.deaths - allDeaths[allDeaths.length - 1]); 
             
-            let offsetActive = offsetDeath + offsetRecovered;
+            let offsetActive = offsetAllDeath + offsetAllRecovered;
             
             
             for (var i = 0; i < predict.length; i++) {
-                
-                
                 
                 if (i >= allCases.length - 1 ) {
                     
                     if (i < allCases.length + _this._predictLength){
                     
-                        predictCases.push(predict[i].value.cases + offsetCase);
-                        predictDeaths.push(predict[i].value.deaths + offsetDeath);
-                        predictRecovered.push(predict[i].value.recovered + offsetRecovered);
-                        predictActive.push( (predict[i].value.cases + offsetCase) - (predict[i].value.recovered + offsetRecovered) - (predict[i].value.deaths + offsetDeath) );
+                        
+                        predictNewCases.push(predict[i].value.newCases + offsetNewCase);
+                        predictNewRecovered.push(predict[i].value.newRecovered + offsetNewRecovered);
+                        predictNewDeaths.push(predict[i].value.newDeaths + offsetNewDeaths);
+
+                        predictAllCases.push(predict[i].value.cases + offsetAllCase);
+                        predictAllDeaths.push(predict[i].value.deaths + offsetAllDeath);
+                        predictAllRecovered.push(predict[i].value.recovered + offsetAllRecovered);
+                        predictActive.push( (predict[i].value.cases + offsetAllCase) - (predict[i].value.recovered + offsetAllRecovered) - (predict[i].value.deaths + offsetAllDeath) );
                         
                     }
                     
                 } else {
+
+                    predictNewCases.push(null);
+                    predictNewRecovered.push(null);
+                    predictNewDeaths.push(null);
                     
-                    predictCases.push(null);
-                    predictDeaths.push(null);
-                    predictRecovered.push(null);
+                    predictAllCases.push(null);
+                    predictAllDeaths.push(null);
+                    predictAllRecovered.push(null);
                     predictActive.push(null);
                     
                 }
@@ -187,16 +210,16 @@ export default class Chart {
                         data : activeCases
                     }, {
                         name : 'predictCases',
-                        data : predictCases
+                        data : predictAllCases
                     }, {
                         name : 'predictRedcovered',
-                        data : predictRecovered
+                        data : predictAllRecovered
                     }, {
                         name : 'predictActive',
                         data : predictActive
                     }, {
                         name : 'predictDeaths',
-                        data : predictDeaths
+                        data : predictAllDeaths
                     }
                 ];
 
@@ -209,14 +232,26 @@ export default class Chart {
                         name : 'deaths',
                         data : newDeaths
                     }, {
+                        name : 'newDeathsInterpolated',
+                        data : newDeathsInterpolated
+                    }, {
+                        name : 'predictNewDeaths',
+                        data : predictNewDeaths
+                    }, {
                         name : 'recovered',
                         data : newRecovered
                     }, {
                         name : 'newCasesInterpolated',
                         data : newCasesInterpolated
+                    },{
+                        name : 'predictNewCases',
+                        data : predictNewCases
                     }, {
                         name : 'newRecoveredInterpolated',
                         data : newRecoveredInterpolated    
+                    }, {
+                        name : 'predictNewRecovered',
+                        data : predictNewRecovered    
                     }, {
                         name : 'cases',
                         data : newCases

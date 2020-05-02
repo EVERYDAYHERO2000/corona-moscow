@@ -4,7 +4,7 @@ export default class DataSet {
 
     constructor(url) {
 
-        this._url = ['./data/empty.json', './data/stats.json','./data/oblast.json','./data/prediction.json'];
+        this._url = ['./data/stats.json','./data/oblast.json','./data/prediction.json'];
 
         const _this = this;
 
@@ -44,15 +44,15 @@ export default class DataSet {
         const _this = this;
 
 
-        this._dataRequest(this._url[0], function (data) {
+        
 
-            _this._dataRequest(_this._url[1], function (stats) {
+            _this._dataRequest(_this._url[0], function (stats) {
                 
-                _this._dataRequest(_this._url[2], function (oblast) {
+                _this._dataRequest(_this._url[1], function (oblast) {
                     
-                    _this._dataRequest(_this._url[3], function (predict) {
+                    _this._dataRequest(_this._url[2], function (predict) {
                     
-                    _this.data = [data, stats, oblast, predict];
+                    _this.data = [stats, oblast, predict];
                     
                         collect(_this.data, callback);
                         
@@ -62,17 +62,16 @@ export default class DataSet {
                 
             });
 
-        });
+        
         
         
         function collect(data, callback) {
             
             
             const news = new News().data;
-            const points = data[0];
-            const stats = data[1];
-            const markers = data[2];
-            const predict = data[3];
+            const stats = data[0];
+            const markers = data[1];
+            const predict = data[2];
             
             const byDates = {};
             const result = [];
@@ -136,23 +135,7 @@ export default class DataSet {
             
             
             
-            for (var i = 0; i < points.length; i++){
-                
-                if ( points[i].point ){ 
-                
-                    let point = [
-                        new Number(points[i].point[0].toFixed(4)) + 0,
-                        new Number(points[i].point[1].toFixed(4)) + 0,
-                        points[i].address,
-                        byDates[points[i].date].date
-                    ] 
-
-                    byDates[points[i].date].points.new.push( point );
-                    byDates[points[i].date].points.total.push( point );
-                    
-                }
-                
-            }
+            
             
    
             let lastkey = null;
@@ -263,6 +246,8 @@ export default class DataSet {
             
 
             const resultPredict = [];
+
+            let last = null
             
             for (var p in predict) {
 
@@ -286,6 +271,12 @@ export default class DataSet {
                     11: 'ноября',
                     12: 'декабря'
                 }
+
+                predict[p].newCases = (last) ? predict[p].cases - last.cases : 0;
+                predict[p].newRecovered = (last) ? predict[p].recovered - last.recovered : 0;
+                predict[p].newDeaths = (last) ? predict[p].deaths - last.deaths : 0;
+
+                last = predict[p];  
 
                 resultPredict.push({
                     
