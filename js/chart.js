@@ -121,7 +121,7 @@ export default class Chart {
                 newCasesInterpolated[i] = newCasesInterpolated[i] * 10;
             }
 
-            console.log(newCasesInterpolated);    
+            
 
             for (var i = 0; i < data.length; i++ ) {
                 
