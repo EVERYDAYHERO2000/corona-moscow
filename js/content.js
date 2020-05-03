@@ -34,13 +34,33 @@ export default class Content {
             
             let mortality = (current.deaths.total) ? (current.deaths.total / ( current.deaths.total + current.recovered.total ) * 100).toFixed(2) : 0;
                 mortality = (mortality == '0.00') ? 0 : mortality;
-            
+
+            let tests = (current.tests) ? (function(tests){
+
+                let result = '';
+
+                if (!tests.lastStep) {
+
+
+                    result = (tests.nextStep) ? `проведено <b>${format(tests.allTotal)}</b> тестов` : `проведено ~<b>${format(tests.allTotal)}</b> тестов`;
+
+                } else {
+
+                    result = `проведено более <b>${format(tests.allTotal)}</b> тестов`
+                }                   
+
+                return result
+
+            })(current.tests) : '';    
             
  
             return `<div class="content__inner">       
             <div class="content__date">${current.date}</div>
             <div class="content__table">
-                <div class="content__header">в Москве и Московской области</div>
+                <div class="content__header">
+                    <div>в Москве и Московской области</div>
+                    <div class="content__title">${tests}</div>
+                </div>
                 <div class="content__body">
                     <div class="content__cases">
                         <div class="content__title"><span>Заболело</span></div>
@@ -104,7 +124,8 @@ export default class Content {
             news : { 
                 text : (this._data[step].news) ? this._data[step].news.text : '',
                 url : (this._data[step].news) ? this._data[step].news.url : ''
-            }
+            },
+            tests : (this._data[step].tests) ? this._data[step].tests : null 
 
         }
 

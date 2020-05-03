@@ -92,12 +92,9 @@ export default class DataSet {
 
             for (var i in test) {
                 if (+i > +maxTest) maxTest = +i;
-            }    
 
-            for (var i in test) {
-
+                let next = null;
                 let date = +i;
-                let next = null
                 
                 Object.entries(test).forEach(function(e){
 
@@ -106,30 +103,68 @@ export default class DataSet {
                     }    
 
                 });
-                
 
-                test[i].total = test[i].moscow + test[i].oblast;
+                test[i].nextStep = next;
+                test[i].allTotal = test[i].moscowTotal + test[i].oblastTotal;
+
+            }    
+
+            for (var i in test) {
+
+                let date = +i;
+                let next = test[i].nextStep;
+                let offset = test[i].nextStep - date;
+            
+                if (date < maxTest){
 
                 for (var s = 0; s < 100; s++) {
 
                     if (!test[date + s] && date + s < maxTest ) {
 
-                        //console.log(date < maxTest, date, maxTest);
+                        let prev = (s > 0) ? s-1 : s;
 
-                        test[date + s] = {};                            
+                        test[date + s] = {
+
+                            moscowTotal : test[date + prev].moscowTotal + +((test[next].moscowTotal - test[date].moscowTotal) / offset).toFixed(),
+                            oblastTotal : test[date + prev].oblastTotal + +((test[next].oblastTotal - test[date].oblastTotal) / offset).toFixed(),
+                            allTotal  : test[date + prev].allTotal  + +((test[next].allTotal  - test[date].allTotal)  / offset).toFixed()
+
+                        };                            
 
                     }
 
                 }
 
+                }
+
                 testCount++
+
             }
 
-
-            //console.log(test)
-
             
+            let lastTestDate = null;
+
             for (var i in byDates) {
+
+                
+                if ( test[i] ) {
+
+                byDates[i].tests = test[i];
+
+                lastTestDate = i;
+
+                } else {
+
+                    if (lastTestDate) {
+
+                        byDates[i].tests = test[lastTestDate];
+                        byDates[i].tests.lastStep = lastTestDate;
+
+                    }
+
+                }
+
+
                 
 
                 if (!byDates[i].oblast) {
@@ -339,8 +374,6 @@ export default class DataSet {
                 })
 
             }
-
-            //console.log(result)
             
             if (callback) callback(result, resultPredict);
             

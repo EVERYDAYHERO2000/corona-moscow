@@ -177,3 +177,8 @@ span[data-legend="total-deaths"] b:before {
     background-position: 0 -24px;
 }
 
+.content__header div + .content__title {
+    padding-bottom: 0px;
+    padding-top: 15px;
+}
+
