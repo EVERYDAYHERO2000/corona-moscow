@@ -17,6 +17,13 @@ add_days = 30
 strToDate = lambda dateStr: datetime.strptime(dateStr, "%Y%m%d")
 diff = lambda src: src.copy().diff(axis=1).fillna(0)
 
+def smooth(src, count):
+    res = src.copy()
+    for n in range(count):
+        res = res.rolling(window=(max(2*n, 2)), min_periods=1, center=True, axis=1).mean()
+    res = res.round(1)
+    return res
+
 def logistic(x, a, b, c):
     return c / (1 + np.exp(-(x - b) / a))
 
@@ -85,6 +92,17 @@ predicted_cases_max = cases_params_bounded[2] + cases_params_bounded[5]
 
 predicted_cases = getPrediction(days, cases_params_bounded, logistic, True)
 predicted_daily_cases = getPrediction(days, cases_params_bounded, logisticDerivative, True)
+
+n = 2
+    
+while (n < 10 and abs(cases_daily_last - int(predicted_daily_cases[days])) > cases_daily_last * 0.25):
+    deriv_params = getCurveParams((smooth(daily, n)).loc['cases'], logisticDerivative)
+    n += 1
+    params = deriv_params if deriv_params[5] < deriv_params[2] * 0.25 else cases_params
+    cases_params_bounded = getCurveParams(cases, logistic, min_total, params=params)
+    predicted_cases_max = cases_params_bounded[2] + cases_params_bounded[5]
+    predicted_cases = getPrediction(days, cases_params_bounded, logistic, True)
+    predicted_daily_cases = getPrediction(days, cases_params_bounded, logisticDerivative, True)
 
 min_deaths, max_deaths = int(predicted_cases_max * (fatality - 0.02)), int(predicted_cases_max * (fatality + 0.02))
 deaths_params = getCurveParams(deaths, logistic, min_deaths, max_deaths)
