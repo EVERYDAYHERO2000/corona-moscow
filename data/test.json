@@ -1,0 +1,22 @@
+{
+    "20200429" : {
+        "moscow" : 852432,
+        "oblast" : 237675,
+        "moscowPerThousand" : 6786.41
+    },
+    "20200422" : {
+        "moscow" : 580000,
+        "oblast" : 183746,
+        "moscowPerThousand" : 4617.51
+    },
+    "20200415" : {
+        "moscow" : 395034,
+        "oblast" : 145574,
+        "moscowPerThousand" : 3144.96
+    },
+    "20200408" : {
+        "moscow" : 248979,
+        "oblast" : 79941,
+        "moscowPerThousand" : 1982.18
+    }
+}

@@ -4,7 +4,7 @@ export default class DataSet {
 
     constructor(url) {
 
-        this._url = ['./data/stats.json','./data/oblast.json','./data/prediction.json'];
+        this._url = ['./data/stats.json','./data/oblast.json','./data/prediction.json','./data/test.json'];
 
         const _this = this;
 
@@ -51,10 +51,14 @@ export default class DataSet {
                 _this._dataRequest(_this._url[1], function (oblast) {
                     
                     _this._dataRequest(_this._url[2], function (predict) {
+
+                        _this._dataRequest(_this._url[3], function (test) {
                     
-                    _this.data = [stats, oblast, predict];
+                            _this.data = [stats, oblast, predict, test];
                     
                         collect(_this.data, callback);
+
+                        })
                         
                     });
 
@@ -72,15 +76,62 @@ export default class DataSet {
             const stats = data[0];
             const markers = data[1];
             const predict = data[2];
+            const test = data[3];
             
             const byDates = {};
             const result = [];
             
             statsToObj('city','moscow', byDates);
             statsToObj('oblast','oblast', byDates);
+
+
+            
+            let testCount = 0
+            let testLength = Object.keys(test).length;
+            let maxTest = 0;
+
+            for (var i in test) {
+                if (+i > +maxTest) maxTest = +i;
+            }    
+
+            for (var i in test) {
+
+                let date = +i;
+                let next = null
+                
+                Object.entries(test).forEach(function(e){
+
+                    if (!next && +e[0] > date) {
+                        next = +e[0];
+                    }    
+
+                });
+                
+
+                test[i].total = test[i].moscow + test[i].oblast;
+
+                for (var s = 0; s < 100; s++) {
+
+                    if (!test[date + s] && date + s < maxTest ) {
+
+                        //console.log(date < maxTest, date, maxTest);
+
+                        test[date + s] = {};                            
+
+                    }
+
+                }
+
+                testCount++
+            }
+
+
+            //console.log(test)
+
             
             for (var i in byDates) {
                 
+
                 if (!byDates[i].oblast) {
                     
                     byDates[i].oblast = {
@@ -288,6 +339,8 @@ export default class DataSet {
                 })
 
             }
+
+            //console.log(result)
             
             if (callback) callback(result, resultPredict);
             
