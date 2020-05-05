@@ -117,9 +117,13 @@ export default class DataSet {
             
                 if (date < maxTest){
 
+                    
+
                 for (var s = 0; s < 100; s++) {
 
                     if (!test[date + s] && date + s < maxTest ) {
+
+                        
 
                         let prev = (s > 0) ? s-1 : s;
 
@@ -140,6 +144,8 @@ export default class DataSet {
                 testCount++
 
             }
+
+            
 
             
             let lastTestDate = null;
@@ -229,11 +235,7 @@ export default class DataSet {
             
             for (var i in byDates) {
                 
-                if ( lastkey != null && byDates[lastkey] ) {
-                    
-                    byDates[i].points.total = byDates[i].points.new.concat( byDates[lastkey].points.total );
-                    
-                }
+                
                 
                 if (markers[i]) {
                     
@@ -374,10 +376,14 @@ export default class DataSet {
                 })
 
             }
+
+            
             
             if (callback) callback(result, resultPredict);
             
         }
+        
+
         
 
         return this;
