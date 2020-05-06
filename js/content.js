@@ -35,11 +35,14 @@ export default class Content {
             let mortality = (current.deaths.total) ? (current.deaths.total / ( current.deaths.total + current.recovered.total ) * 100).toFixed(2) : 0;
                 mortality = (mortality == '0.00') ? 0 : mortality;
 
+            
+
             let tests = (current.tests) ? (function(tests){
 
                 let result = '';
 
                 if (!tests.lastStep) {
+
 
 
                     result = (tests.nextStep) ? `проведено <b>${format(tests.allTotal)}</b> тестов` : `проведено ~<b>${format(tests.allTotal)}</b> тестов`;

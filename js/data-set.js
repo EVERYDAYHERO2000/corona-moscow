@@ -87,7 +87,6 @@ export default class DataSet {
 
             
             let testCount = 0
-            let testLength = Object.keys(test).length;
             let maxTest = 0;
 
             for (var i in test) {
@@ -129,6 +128,8 @@ export default class DataSet {
 
                         test[date + s] = {
 
+                            allNew : +((test[next].allTotal  - test[date].allTotal)  / offset).toFixed(),
+
                             moscowTotal : test[date + prev].moscowTotal + +((test[next].moscowTotal - test[date].moscowTotal) / offset).toFixed(),
                             oblastTotal : test[date + prev].oblastTotal + +((test[next].oblastTotal - test[date].oblastTotal) / offset).toFixed(),
                             allTotal  : test[date + prev].allTotal  + +((test[next].allTotal  - test[date].allTotal)  / offset).toFixed()
@@ -145,13 +146,12 @@ export default class DataSet {
 
             }
 
-            
+        
 
             
             let lastTestDate = null;
 
             for (var i in byDates) {
-
                 
                 if ( test[i] ) {
 
@@ -159,12 +159,15 @@ export default class DataSet {
 
                 lastTestDate = i;
 
+
                 } else {
 
                     if (lastTestDate) {
-
+                        
                         byDates[i].tests = test[lastTestDate];
                         byDates[i].tests.lastStep = lastTestDate;
+
+                        
 
                     }
 
@@ -259,7 +262,6 @@ export default class DataSet {
                         
                         if (markers[m].name == 'Москва') {
                             matchMoscow = true;
-                            //markers[m] = moscowMarker;
                             break;
                         }
                         
