@@ -4,11 +4,11 @@ export default class DataSet {
 
     constructor(url) {
 
-        this._url = ['./data/empty.json', './data/stats.json','./data/oblast.json'];
+        this._url = ['./data/stats.json','./data/oblast.json','./data/prediction.json','./data/test.json'];
 
         const _this = this;
 
-
+        
         this._dataRequest = function (url, callback) {
 
             if (window.fetch) {
@@ -44,40 +44,138 @@ export default class DataSet {
         const _this = this;
 
 
-        this._dataRequest(this._url[0], function (data) {
+        
 
-            _this._dataRequest(_this._url[1], function (stats) {
+            _this._dataRequest(_this._url[0], function (stats) {
                 
-                _this._dataRequest(_this._url[2], function (oblast) {
+                _this._dataRequest(_this._url[1], function (oblast) {
                     
-                    _this.data = [data, stats, oblast];
+                    _this._dataRequest(_this._url[2], function (predict) {
+
+                        _this._dataRequest(_this._url[3], function (test) {
                     
-                
-                    collect(_this.data, callback);
+                            _this.data = [stats, oblast, predict, test];
+                    
+                        collect(_this.data, callback);
+
+                        })
+                        
+                    });
 
                 });
                 
             });
 
-        });
+        
         
         
         function collect(data, callback) {
             
             
             const news = new News().data;
-            const points = data[0];
-            const stats = data[1];
-            const markers = data[2];
+            const stats = data[0];
+            const markers = data[1];
+            const predict = data[2];
+            const test = data[3];
             
             const byDates = {};
             const result = [];
             
             statsToObj('city','moscow', byDates);
             statsToObj('oblast','oblast', byDates);
+
+
             
+            let testCount = 0
+            let maxTest = 0;
+
+            for (var i in test) {
+                if (+i > +maxTest) maxTest = +i;
+
+                let next = null;
+                let date = +i;
+                
+                Object.entries(test).forEach(function(e){
+
+                    if (!next && +e[0] > date) {
+                        next = +e[0];
+                    }    
+
+                });
+
+                test[i].nextStep = next;
+                test[i].allTotal = test[i].moscowTotal + test[i].oblastTotal;
+
+            }    
+
+            for (var i in test) {
+
+                let date = +i;
+                let next = test[i].nextStep;
+                let offset = test[i].nextStep - date;
+            
+                if (date < maxTest){
+
+                    
+
+                for (var s = 0; s < 100; s++) {
+
+                    if (!test[date + s] && date + s < maxTest ) {
+
+                        
+
+                        let prev = (s > 0) ? s-1 : s;
+
+                        test[date + s] = {
+
+                            allNew : +((test[next].allTotal  - test[date].allTotal)  / offset).toFixed(),
+
+                            moscowTotal : test[date + prev].moscowTotal + +((test[next].moscowTotal - test[date].moscowTotal) / offset).toFixed(),
+                            oblastTotal : test[date + prev].oblastTotal + +((test[next].oblastTotal - test[date].oblastTotal) / offset).toFixed(),
+                            allTotal  : test[date + prev].allTotal  + +((test[next].allTotal  - test[date].allTotal)  / offset).toFixed()
+
+                        };                            
+
+                    }
+
+                }
+
+                }
+
+                testCount++
+
+            }
+
+        
+
+            
+            let lastTestDate = null;
+
             for (var i in byDates) {
                 
+                if ( test[i] ) {
+
+                byDates[i].tests = test[i];
+
+                lastTestDate = i;
+
+
+                } else {
+
+                    if (lastTestDate) {
+                        
+                        byDates[i].tests = test[lastTestDate];
+                        byDates[i].tests.lastStep = lastTestDate;
+
+                        
+
+                    }
+
+                }
+
+
+                
+
                 if (!byDates[i].oblast) {
                     
                     byDates[i].oblast = {
@@ -132,23 +230,7 @@ export default class DataSet {
             
             
             
-            for (var i = 0; i < points.length; i++){
-                
-                if ( points[i].point ){ 
-                
-                    let point = [
-                        new Number(points[i].point[0].toFixed(4)) + 0,
-                        new Number(points[i].point[1].toFixed(4)) + 0,
-                        points[i].address,
-                        byDates[points[i].date].date
-                    ] 
-
-                    byDates[points[i].date].points.new.push( point );
-                    byDates[points[i].date].points.total.push( point );
-                    
-                }
-                
-            }
+            
             
    
             let lastkey = null;
@@ -156,11 +238,7 @@ export default class DataSet {
             
             for (var i in byDates) {
                 
-                if ( lastkey != null && byDates[lastkey] ) {
-                    
-                    byDates[i].points.total = byDates[i].points.new.concat( byDates[lastkey].points.total );
-                    
-                }
+                
                 
                 if (markers[i]) {
                     
@@ -184,7 +262,6 @@ export default class DataSet {
                         
                         if (markers[m].name == 'Москва') {
                             matchMoscow = true;
-                            //markers[m] = moscowMarker;
                             break;
                         }
                         
@@ -258,12 +335,57 @@ export default class DataSet {
             }
             
 
+            const resultPredict = [];
+
+            let last = null
+            
+            for (var p in predict) {
+
+                let dataArr = [
+                    (p + '').substr(0, 4) + '',
+                    (p + '').substr(4, 2) + '',
+                    (p + '').substr(6, 2) + ''
+                ];
+
+                let month = {
+                    1: 'января',
+                    2: 'февраля',
+                    3: 'марта',
+                    4: 'апреля',
+                    5: 'мая',
+                    6: 'июня',
+                    7: 'июля',
+                    8: 'августа',
+                    9: 'сентября',
+                    10: 'октября',
+                    11: 'ноября',
+                    12: 'декабря'
+                }
+
+                predict[p].newCases = (last) ? predict[p].cases - last.cases : 0;
+                predict[p].newRecovered = (last) ? predict[p].recovered - last.recovered : 0;
+                predict[p].newDeaths = (last) ? predict[p].deaths - last.deaths : 0;
+
+                last = predict[p];  
+
+                resultPredict.push({
+                    
+                    dateIndex : +p,
+                    dateArr: dataArr,
+                    date: `${+dataArr[2]} ${month[ new Number (dataArr[1]) ]}`,
+                    value: predict[p]
+
+                })
+
+            }
+
             
             
-            
-            if (callback) callback(result);
+            if (callback) callback(result, resultPredict);
             
         }
+        
+
         
 
         return this;

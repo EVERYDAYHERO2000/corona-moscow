@@ -1114,10 +1114,10 @@ canvas {
 }
 
 #chart {
-  height: 300px;
+  height: 380px;
   width: 100%;
   position: absolute;
-  bottom: 20px;
+  bottom: 35px;
   z-index: 1000;
   pointer-events: none;
 }
@@ -1130,7 +1130,7 @@ canvas {
   pointer-events: none;
 }
 
-.ct-series-c .ct-point {
+.ct-cases .ct-point {
   stroke: red;
   stroke-width: 8px;
   pointer-events: all;
@@ -1141,51 +1141,92 @@ canvas {
 }
 
 @media screen and (max-width: 500px) {
-  .ct-series-c .ct-point {
+  .ct-cases .ct-point {
     stroke-width: 12px;
   }
 }
 
-.ct-series-c .ct-point:hover {
+.ct-cases .ct-point:hover {
   stroke-width: 20px;
 }
 
-.ct-series-c .ct-point_active {
+.ct-cases .ct-point_active {
   stroke-width: 20px;
   pointer-events: none;
 }
 
-.ct-series-c {
+.ct-predictCases {
+  stroke: red;
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
+  stroke-linejoin: round;
+}
+
+.ct-predictActive {
+  stroke: rgba(255, 0, 0, 0.4);
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
+  stroke-linejoin: round;
+}
+
+.ct-predictRedcovered {
+  stroke: #2c9138;
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
+  stroke-linejoin: round;
+}
+
+.ct-predictDeaths, .ct-newDeathsInterpolated, .ct-predictNewDeaths {
+  stroke: rgba(0, 0, 0, 0.4);
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
+  stroke-linejoin: round;
+}
+
+.ct-cases {
   stroke: red;
   fill: none;
   stroke-width: 3px;
 }
 
-.ct-series-d {
+.ct-newCasesInterpolated, .ct-predictNewCases {
   stroke: rgba(255, 0, 0, 0.8);
   fill: none;
   stroke-width: 2px;
   stroke-dasharray: 3;
 }
 
-.ct-series-d .ct-area {
-  stroke: none;
-  stroke-width: none;
+.ct-newRecoveredInterpolated, .ct-predictNewRecovered {
+  stroke: rgba(44, 145, 56, 0.8);
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
 }
 
-.ct-series-e {
+.ct-predictCases {
+  stroke: rgba(255, 0, 0, 0.8);
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
+}
+
+.ct-active {
   stroke: rgba(255, 0, 0, 0.4);
   stroke-width: 3px;
   fill: none;
 }
 
-.ct-series-a {
-  stroke: rgba(0, 0, 0, 0);
+.ct-deaths {
+  stroke: rgba(0, 0, 0, 0.8);
   fill: none;
   stroke-width: 3px;
 }
 
-.ct-series-b {
+.ct-recovered {
   stroke: #2c9138;
   fill: none;
   stroke-width: 3px;
@@ -1200,7 +1241,7 @@ canvas {
   display: none;
 }
 
-.ct-series-c .ct-label {
+.ct-cases .ct-label {
   display: block;
   stroke: none;
   stroke-width: 0;
@@ -1209,7 +1250,7 @@ canvas {
 }
 
 @media screen and (max-width: 500px) {
-  .ct-series-c .ct-label {
+  .ct-cases .ct-label {
     display: none;
   }
 }
@@ -1228,21 +1269,66 @@ canvas {
   display: flex;
 }
 
-.ct-labels foreignObject[y="270"] {
+.ct-label.ct-horizontal {
   display: flex;
 }
 
-.ct-labels foreignObject[y="270"] span {
+.ct-label.ct-horizontal {
   opacity: 0;
 }
 
-.ct-labels foreignObject[y="270"] span.visible {
+.ct-label.ct-horizontal.visible {
   opacity: 1;
-  transform: translate(-40px, 10px);
+  transform: translate(-30px, 10px);
   width: 80px !important;
   text-align: center;
   white-space: nowrap;
   word-break: break-all;
+}
+
+#chart-controls {
+  position: absolute;
+  bottom: 30px;
+  z-index: 1000;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+#chart-controls .leaflet-bar {
+  font-size: 13px;
+  display: flex;
+  background: white;
+  overflow: hidden;
+}
+
+#chart-controls .leaflet-bar > div {
+  padding: 7px;
+  cursor: pointer;
+}
+
+#chart-controls .leaflet-bar > div:hover {
+  background-color: #f4f4f4;
+}
+
+#chart-controls .leaflet-bar > div.leaflet-disabled {
+  cursor: default;
+  pointer-events: none;
+  background-color: #f4f4f4;
+  color: #bbb;
+}
+
+#chart-controls .leaflet-bar > div.leaflet-disabled:hover {
+  background-color: none;
+}
+
+#chart-controls .leaflet-bar > div:first-child {
+  border-right: 1px solid #ccc;
+}
+
+#chart-controls .leaflet-bar > div:last-child {
+  border-right: none;
 }
 
 #content {
@@ -1395,19 +1481,30 @@ span[data-legend] b:before {
   content: '';
   display: inline-block;
   position: absolute;
-  width: 10px;
-  height: 3px;
-  transform: translate(-13px, 7px);
+  background: url(../assets/graph.svg);
+  width: 12px;
+  height: 12px;
+  transform: translate(-16px, 3px);
 }
 
 span[data-legend="total-cases"] b:before {
-  background: red;
+  background-position: 0 0;
 }
 
 span[data-legend="current-cases"] b:before {
-  background: rgba(255, 0, 0, 0.45);
+  background-position: 0 0;
+  opacity: .5;
 }
 
 span[data-legend="total-recovered"] b:before {
-  background: #439139;
+  background-position: 0 -12px;
+}
+
+span[data-legend="total-deaths"] b:before {
+  background-position: 0 -24px;
+}
+
+.content__header div + .content__title {
+  padding-bottom: 0px;
+  padding-top: 15px;
 }

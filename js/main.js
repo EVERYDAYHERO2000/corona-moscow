@@ -17,13 +17,13 @@ import Content from "./content.js";
         zoom: 7,
     });
 
-    dataSet.load(function(data){
-
+    dataSet.load(function(data, predict){
+        
         content.setData(data);
 
         map.setChart(chart).setContent(content).setData(data);
 
-        chart.setMap(map).setContent(content).setData(data);
+        chart.setMap(map).setContent(content).setData(data, predict, 'all');
 
         map.drawData();
 
