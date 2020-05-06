@@ -7,7 +7,7 @@ import json
 pd.set_option('display.max_columns', None)
 
 def new_columns(df):
-  return list(df.columns.map(lambda x: '{2:d}{1:02d}{0:02d}'.format(int(x.split(sep='/')[1]), int(x.split(sep='/')[0]), int(x.split(sep='/')[2]))))
+  return list(df.columns.map(lambda x: '20{2:d}{1:02d}{0:02d}'.format(int(x.split(sep='/')[1]), int(x.split(sep='/')[0]), int(x.split(sep='/')[2]))))
 
 moscow = pd.read_csv('https://raw.githubusercontent.com/EVERYDAYHERO2000/corona-moscow/gh-pages/data/stats.csv').iloc[:, 4:]
 moscow.columns = new_columns(moscow)
@@ -15,7 +15,7 @@ moscow.index = ['cases', 'deaths', 'recovered']
 
 add_days = 14
 
-strToDate = lambda dateStr: datetime.strptime(dateStr, "%y%m%d")
+strToDate = lambda dateStr: datetime.strptime(dateStr, "%Y%m%d")
 diff = lambda src: src.copy().diff(axis=1).fillna(0)
 
 def smooth(src, n):
@@ -129,7 +129,7 @@ def predict(df):
     prediction = predicted_cases.append(predicted_recovered).append(predicted_deaths)
     prediction.index = ['cases', 'recovered', 'deaths']
     
-    dates_generated = [(last_date + timedelta(days = x + 1)).strftime("%y%m%d") for x in range(add_days)]
+    dates_generated = [(last_date + timedelta(days = x + 1)).strftime("%Y%m%d") for x in range(add_days)]
     prediction.columns = list(cumulative.columns) + dates_generated
     return prediction
 
