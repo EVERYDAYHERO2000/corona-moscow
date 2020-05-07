@@ -46,7 +46,7 @@ export default class Chart {
         this._type = type;
         this._predict = predict;
         this._data = data;
-        this._predictLength = 14;
+        this._predictLength = 13;
 
         this._step = this._data.length - 1;
         
@@ -57,6 +57,8 @@ export default class Chart {
             
             for (var i = 0; i < data.length + _this._predictLength; i++ ) {
                 
+                
+
                 arr.push( predict[i].date );
             }
             
