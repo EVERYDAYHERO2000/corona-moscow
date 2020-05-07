@@ -37,9 +37,11 @@ export default class Content {
 
             
 
-            let tests = (current.tests) ? (function(tests){
+            let tests = (current.tests.allTotal) ? (function(tests){
 
                 let result = '';
+
+                
 
                 if (!tests.lastStep) {
 

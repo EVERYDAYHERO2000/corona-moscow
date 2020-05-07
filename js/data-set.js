@@ -108,46 +108,58 @@ export default class DataSet {
 
             }    
 
-            for (var i in test) {
+            let lastTest = null;
+            let prevTest = null;
+            let nextTest = null;
 
-                let date = +i;
-                let next = test[i].nextStep;
-                let offset = test[i].nextStep - date;
-            
-                if (date < maxTest){
+            for (var i in byDates) {
 
-                    
+                if (test[i]) {
+                    lastTest = test[i];
 
-                for (var s = 0; s < 100; s++) {
-
-                    if (!test[date + s] && date + s < maxTest ) {
-
+                    if (test[i].nextStep) {
+                        nextTest = test[ test[i].nextStep ];
                         
+                    }    
 
-                        let prev = (s > 0) ? s-1 : s;
+                }    
 
-                        test[date + s] = {
+                if (!test[i]) {
 
-                            allNew : +((test[next].allTotal  - test[date].allTotal)  / offset).toFixed(),
+                    test[i] = JSON.parse(JSON.stringify(lastTest)) || {};
 
-                            moscowTotal : test[date + prev].moscowTotal + +((test[next].moscowTotal - test[date].moscowTotal) / offset).toFixed(),
-                            oblastTotal : test[date + prev].oblastTotal + +((test[next].oblastTotal - test[date].oblastTotal) / offset).toFixed(),
-                            allTotal  : test[date + prev].allTotal  + +((test[next].allTotal  - test[date].allTotal)  / offset).toFixed()
+                    let offset = 7;
 
-                        };                            
+                    if (nextTest) {
 
-                    }
+                        //if (!test[i].allNew) {
 
-                }
+                            //console.log(+i, +test[i].nextStep)
 
-                }
+                            let prev = (prevTest) ? prevTest : test[i];
 
-                testCount++
+                            test[i] = {
+                                allNew : +((nextTest.allTotal  - test[i].allTotal)  / offset).toFixed(),
+
+                                moscowTotal : prev.moscowTotal + +((nextTest.moscowTotal - test[i].moscowTotal) / offset).toFixed(),
+                                oblastTotal : prev.oblastTotal + +((nextTest.oblastTotal - test[i].oblastTotal) / offset).toFixed(),
+                                allTotal    : prev.allTotal  + +((nextTest.allTotal  - test[i].allTotal)  / offset).toFixed()
+                            }
+
+                            prevTest = test[i];
+
+                        //} 
+                    }    
+
+                }    
 
             }
 
-        
+            //console.log(test)            
 
+            
+        
+            
             
             let lastTestDate = null;
 

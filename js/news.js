@@ -4,6 +4,11 @@ export default class News {
         
         
         this.data = {
+            20200507 : ["Собянин: по выявляемости COVID-19 Москва превысила показатели Нью-Йорка", "https://ria.ru/20200507/1571087992.html"],
+            20200506 : ["Россия стала пятой в мире по числу заболевших коронавирусом","https://www.fontanka.ru/2020/05/06/69243418/"],
+            20200505 : ["Временные госпитали в Москве строят круглосуточно около 10 тысяч человек", "https://360tv.ru/news/obschestvo/vremennye-gospitali-v-moskve-strojat-kruglosutochno-okolo-10-tysjach-chelovek/"],
+            20200504 : ["В Москве определены 44 площадки для развертывания временных госпиталей", "https://www.1tv.ru/news/2020-05-04/385215-v_moskve_opredeleny_44_ploschadki_dlya_razvertyvaniya_vremennyh_gospitaley"],
+            20200503 : ["Эксперт Минздрава спрогнозировал пик эпидемии коронавируса в России", "https://www.m24.ru/news/obshchestvo/03052020/116599"],
             20200502 : ["Штрафы за нарушения самоизоляции в Москве пойдут на борьбу с COVID-19","https://www.rbc.ru/rbcfreenews/5ead3a7a9a79473382020fd0"],
             20200501 : ["Скворцова заявила о выходе на плато по заболеваемости коронавирусом", "https://www.kommersant.ru/doc/4335500"],
             20200429 : ["Глава Подмосковья заявил о выходе на плато по приросту заболевших коронавирусом", "https://forbes-ru.turbopages.org/s/forbes.ru/newsroom/obshchestvo/399417-glava-podmoskovya-zayavil-o-vyhode-na-plato-po-prirostu-zabolevshih"],

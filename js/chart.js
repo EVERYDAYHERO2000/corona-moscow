@@ -47,6 +47,8 @@ export default class Chart {
         this._predict = predict;
         this._data = data;
         this._predictLength = 14;
+
+        this._step = this._data.length - 1;
         
         
         const labels = this._labels || (function (data, predict) {
@@ -337,6 +339,8 @@ export default class Chart {
                     
                     const step = new Number (this.getAttribute('data-step')) + 0;
                     
+                    _this._step = step
+
                     _this.setStep(step);
                     
                     _this._map._playButton.setAttribute('data-state', 'pause');
@@ -381,6 +385,8 @@ export default class Chart {
                         if (type != el.getAttribute('data-type')) el.classList.remove('leaflet-disabled');
 
                     }
+
+                    _this._content.drawData(_this._step);
 
                 }
 
