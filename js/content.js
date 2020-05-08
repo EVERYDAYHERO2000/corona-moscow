@@ -41,8 +41,6 @@ export default class Content {
 
                 let result = '';
 
-                
-
                 if (!tests.lastStep) {
 
 

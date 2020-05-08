@@ -111,6 +111,7 @@ export default class DataSet {
             let lastTest = null;
             let prevTest = null;
             let nextTest = null;
+            let newTest = null;
 
             for (var i in byDates) {
 
@@ -134,21 +135,21 @@ export default class DataSet {
 
                         //if (!test[i].allNew) {
 
-                            //console.log(+i, +test[i].nextStep)
+                            newTest = (+((nextTest.allTotal  - test[i].allTotal)  / offset).toFixed() != 0) ? +((nextTest.allTotal  - test[i].allTotal)  / offset).toFixed() : newTest;
 
                             let prev = (prevTest) ? prevTest : test[i];
 
                             test[i] = {
-                                allNew : +((nextTest.allTotal  - test[i].allTotal)  / offset).toFixed(),
+                                allNew : newTest,
 
                                 moscowTotal : prev.moscowTotal + +((nextTest.moscowTotal - test[i].moscowTotal) / offset).toFixed(),
                                 oblastTotal : prev.oblastTotal + +((nextTest.oblastTotal - test[i].oblastTotal) / offset).toFixed(),
-                                allTotal    : prev.allTotal  + +((nextTest.allTotal  - test[i].allTotal)  / offset).toFixed()
+                                allTotal    : prev.allTotal + newTest
                             }
 
                             prevTest = test[i];
 
-                            
+
 
                         //} 
                     }    

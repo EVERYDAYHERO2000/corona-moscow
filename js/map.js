@@ -85,6 +85,10 @@ export default class Map {
 
             }
 
+        }).on('zoomend', function(){
+
+            _this._map.invalidateSize(true)
+
         });
 
 
