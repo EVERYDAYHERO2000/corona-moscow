@@ -25,7 +25,7 @@ export default class Chart {
     
     setStep(step) {
         
-        const points = document.querySelectorAll('.ct-cases .ct-point');
+        const points = document.querySelectorAll('.ct-cases .ct-point, .ct-newCases .ct-point');
 
         for (var p of points) {
 
@@ -257,7 +257,7 @@ export default class Chart {
                         name : 'predictNewRecovered',
                         data : predictNewRecovered    
                     }, {
-                        name : 'cases',
+                        name : 'newCases',
                         data : newCases
                     }
                 ];
@@ -285,6 +285,9 @@ export default class Chart {
                 },
                 'cases': {
                     lineSmooth: Chartist.Interpolation.none()
+                },
+                'newCases': {
+                    lineSmooth: Chartist.Interpolation.none()
                 }
             },
             plugins: [
@@ -293,12 +296,38 @@ export default class Chart {
                   labelInterpolationFnc: function(data) {
                       
                       if (data.series.name == 'predictCases') return '';//`прогноз ${Math.floor(data.value.y/100)*100}`;
-                      
+
                       let currentValue = data.value.y;
                       let prevValue = (data.series.data[data.index - 1]) ? data.series.data[data.index - 1] : 0;
                       let differenceValue = currentValue - prevValue;  
 
-                      return (_this._type == 'all') ? (differenceValue) ? `+${differenceValue}` : '' : (currentValue) ? `+${currentValue}` : '';
+                      if (data.series.name == 'newCases' && data.series.data[data.index - 4]) {
+
+                         let step1 = Math.abs(data.series.data[data.index] - data.series.data[data.index - 1]);
+                         let step2 = Math.abs(data.series.data[data.index - 1] - data.series.data[data.index - 2]);
+                         let step3 = Math.abs(data.series.data[data.index - 2] - data.series.data[data.index - 3]);
+                         let step4 = Math.abs(data.series.data[data.index - 3] - data.series.data[data.index - 4]);
+
+                         let step5 = Math.abs(step1 - step2);
+                         let step6 = Math.abs(step3 - step4);
+
+                         if (step5 > step6 && Math.abs(step5 - step6) > 100) {
+                             
+                            data.element._node.nextSibling.classList.add('ct-label_visible');
+                       
+                         }    
+
+                      }
+
+                      if (data.series.name == 'cases' && data.index%5 == 0 ) {
+
+                        data.element._node.nextSibling.classList.add('ct-label_visible');
+
+                      }
+                      
+                      
+
+                      return (_this._type == 'all') ? format(currentValue) : (differenceValue) ? `+${differenceValue}` : '';
                   }
                 })
               ],
@@ -307,7 +336,15 @@ export default class Chart {
             },
             low: 0
         });
-        
+
+
+        function format(value) {
+
+            value = (/\.\d/.test(value)) ? value + '' : value + '.00';
+            value = (value).replace(/\d(?=(\d{3})+\.)/g, '$& ').split('.')[0]
+            
+            return value;
+        }
 
         
         this._chart.on('created', function(e,i) {
@@ -322,7 +359,7 @@ export default class Chart {
 
             }
                 
-            const points = document.querySelectorAll('.ct-cases .ct-point');
+            const points = document.querySelectorAll('.ct-cases .ct-point, .ct-newCases .ct-point');
             const dateLabels = document.querySelectorAll('.ct-label.ct-horizontal');
             
             dateLabels[0].classList.add('visible');    

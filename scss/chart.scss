@@ -20,7 +20,7 @@
     pointer-events: none;
 }
 
-.ct-cases .ct-point {
+.ct-cases .ct-point, .ct-newCases .ct-point {
     stroke: rgba(255,0,0,1);
     stroke-width: 8px;
     pointer-events: all;
@@ -34,11 +34,11 @@
     }
 }
 
-.ct-cases .ct-point:hover {
+.ct-cases .ct-point:hover, .ct-newCases .ct-point:hover {
     stroke-width: 20px;
 }
 
-.ct-cases .ct-point_active {
+.ct-cases .ct-point_active, .ct-newCases .ct-point_active {
     stroke-width: 20px;
     pointer-events: none;
 }
@@ -78,7 +78,7 @@
     stroke-linejoin : round;
 }
 
-.ct-cases {
+.ct-cases, .ct-newCases {
     
     stroke: rgba(255,0,0, 1);
     fill: none;
@@ -137,13 +137,21 @@
     display: none;
 }
 
-.ct-cases .ct-label {
-    display: block;
+.ct-cases .ct-label, .ct-newCases .ct-label {
+    display: none;
     stroke: none;
     stroke-width: 0;
     fill: rgba(0,0,0,.8);
     font-size: 9px;
     
+    @media screen and (max-width: 500px) {
+        display: none;    
+    }
+}
+
+.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible {
+    display: block;
+
     @media screen and (max-width: 500px) {
         display: none;    
     }
