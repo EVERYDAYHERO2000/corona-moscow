@@ -88,6 +88,7 @@ export default class DataSet {
             
             let testCount = 0
             let maxTest = 0;
+            let maxTestDate = null;
 
             for (var i in test) {
                 if (+i > +maxTest) maxTest = +i;
@@ -106,12 +107,15 @@ export default class DataSet {
                 test[i].nextStep = next;
                 test[i].allTotal = test[i].moscowTotal + test[i].oblastTotal;
 
+                maxTestDate = i;
+
             }    
 
             let lastTest = null;
             let prevTest = null;
             let nextTest = null;
             let newTest = null;
+            
 
             for (var i in byDates) {
 
@@ -121,9 +125,14 @@ export default class DataSet {
                     if (test[i].nextStep) {
                         nextTest = test[ test[i].nextStep ];
                         
-                    }    
+                    } else {
+                        nextTest = test[ i ];
 
-                }    
+                    }   
+
+                } 
+                
+                
 
                 if (!test[i]) {
 
@@ -138,9 +147,7 @@ export default class DataSet {
                             newTest = (+((nextTest.allTotal  - test[i].allTotal)  / offset).toFixed() != 0) ? +((nextTest.allTotal  - test[i].allTotal)  / offset).toFixed() : newTest;
 
 
-                            let prev = (prevTest) ? prevTest : test[i];
-
-                            
+                            let prev = (prevTest) ? (+maxTestDate >= +i) ? prevTest : test[i] : test[i];
 
                             test[i] = {
                                 allNew : newTest,
@@ -155,7 +162,7 @@ export default class DataSet {
 
 
                         //} 
-                    }    
+                    }   
 
                 }    
 
