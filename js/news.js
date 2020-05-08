@@ -4,6 +4,7 @@ export default class News {
         
         
         this.data = {
+            20200508 : ["Роспотребнадзор рекомендовал приостановить раздельный сбор мусора на время пандемии","https://tjournal.ru/news/166786-rospotrebnadzor-rekomendoval-priostanovit-razdelnyy-sbor-musora-na-vremya-pandemii"],
             20200507 : ["Собянин: по выявляемости COVID-19 Москва превысила показатели Нью-Йорка", "https://ria.ru/20200507/1571087992.html"],
             20200506 : ["Россия стала пятой в мире по числу заболевших коронавирусом","https://www.fontanka.ru/2020/05/06/69243418/"],
             20200505 : ["Временные госпитали в Москве строят круглосуточно около 10 тысяч человек", "https://360tv.ru/news/obschestvo/vremennye-gospitali-v-moskve-strojat-kruglosutochno-okolo-10-tysjach-chelovek/"],
