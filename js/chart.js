@@ -299,7 +299,7 @@ export default class Chart {
 
                       let currentValue = data.value.y;
                       let prevValue = (data.series.data[data.index - 1]) ? data.series.data[data.index - 1] : 0;
-                      let differenceValue = currentValue - prevValue;  
+                      let differenceValue = Math.abs(currentValue - prevValue);  
 
                       if (data.series.name == 'newCases' && data.series.data[data.index - 4]) {
 
@@ -327,7 +327,7 @@ export default class Chart {
                       
                       
 
-                      return (_this._type == 'all') ? format(currentValue) : (differenceValue) ? `+${differenceValue}` : '';
+                      return (_this._type == 'all') ? format(currentValue) : `+${format(currentValue)}`;
                   }
                 })
               ],
