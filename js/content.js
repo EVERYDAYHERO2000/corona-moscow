@@ -37,7 +37,7 @@ export default class Content {
 
             
 
-            let tests = (current.tests.allTotal) ? (function(tests){
+            let tests = (current.tests && current.tests.allTotal) ? (function(tests){
 
                 let result = '';
 

@@ -78,127 +78,34 @@ export default class DataSet {
             const predict = data[2];
             const test = data[3];
             
-            const byDates = {};
+            let byDates = {};
+            let tests = {};
+
             const result = [];
+            const resultPredict = [];
             
-            statsToObj('city','moscow', byDates);
-            statsToObj('oblast','oblast', byDates);
+            byDates = statsToObj('city','moscow', byDates);
+            byDates = statsToObj('oblast','oblast', byDates);
+                   
+            tests = getTestData(test, (function(byDates){
 
+                let dates = [];
 
-            
-            let testCount = 0
-            let maxTest = 0;
-            let maxTestDate = null;
+                for (var i in byDates) {
 
-            for (var i in test) {
-                if (+i > +maxTest) maxTest = +i;
-
-                let next = null;
-                let date = +i;
-                
-                Object.entries(test).forEach(function(e){
-
-                    if (!next && +e[0] > date) {
-                        next = +e[0];
-                    }    
-
-                });
-
-                test[i].nextStep = next;
-                test[i].allTotal = test[i].moscowTotal + test[i].oblastTotal;
-
-                maxTestDate = i;
-
-            }    
-
-            let lastTest = null;
-            let prevTest = null;
-            let nextTest = null;
-            let newTest = null;
-            
-
-            for (var i in byDates) {
-
-                if (test[i]) {
-                    lastTest = test[i];
-
-                    if (test[i].nextStep) {
-                        nextTest = test[ test[i].nextStep ];
-                        
-                    } else {
-                        nextTest = test[ i ];
-
-                    }   
-
-                } 
-                
-                
-
-                if (!test[i]) {
-
-                    test[i] = JSON.parse(JSON.stringify(lastTest)) || {};
-
-                    let offset = 7;
-
-                    if (nextTest) {
-
-                        //if (!test[i].allNew) {
-
-                            newTest = (+((nextTest.allTotal  - test[i].allTotal)  / offset).toFixed() != 0) ? +((nextTest.allTotal  - test[i].allTotal)  / offset).toFixed() : newTest;
-
-
-                            let prev = (prevTest) ? (+maxTestDate >= +i) ? prevTest : test[i] : test[i];
-
-                            test[i] = {
-                                allNew : newTest,
-
-                                moscowTotal : prev.moscowTotal + +((nextTest.moscowTotal - test[i].moscowTotal) / offset).toFixed(),
-                                oblastTotal : prev.oblastTotal + +((nextTest.oblastTotal - test[i].oblastTotal) / offset).toFixed(),
-                                allTotal    : prev.allTotal + newTest
-                            }
-
-                            prevTest = test[i];
-
-
-
-                        //} 
-                    }   
-
-                }    
-
-            }
-
-            //console.log(test)            
-
-            
-        
-            
-            
-            let lastTestDate = null;
-
-            for (var i in byDates) {
-                
-                if ( test[i] ) {
-
-                byDates[i].tests = test[i];
-
-                lastTestDate = i;
-
-
-                } else {
-
-                    if (lastTestDate) {
-                        
-                        byDates[i].tests = test[lastTestDate];
-                        byDates[i].tests.lastStep = lastTestDate;
-
-                        
-
-                    }
+                    dates.push(i)
 
                 }
 
+                return dates;
 
+            })(byDates));
+            
+        
+
+            for (var i in byDates) {
+
+                byDates[i].tests = tests[i];
                 
 
                 if (!byDates[i].oblast) {
@@ -257,8 +164,7 @@ export default class DataSet {
             
             
             
-   
-            let lastkey = null;
+
             let lastMarkers = null
             
             for (var i in byDates) {
@@ -303,13 +209,44 @@ export default class DataSet {
                     
                 })(lastMarkers, byDates[i].moscow, i)
                 
-                lastkey = i;
+                
                 
                 result.push( byDates[i] );
                  
             }
+
+
+
+
             
-            
+            function getTestData(tests, dates) {
+                const res = {}
+          
+                Object.keys(tests).sort().reduce((startIndex, currentTestDate, i, testDates) => {
+                  let endIndex = dates.indexOf(currentTestDate);
+                  const days = endIndex - startIndex;
+                  endIndex = i == testDates.length - 1 ? dates.length - 1 : endIndex;
+          
+                  const previousTest = startIndex >= 0 ? tests[dates[startIndex]] : {}
+                  const dailyMoscow = parseInt((tests[currentTestDate].moscowTotal - (previousTest.moscowTotal || 0)) / days, 10);
+                  const dailyOblast = parseInt((tests[currentTestDate].oblastTotal - (previousTest.oblastTotal || 0)) / days, 10);
+          
+                  for (let i = startIndex + 1; i <= endIndex; i++) {
+                    const prevDate = i ? res[dates[i-1]] : {};
+                    const testData = tests[dates[i]] || {};
+          
+                    res[dates[i]] = {
+                      allNew: dailyMoscow + dailyOblast,
+                      moscowTotal: testData.moscowTotal || (prevDate.moscowTotal || 0) + dailyMoscow,
+                      oblastTotal: testData.oblastTotal || (prevDate.oblastTotal || 0) + dailyOblast,
+                      allTotal: (prevDate.allTotal || 0) + dailyMoscow + dailyOblast
+                    };
+                  }
+                  return endIndex;
+                }, -1);
+          
+                return res;
+              }
             
             
             function statsToObj(datakey, resultkey, resultobj){
@@ -356,11 +293,13 @@ export default class DataSet {
 
 
                 }
+
+                return resultobj;
                 
             }
             
 
-            const resultPredict = [];
+            
 
             let last = null
             
