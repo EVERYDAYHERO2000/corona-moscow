@@ -137,7 +137,10 @@ export default class DataSet {
 
                             newTest = (+((nextTest.allTotal  - test[i].allTotal)  / offset).toFixed() != 0) ? +((nextTest.allTotal  - test[i].allTotal)  / offset).toFixed() : newTest;
 
+
                             let prev = (prevTest) ? prevTest : test[i];
+
+                            
 
                             test[i] = {
                                 allNew : newTest,

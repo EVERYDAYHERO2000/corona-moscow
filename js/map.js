@@ -32,11 +32,11 @@ export default class Map {
             minZoom: 6
         });
 
-        this._canvasOverlay = L.canvasOverlay();
+
         this._map.setView([options.lat, options.lon], options.zoom);
         this._tileLayer.addTo(this._map);
-        this._canvasOverlay.addTo(this._map);
-        this._canvas = this._canvasOverlay.canvas();
+
+        
         this._markers = L.layerGroup().addTo(this._map);
         
         const controlsContainer = document.querySelector('.leaflet-control-zoom a:last-child');
@@ -87,48 +87,14 @@ export default class Map {
 
         }).on('zoomend', function(){
 
-            _this._map.invalidateSize(true)
+            _this._map.invalidateSize(true);
 
         });
 
 
 
 
-        this._gl = this._canvas.getContext('experimental-webgl', {
-            antialias: true
-        });
-        this._pixelsToWebGLMatrix = new Float32Array(16);
-        this._mapMatrix = new Float32Array(16);
-
-        const shader = new Shader();
-
-        const vertexShader = this._gl.createShader(this._gl.VERTEX_SHADER);
-        this._gl.shaderSource(vertexShader, shader.vertex);
-        this._gl.compileShader(vertexShader);
-
-        const fragmentShader = this._gl.createShader(this._gl.FRAGMENT_SHADER);
-        this._gl.shaderSource(fragmentShader, shader.fragment);
-        this._gl.compileShader(fragmentShader);
-
-        const program = this._gl.createProgram();
-        this._gl.attachShader(program, vertexShader);
-        this._gl.attachShader(program, fragmentShader);
-        this._gl.linkProgram(program);
-        this._gl.useProgram(program);
-
-        this._gl.blendFunc(this._gl.SRC_ALPHA, this._gl.ONE_MINUS_SRC_ALPHA);
-        this._gl.enable(this._gl.BLEND);
-
-        this._u_matLoc = this._gl.getUniformLocation(program, "u_matrix");
-        this._colorLoc = this._gl.getAttribLocation(program, "a_color");
-
-        this._vertLoc = this._gl.getAttribLocation(program, "a_vertex");
-        this._gl.aPointSize = this._gl.getAttribLocation(program, "a_pointSize");
-
-        this._pixelsToWebGLMatrix.set([2 / this._canvas.width, 0, 0, 0, 0, -2 / this._canvas.height, 0, 0, 0, 0, 0, 0, -1, 1, 0, 1]);
-        this._gl.viewport(0, 0, this._canvas.width, this._canvas.height);
-
-        this._gl.uniformMatrix4fv(this._u_matLoc, false, this._pixelsToWebGLMatrix);
+        
 
 
 
@@ -227,20 +193,7 @@ export default class Map {
 
 
 
-            const vertBuffer = this._gl.createBuffer();
-            const vertArray = new Float32Array(this._verts);
-            const fsize = vertArray.BYTES_PER_ELEMENT;
-
-            this._gl.bindBuffer(this._gl.ARRAY_BUFFER, vertBuffer);
-            this._gl.bufferData(this._gl.ARRAY_BUFFER, vertArray, this._gl.STATIC_DRAW);
-            this._gl.vertexAttribPointer(this._vertLoc, 2, this._gl.FLOAT, false, fsize * 5, 0);
-            this._gl.enableVertexAttribArray(this._vertLoc);
-
-            this._gl.vertexAttribPointer(this._colorLoc, 3, this._gl.FLOAT, false, fsize * 5, fsize * 2);
-            this._gl.enableVertexAttribArray(this._colorLoc);
-
-            this._canvasOverlay.drawing(drawingOnCanvas);
-            this._canvasOverlay.redraw();
+            
 
 
         }
@@ -253,93 +206,11 @@ export default class Map {
             return value;
         }
 
-        function drawingOnCanvas() {
-
-            _this._points = [];
-
-            if (_this._step <= _this._data.length - 1) {
-
-            for (var i = 0; i < _this._data[_this._step].points.total.length; i++) {
-
-
-                const dot = _this._data[_this._step].points.total[i];
-                const pixel = _this._map.latLngToContainerPoint([dot[0], dot[1]]);
-
-                _this._points.push({
-                    x : pixel.x,
-                    y : pixel.y,
-                    label : `${dot[3]}, ${dot[2]}`
-                });
-
-            }
-
-            }
-
-
-            _this._gl.clear(_this._gl.COLOR_BUFFER_BIT);
-
-            _this._pixelsToWebGLMatrix.set([2 / _this._canvas.width, 0, 0, 0, 0, -2 / _this._canvas.height, 0, 0, 0, 0, 0, 0, -1, 1, 0, 1]);
-            _this._gl.viewport(0, 0, _this._canvas.width, _this._canvas.height);
-
-            const pointSize = Math.max(_this._map.getZoom() - 4.0, 1.0) * _this._dpr;
-
-            _this._gl.vertexAttrib1f(_this._gl.aPointSize, pointSize);
-
-            _this._mapMatrix.set(_this._pixelsToWebGLMatrix);
-
-            const bounds = _this._map.getBounds();
-            const topLeft = new L.LatLng(bounds.getNorth(), bounds.getWest());
-            const offset = LatLongToPixelXY(topLeft.lat, topLeft.lng);
-
-            var scale = Math.pow(2, _this._map.getZoom());
-            scaleMatrix(_this._mapMatrix, scale, scale);
-
-            translateMatrix(_this._mapMatrix, -offset.x, -offset.y);
-
-            _this._gl.uniformMatrix4fv(_this._u_matLoc, false, _this._mapMatrix);
-            if (_this._vertsLength) _this._gl.drawArrays(_this._gl.POINTS, 0, _this._vertsLength);
 
 
 
-            function translateMatrix(matrix, tx, ty) {
-
-                matrix[12] += matrix[0] * tx + matrix[4] * ty;
-                matrix[13] += matrix[1] * tx + matrix[5] * ty;
-                matrix[14] += matrix[2] * tx + matrix[6] * ty;
-                matrix[15] += matrix[3] * tx + matrix[7] * ty;
-            }
-
-            function scaleMatrix(matrix, scaleX, scaleY) {
-
-                matrix[0] *= scaleX;
-                matrix[1] *= scaleX;
-                matrix[2] *= scaleX;
-                matrix[3] *= scaleX;
-
-                matrix[4] *= scaleY;
-                matrix[5] *= scaleY;
-                matrix[6] *= scaleY;
-                matrix[7] *= scaleY;
-            }
-
-        }
 
 
-
-        function LatLongToPixelXY(latitude, longitude) {
-            var pi_180 = Math.PI / 180.0;
-            var pi_4 = Math.PI * 4;
-            var sinLatitude = Math.sin(latitude * pi_180);
-            var pixelY = (0.5 - Math.log((1 + sinLatitude) / (1 - sinLatitude)) / (pi_4)) * 256;
-            var pixelX = ((longitude + 180) / 360) * 256;
-
-            var pixel = {
-                x: pixelX * _this._dpr,
-                y: pixelY * _this._dpr
-            };
-
-            return pixel;
-        }
 
         return this;
 
