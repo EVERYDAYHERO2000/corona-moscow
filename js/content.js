@@ -39,18 +39,7 @@ export default class Content {
 
             let tests = (current.tests && current.tests.allTotal) ? (function(tests){
 
-                let result = '';
-
-                if (!tests.lastStep) {
-
-
-
-                    result = (tests.nextStep) ? `проведено <b>${format(tests.allTotal)}</b> тестов` : `проведено ~<b>${format(tests.allTotal)}</b> тестов`;
-
-                } else {
-
-                    result = `проведено более <b>${format(tests.allTotal)}</b> тестов`
-                }                   
+                let result = (tests.correctly) ? `проведено <b>${format(tests.allTotal)}</b> тестов` : `проведено ~<b>${format(tests.allTotal)}</b> тестов`;
 
                 return result
 

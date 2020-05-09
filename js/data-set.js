@@ -244,6 +244,17 @@ export default class DataSet {
                   }
                   return endIndex;
                 }, -1);
+
+                
+                for (var i in tests) {
+
+                    res[i].moscowTotal = tests[i].moscowTotal;
+                    res[i].oblastTotal = test[i].oblastTotal;
+                    res[i].allTotal = tests[i].moscowTotal + test[i].oblastTotal;
+                    res[i].correctly = true;
+
+                }
+
           
                 return res;
               }
