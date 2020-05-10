@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>Коронавирус в Москве</title>
+    <meta name="description" content="Хронология распространения COVID-19 в Москве и Московской области">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.min.css">
+    <script src="js/chartist.min.js"></script>
+    <script src="js/chartist-plugin-pointlabels.min.js"></script>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:url" content="https://corona-moscow.ru/">
+    <meta property="og:site_name" content="Коронавирус в Москве">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Коронавирус в Москве">
+    <meta property="og:description" content="Хронология распространения COVID-19 в Москве и Московской области">
+    <meta property="og:image" content="https://corona-moscow.ru/cover.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Коронавирус в Москве">
+    <meta name="twitter:description" content="Хронология распространения COVID-19 в Москве и Московской области">
+    <meta name="twitter:image" content="https://corona-moscow.ru/cover.png">
+    <meta name="twitter:url" content="https://corona-moscow.ru/">
+    
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+       m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+       (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+       ym(61848943, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+       });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/61848943" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+    
+  </head>
+  <body style="overflow: auto;" class="metrics-page">
+
+    <div class="screen">
+        <div class="screen__description">
+            <h3>Всего</h3>
+            <p></p>
+        </div>    
+        <div id="allCases" class="chart"></div>
+    </div>    
+
+    <div class="screen">
+        <div class="screen__description">
+            <h3>Новые</h3>
+            <p>Суточная динамика новых заболевших, выздоровлений и смертей</p>
+        </div>
+        <div id="newCases" class="chart"></div>
+    </div>
+
+    <div class="screen">
+        <div class="screen__description">
+            <h3>Тестирование</h3>
+            <p>Суточный прирост тестов и выявленных случаев</p>
+        </div>
+        <div id="testsPerPeriod" class="chart"></div>
+    </div>    
+
+    <div class="screen">
+        <div class="screen__description">
+            <h3>Выявляемость</h3>
+            <p>Выявляемость новых случаев к результатам тестирования в процентах</p>
+        </div>
+        <div id="detectability" class="chart"></div>
+    </div>
+
+    <div class="screen">
+        <div class="screen__description">
+            <h3>Летальность</h3>
+            <p>Консервативная оценка летальности — в данном случае это выраженный в процентах показатель на дату отчёта, который считается как отношение «всего смертей» к «всего выбыло»</p>
+        </div>
+        <div id="mortalyty" class="chart"></div>
+    </div>
+
+    <script src="js/metrics.js" type="module"></script>
+    
+  </body>
+</html>

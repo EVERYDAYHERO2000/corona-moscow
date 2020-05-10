@@ -1113,20 +1113,24 @@ canvas {
   text-shadow: 1px 0 0 rgba(255, 255, 255, 0.5), -1px 0 0 rgba(255, 255, 255, 0.5), 0 1px 0 rgba(255, 255, 255, 0.5), 0 -1px 0 rgba(255, 255, 255, 0.5), 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
 }
 
-#chart {
+#chart, .chart {
   height: 380px;
   width: 100%;
+  pointer-events: none;
+}
+
+#chart {
   position: absolute;
   bottom: 35px;
   z-index: 1000;
+  width: 100%;
+}
+
+#chart svg, .chart svg {
   pointer-events: none;
 }
 
-#chart svg {
-  pointer-events: none;
-}
-
-#chart *:not(.ct-point) {
+#chart *:not(.ct-point), .chart *:not(.ct-point) {
   pointer-events: none;
 }
 
@@ -1187,7 +1191,13 @@ canvas {
   stroke-linejoin: round;
 }
 
-.ct-cases, .ct-newCases {
+.ct-cases, .ct-newCases, .ct-casesDetectability {
+  stroke: red;
+  fill: none;
+  stroke-width: 3px;
+}
+
+.ct-casesPerPopulation {
   stroke: red;
   fill: none;
   stroke-width: 3px;
@@ -1220,7 +1230,7 @@ canvas {
   fill: none;
 }
 
-.ct-deaths {
+.ct-deaths, .ct-mortalyty {
   stroke: rgba(0, 0, 0, 0.8);
   fill: none;
   stroke-width: 3px;
@@ -1241,7 +1251,7 @@ canvas {
   display: none;
 }
 
-.ct-cases .ct-label, .ct-newCases .ct-label {
+.ct-series .ct-label, .ct-series .ct-label {
   display: none;
   stroke: none;
   stroke-width: 0;
@@ -1250,19 +1260,26 @@ canvas {
 }
 
 @media screen and (max-width: 500px) {
-  .ct-cases .ct-label, .ct-newCases .ct-label {
+  .ct-series .ct-label, .ct-series .ct-label {
     display: none;
   }
 }
 
-.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible {
+.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalyty .ct-label_visible {
   display: block;
 }
 
 @media screen and (max-width: 500px) {
-  .ct-cases .ct-label_visible, .ct-newCases .ct-label_visible {
+  .ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalyty .ct-label_visible {
     display: none;
   }
+}
+
+.ct-testPerPopulation {
+  stroke: #2196f3;
+  fill: none;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
 }
 
 @media screen and (max-width: 500px) {
@@ -1339,6 +1356,10 @@ canvas {
 
 #chart-controls .leaflet-bar > div:last-child {
   border-right: none;
+}
+
+.metrics-page .ct-point {
+  display: none !important;
 }
 
 #content {
@@ -1517,4 +1538,12 @@ span[data-legend="total-deaths"] b:before {
 .content__header div + .content__title {
   padding-bottom: 0px;
   padding-top: 15px;
+}
+
+.screen {
+  margin: 80px 0;
+}
+
+.screen__description {
+  margin: 0 40px 40px;
 }

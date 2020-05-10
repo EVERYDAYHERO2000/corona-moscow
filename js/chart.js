@@ -1,6 +1,8 @@
 export default class Chart {
 
-    constructor() {
+    constructor(id) {
+
+        this.id = id || '#chart';
 
         this._data = null;
         
@@ -37,6 +39,7 @@ export default class Chart {
         
         return this;
     }
+
     
     setData(data, predict, type) {
         
@@ -91,8 +94,9 @@ export default class Chart {
             let newCasesInterpolated = null;
             let newRecoveredInterpolated = null;
             let newDeathsInterpolated = null;
-            const tests = [];
-            const mortalyty = [];
+            const allTests = [];
+            const casesDetectability = [];
+            let mortalyty = [];
             const testPerPopulation = [];
             const casesPerPopulation = [];
             const predictionCasesPerPopulation = [];
@@ -136,7 +140,9 @@ export default class Chart {
                 newRecovered.push( data[i].moscowAndOblast.new.recovered );
                 allRecovered.push( data[i].moscowAndOblast.total.recovered );
 
-                tests.push( data[i].moscowAndOblast.total.cases / data[i].tests.allTotal * 100 );
+                allTests.push( data[i].tests.allTotal );
+
+                casesDetectability.push( data[i].moscowAndOblast.total.cases / data[i].tests.allTotal * 100 );
 
                 testPerPopulation.push( data[i].tests.allTotal / totalPopulation * 1000000 ); 
                 casesPerPopulation.push( data[i].moscowAndOblast.total.cases / totalPopulation * 1000000 );
@@ -222,6 +228,8 @@ export default class Chart {
                 }
                 
             }
+
+            mortalyty = interpolation(mortalyty, 3);
             
             let result = null;
 
@@ -295,26 +303,49 @@ export default class Chart {
             if (_this._type == 'test') {
                 result = [
                     {
-                        name : 'cases',
-                        data : casesPerPopulation
+                        name : 'testPerPopulation',
+                        data : allTests
                     },
                     {
-                        name : 'deaths',
-                        data : testPerPopulation
+                        name : 'cases',
+                        data : allCases
                     },
                     {
                         name : 'predictCases',
-                        data : predictionCasesPerPopulation
+                        data : predictAllCases
                     }
                 ]    
-            }    
+            }  
+            
+            if (_this._type == 'detectability') {
+
+                result = [
+                    {
+                        name : 'casesDetectability',
+                        data : casesDetectability
+                    }
+                ]
+
+            }
+
+            if (_this._type == 'mortalyty') {
+
+                result = [
+                    {
+                        name : 'mortalyty',
+                        data : mortalyty
+                    }
+                ]
+
+            }
 
             return result;
               
         })(this._data, this._predict);
 
+        let id = this.id || '#chart';
         
-        this._chart = new Chartist.Line('#chart', {
+        this._chart = new Chartist.Line(id, {
             labels: labels,
             series: series
         }, {
@@ -333,14 +364,18 @@ export default class Chart {
                 },
                 'newCases': {
                     lineSmooth: Chartist.Interpolation.none()
-                }
+                },
+                'mortalyty': {
+                    lineSmooth: Chartist.Interpolation.none()
+                }  
             },
             plugins: [
                 Chartist.plugins.ctPointLabels({
                   textAnchor: 'middle',
                   labelInterpolationFnc: function(data) {
+
+                      let result = '';  
                       
-                      if (data.series.name == 'predictCases') return '';//`прогноз ${Math.floor(data.value.y/100)*100}`;
 
                       let currentValue = data.value.y;
                       let prevValue = (data.series.data[data.index - 1]) ? data.series.data[data.index - 1] : 0;
@@ -362,22 +397,49 @@ export default class Chart {
                        
                          }    
 
+                         result = `+${format(currentValue)}`;
+
                       }
 
                       if (data.series.name == 'cases' && data.index%5 == 0 ) {
 
                         data.element._node.nextSibling.classList.add('ct-label_visible');
 
-                      }
-                      
-                      
+                        result = format(currentValue)
 
-                      return (_this._type == 'all') ? format(currentValue) : `+${format(currentValue)}`;
+                      }
+
+                      if (data.series.name == 'testPerPopulation' && data.index%5 == 0 ) {
+
+                        data.element._node.nextSibling.classList.add('ct-label_visible');
+
+                        result = format(currentValue)
+
+                      }
+
+                      if (data.series.name == 'casesDetectability' && data.index%5 == 0 ) {
+                        
+                        data.element._node.nextSibling.classList.add('ct-label_visible');
+
+                        result = `${currentValue.toFixed(2)}%`  
+
+                      }
+
+                      if (data.series.name == 'mortalyty' && data.index%5 == 0 ) {
+
+                        data.element._node.nextSibling.classList.add('ct-label_visible');
+
+                        result = `${currentValue.toFixed(2)}%`
+
+                      } 
+
+                      return result;
                   }
                 })
               ],
             chartPadding: {
-                right: 40
+                right: (_this.id == '#chart') ? 40 : 80,
+                left: (_this.id == '#chart') ? 20 : 40
             },
             low: 0
         });
@@ -394,7 +456,7 @@ export default class Chart {
         
         this._chart.on('created', function(e,i) {
 
-            const lines = document.querySelectorAll('.ct-series');
+            const lines = document.querySelectorAll(`${_this.id} .ct-series`);
 
             for (var l of lines) {
 
@@ -404,8 +466,8 @@ export default class Chart {
 
             }
                 
-            const points = document.querySelectorAll('.ct-cases .ct-point, .ct-newCases .ct-point');
-            const dateLabels = document.querySelectorAll('.ct-label.ct-horizontal');
+            const points = document.querySelectorAll(`${_this.id} .ct-cases .ct-point, ${_this.id} .ct-newCases .ct-point`);
+            const dateLabels = document.querySelectorAll(`${_this.id} .ct-label.ct-horizontal`);
             
             dateLabels[0].classList.add('visible');    
             dateLabels[_this._data.length - 1].classList.add('visible');

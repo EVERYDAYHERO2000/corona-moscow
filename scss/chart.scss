@@ -1,13 +1,17 @@
-#chart {
+#chart, .chart {
     height: 380px;
     width: 100%;
-    position: absolute;
-    bottom: 35px;
-    z-index: 1000;
     pointer-events: none;
 }
 
-#chart svg {
+#chart {
+    position: absolute;
+    bottom: 35px;
+    z-index: 1000;
+    width: 100%;
+}
+
+#chart svg, .chart svg {
     pointer-events: none;
     
     @media screen and (max-width: 500px) {
@@ -16,7 +20,7 @@
     
 }
 
-#chart *:not(.ct-point) {
+#chart *:not(.ct-point), .chart *:not(.ct-point) {
     pointer-events: none;
 }
 
@@ -78,12 +82,18 @@
     stroke-linejoin : round;
 }
 
-.ct-cases, .ct-newCases {
+.ct-cases, .ct-newCases, .ct-casesDetectability {
     
     stroke: rgba(255,0,0, 1);
     fill: none;
     stroke-width: 3px;
     
+}
+
+.ct-casesPerPopulation {
+    stroke: rgba(255,0,0, 1);
+    fill: none;
+    stroke-width: 3px;   
 }
 
 .ct-newCasesInterpolated, .ct-predictNewCases {
@@ -116,7 +126,7 @@
     fill: none;
 }
 
-.ct-deaths {
+.ct-deaths, .ct-mortalyty {
     stroke: rgba(0,0,0, 0.8); 
     fill: none;
     stroke-width: 3px;
@@ -137,7 +147,7 @@
     display: none;
 }
 
-.ct-cases .ct-label, .ct-newCases .ct-label {
+.ct-series .ct-label, .ct-series .ct-label {
     display: none;
     stroke: none;
     stroke-width: 0;
@@ -149,13 +159,20 @@
     }
 }
 
-.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible {
+.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalyty .ct-label_visible {
     display: block;
 
     @media screen and (max-width: 500px) {
         display: none;    
     }
 }
+
+.ct-testPerPopulation {
+    stroke: rgb(33, 150, 243);
+    fill: none;
+    stroke-width: 2px;
+    stroke-dasharray: 3;
+} 
 
 
 .ct-vertical {
@@ -240,4 +257,9 @@
 
 #chart-controls .leaflet-bar > div:last-child {
     border-right:none;
+}
+
+.metrics-page .ct-point {
+    
+    display: none!important;
 }
