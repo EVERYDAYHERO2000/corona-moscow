@@ -70,6 +70,10 @@ export default class Chart {
         
         const series = (function (data, predict) {
 
+            const moscowPopulation = 12692466;
+            const oblastPopulation = 7690863;
+            const totalPopulation = moscowPopulation + oblastPopulation;
+
             const allCases = [];
             const newCases = [];
             const newDeaths = [];
@@ -87,6 +91,12 @@ export default class Chart {
             let newCasesInterpolated = null;
             let newRecoveredInterpolated = null;
             let newDeathsInterpolated = null;
+            const tests = [];
+            const mortalyty = [];
+            const testPerPopulation = [];
+            const casesPerPopulation = [];
+            const predictionCasesPerPopulation = [];
+            
             
 
             
@@ -125,6 +135,16 @@ export default class Chart {
                 allDeaths.push( data[i].moscowAndOblast.total.deaths );
                 newRecovered.push( data[i].moscowAndOblast.new.recovered );
                 allRecovered.push( data[i].moscowAndOblast.total.recovered );
+
+                tests.push( data[i].moscowAndOblast.total.cases / data[i].tests.allTotal * 100 );
+
+                testPerPopulation.push( data[i].tests.allTotal / totalPopulation * 1000000 ); 
+                casesPerPopulation.push( data[i].moscowAndOblast.total.cases / totalPopulation * 1000000 );
+                
+                mortalyty.push( data[i].moscowAndOblast.total.deaths / (data[i].moscowAndOblast.total.deaths + data[i].moscowAndOblast.total.recovered) * 100 );
+
+                
+
             }
             
             newCasesInterpolated = interpolation(newCases, 10);
@@ -158,8 +178,12 @@ export default class Chart {
             let offsetAllDeath = (allDeaths[allDeaths.length - 1] > predict[allDeaths.length - 1].value.deaths ) ? 
                 (allDeaths[allDeaths.length - 1] - predict[allDeaths.length - 1].value.deaths) : 
                 -(predict[allDeaths.length - 1].value.deaths - allDeaths[allDeaths.length - 1]); 
+
+            let offsetAllCasePerPopulation = (casesPerPopulation[casesPerPopulation.length - 1] > (predict[casesPerPopulation.length - 1].value.cases / totalPopulation * 1000000) ) ? 
+                (casesPerPopulation[casesPerPopulation.length - 1] - (predict[casesPerPopulation.length - 1].value.cases / totalPopulation * 1000000 )) : 
+                -( (predict[casesPerPopulation.length - 1].value.cases / totalPopulation * 1000000 )  - casesPerPopulation[casesPerPopulation.length - 1]);    
             
-            let offsetActive = offsetAllDeath + offsetAllRecovered;
+            
             
             
             for (var i = 0; i < predict.length; i++) {
@@ -177,6 +201,8 @@ export default class Chart {
                         predictAllDeaths.push(predict[i].value.deaths + offsetAllDeath);
                         predictAllRecovered.push(predict[i].value.recovered + offsetAllRecovered);
                         predictActive.push( (predict[i].value.cases + offsetAllCase) - (predict[i].value.recovered + offsetAllRecovered) - (predict[i].value.deaths + offsetAllDeath) );
+
+                        predictionCasesPerPopulation.push( (predict[i].value.cases / totalPopulation * 1000000 ) + offsetAllCasePerPopulation);
                         
                     }
                     
@@ -190,6 +216,8 @@ export default class Chart {
                     predictAllDeaths.push(null);
                     predictAllRecovered.push(null);
                     predictActive.push(null);
+
+                    predictionCasesPerPopulation.push(null);
                     
                 }
                 
@@ -263,6 +291,23 @@ export default class Chart {
                 ];
 
             }
+
+            if (_this._type == 'test') {
+                result = [
+                    {
+                        name : 'cases',
+                        data : casesPerPopulation
+                    },
+                    {
+                        name : 'deaths',
+                        data : testPerPopulation
+                    },
+                    {
+                        name : 'predictCases',
+                        data : predictionCasesPerPopulation
+                    }
+                ]    
+            }    
 
             return result;
               
