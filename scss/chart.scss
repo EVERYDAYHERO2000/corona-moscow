@@ -126,8 +126,14 @@
     fill: none;
 }
 
-.ct-deaths, .ct-mortalyty {
+.ct-deaths, .ct-mortalytyRate_1 {
     stroke: rgba(0,0,0, 0.8); 
+    fill: none;
+    stroke-width: 3px;
+}
+
+.ct-mortalytyRate_2 {
+    stroke: rgba(0,0,0, 0.5); 
     fill: none;
     stroke-width: 3px;
 }
@@ -159,7 +165,7 @@
     }
 }
 
-.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalyty .ct-label_visible {
+.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalytyRate_1 .ct-label_visible, .ct-mortalytyRate_2 .ct-label_visible {
     display: block;
 
     @media screen and (max-width: 500px) {

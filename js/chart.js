@@ -96,8 +96,8 @@ export default class Chart {
             let newDeathsInterpolated = null;
             const allTests = [];
             const casesDetectability = [];
-            let mortalyty = [];
-            let fatality = [];
+            let mortalytyRate_1 = [];
+            let mortalytyRate_2 = [];
             const testPerPopulation = [];
             const casesPerPopulation = [];
             const predictionCasesPerPopulation = [];
@@ -148,8 +148,8 @@ export default class Chart {
                 testPerPopulation.push( data[i].tests.allTotal / totalPopulation * 1000000 ); 
                 casesPerPopulation.push( data[i].moscowAndOblast.total.cases / totalPopulation * 1000000 );
                 
-                mortalyty.push( data[i].moscowAndOblast.total.deaths / (data[i].moscowAndOblast.total.deaths + data[i].moscowAndOblast.total.recovered) * 100 );
-                fatality.push( data[i].moscowAndOblast.total.deaths / data[i].moscowAndOblast.total.cases * 100 );
+                mortalytyRate_1.push( data[i].moscowAndOblast.total.deaths / (data[i].moscowAndOblast.total.deaths + data[i].moscowAndOblast.total.recovered) * 100 );
+                mortalytyRate_2.push( data[i].moscowAndOblast.total.deaths / data[i].moscowAndOblast.total.cases * 100 );
                 
             }
             
@@ -332,12 +332,12 @@ export default class Chart {
 
                 result = [
                     {
-                        name : 'mortalyty',
-                        data : mortalyty
+                        name : 'mortalytyRate_1',
+                        data : mortalytyRate_1
                     },
                     {
-                        name : 'mortalyty',
-                        data : fatality
+                        name : 'mortalytyRate_2',
+                        data : mortalytyRate_2
                     }
                 ]
 
@@ -369,10 +369,10 @@ export default class Chart {
                 'newCases': {
                     lineSmooth: Chartist.Interpolation.none()
                 },
-                'mortalyty': {
+                'mortalytyRate_1': {
                     lineSmooth: Chartist.Interpolation.none()
                 },
-                'fatality': {
+                'mortalytyRate_2': {
                     lineSmooth: Chartist.Interpolation.none()
                 }   
             },
@@ -432,7 +432,7 @@ export default class Chart {
 
                       }
 
-                      if (data.series.name == 'mortalyty' && data.index%5 == 0 ) {
+                      if (data.series.name == 'mortalytyRate_1' && data.index%5 == 0 ) {
 
                         data.element._node.nextSibling.classList.add('ct-label_visible');
 

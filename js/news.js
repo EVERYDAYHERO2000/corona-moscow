@@ -4,6 +4,7 @@ export default class News {
         
         
         this.data = {
+            20200511 : ["Путин объявил о завершении 12 мая периода нерабочих дней в России","https://www.interfax.ru/russia/708138"],
             20200509 : ["В больнице для пациентов с коронавирусом на севере Москвы произошел пожар", "https://tass.ru/proisshestviya/8437241"],
             20200508 : ["Роспотребнадзор рекомендовал приостановить раздельный сбор мусора на время пандемии","https://tjournal.ru/news/166786-rospotrebnadzor-rekomendoval-priostanovit-razdelnyy-sbor-musora-na-vremya-pandemii"],
             20200507 : ["Собянин: по выявляемости COVID-19 Москва превысила показатели Нью-Йорка", "https://ria.ru/20200507/1571087992.html"],
