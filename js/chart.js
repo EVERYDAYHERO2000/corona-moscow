@@ -97,6 +97,7 @@ export default class Chart {
             const allTests = [];
             const casesDetectability = [];
             let mortalyty = [];
+            let fatality = [];
             const testPerPopulation = [];
             const casesPerPopulation = [];
             const predictionCasesPerPopulation = [];
@@ -148,9 +149,8 @@ export default class Chart {
                 casesPerPopulation.push( data[i].moscowAndOblast.total.cases / totalPopulation * 1000000 );
                 
                 mortalyty.push( data[i].moscowAndOblast.total.deaths / (data[i].moscowAndOblast.total.deaths + data[i].moscowAndOblast.total.recovered) * 100 );
-
+                fatality.push( data[i].moscowAndOblast.total.deaths / data[i].moscowAndOblast.total.cases * 100 );
                 
-
             }
             
             newCasesInterpolated = interpolation(newCases, 10);
@@ -229,7 +229,7 @@ export default class Chart {
                 
             }
 
-            mortalyty = interpolation(mortalyty, 3);
+            
             
             let result = null;
 
@@ -334,6 +334,10 @@ export default class Chart {
                     {
                         name : 'mortalyty',
                         data : mortalyty
+                    },
+                    {
+                        name : 'mortalyty',
+                        data : fatality
                     }
                 ]
 
@@ -367,7 +371,10 @@ export default class Chart {
                 },
                 'mortalyty': {
                     lineSmooth: Chartist.Interpolation.none()
-                }  
+                },
+                'fatality': {
+                    lineSmooth: Chartist.Interpolation.none()
+                }   
             },
             plugins: [
                 Chartist.plugins.ctPointLabels({
