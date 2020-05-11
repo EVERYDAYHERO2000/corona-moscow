@@ -12,6 +12,7 @@ import setResponsiveHeight from "./responsiveHeight.js";
     const testsPerPeriod = new Chart('#testsPerPeriod');
     const detectability = new Chart('#detectability');
     const mortalyty = new Chart('#mortalyty');
+    const rate = new Chart('#rate');
 
     dataSet.load(function(data, predict){
 
@@ -19,11 +20,14 @@ import setResponsiveHeight from "./responsiveHeight.js";
 
         newCases.setData(data, predict, 'new');
 
+        rate.setData(data, predict, 'rate');
+
         testsPerPeriod.setData(data, predict, 'test');
 
         detectability.setData(data, predict, 'detectability');
 
         mortalyty.setData(data, predict, 'mortalyty');
+
 
     });
 

@@ -96,11 +96,13 @@ export default class Chart {
             let newDeathsInterpolated = null;
             const allTests = [];
             const casesDetectability = [];
-            let mortalytyRate_1 = [];
-            let mortalytyRate_2 = [];
-            const testPerPopulation = [];
-            const casesPerPopulation = [];
-            const predictionCasesPerPopulation = [];
+            const mortalytyRate_1 = [];
+            const mortalytyRate_2 = [];
+            let mortalytyRate_3 = [];
+
+            const casesRate = [];
+            const recoveredRate = [];
+            const deathsRate = [];
             
             
 
@@ -144,12 +146,19 @@ export default class Chart {
                 allTests.push( data[i].tests.allTotal );
 
                 casesDetectability.push( data[i].moscowAndOblast.total.cases / data[i].tests.allTotal * 100 );
-
-                testPerPopulation.push( data[i].tests.allTotal / totalPopulation * 1000000 ); 
-                casesPerPopulation.push( data[i].moscowAndOblast.total.cases / totalPopulation * 1000000 );
                 
                 mortalytyRate_1.push( data[i].moscowAndOblast.total.deaths / (data[i].moscowAndOblast.total.deaths + data[i].moscowAndOblast.total.recovered) * 100 );
                 mortalytyRate_2.push( data[i].moscowAndOblast.total.deaths / data[i].moscowAndOblast.total.cases * 100 );
+                mortalytyRate_3.push( ( ( data[i].moscowAndOblast.total.deaths / (data[i].moscowAndOblast.total.deaths + data[i].moscowAndOblast.total.recovered) ) + ( data[i].moscowAndOblast.total.deaths / data[i].moscowAndOblast.total.cases ) ) / 2 * 100 );
+
+                let prevDay = (data[i - 1]) ? data[i - 1] : data[i];
+
+                casesRate.push( (data[i].moscowAndOblast.total.cases / prevDay.moscowAndOblast.total.cases * 100) - 100 );
+                recoveredRate.push( (data[i].moscowAndOblast.total.recovered / prevDay.moscowAndOblast.total.recovered * 100) - 100 );
+                deathsRate.push( (data[i].moscowAndOblast.total.deaths / prevDay.moscowAndOblast.total.deaths * 100) - 100 );
+
+                
+
                 
             }
             
@@ -157,6 +166,8 @@ export default class Chart {
             newRecoveredInterpolated = interpolation(newRecovered, 10);
             newDeathsInterpolated = interpolation(newDeaths, 10);   
 
+
+            mortalytyRate_3 = interpolation(mortalytyRate_3, 3);
             
             
             
@@ -185,9 +196,6 @@ export default class Chart {
                 (allDeaths[allDeaths.length - 1] - predict[allDeaths.length - 1].value.deaths) : 
                 -(predict[allDeaths.length - 1].value.deaths - allDeaths[allDeaths.length - 1]); 
 
-            let offsetAllCasePerPopulation = (casesPerPopulation[casesPerPopulation.length - 1] > (predict[casesPerPopulation.length - 1].value.cases / totalPopulation * 1000000) ) ? 
-                (casesPerPopulation[casesPerPopulation.length - 1] - (predict[casesPerPopulation.length - 1].value.cases / totalPopulation * 1000000 )) : 
-                -( (predict[casesPerPopulation.length - 1].value.cases / totalPopulation * 1000000 )  - casesPerPopulation[casesPerPopulation.length - 1]);    
             
             
             
@@ -208,7 +216,7 @@ export default class Chart {
                         predictAllRecovered.push(predict[i].value.recovered + offsetAllRecovered);
                         predictActive.push( (predict[i].value.cases + offsetAllCase) - (predict[i].value.recovered + offsetAllRecovered) - (predict[i].value.deaths + offsetAllDeath) );
 
-                        predictionCasesPerPopulation.push( (predict[i].value.cases / totalPopulation * 1000000 ) + offsetAllCasePerPopulation);
+                        
                         
                     }
                     
@@ -222,8 +230,6 @@ export default class Chart {
                     predictAllDeaths.push(null);
                     predictAllRecovered.push(null);
                     predictActive.push(null);
-
-                    predictionCasesPerPopulation.push(null);
                     
                 }
                 
@@ -338,6 +344,29 @@ export default class Chart {
                     {
                         name : 'mortalytyRate_2',
                         data : mortalytyRate_2
+                    },
+                    {
+                        name : 'mortalytyRate_3',
+                        data : mortalytyRate_3
+                    }
+                ]
+
+            }
+
+            if (_this._type == 'rate') {
+
+                result = [
+                    {
+                        name : 'cases',
+                        data : casesRate
+                    },
+                    {
+                        name : 'recovered',
+                        data : recoveredRate
+                    },
+                    {
+                        name : 'deaths',
+                        data : deathsRate
                     }
                 ]
 
