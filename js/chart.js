@@ -45,6 +45,8 @@ export default class Chart {
         
         
         const _this = this;
+
+
         
         this._type = type;
         this._predict = predict;
@@ -52,6 +54,10 @@ export default class Chart {
         this._predictLength = 13;
 
         this._step = this._data.length - 1;
+
+
+        this._x1 = null;
+        this._x2 = null;
         
         
         const labels = this._labels || (function (data, predict) {
@@ -70,6 +76,8 @@ export default class Chart {
         })(this._data, this._predict);   
         
         this._labels = labels;
+
+        this._points = [];
         
         const series = (function (data, predict) {
 
@@ -244,27 +252,43 @@ export default class Chart {
                 result = [
                     {
                         name : 'deaths',
+                        meta : 'смертей',
+                        color: 'black',
                         data : allDeaths
                     }, {
                         name : 'recovered',
+                        meta : 'выздоровлений',
+                        color: 'green',
                         data : allRecovered 
                     }, {
                         name : 'cases',
+                        meta : 'заражений',
+                        color: 'red',
                         data : allCases
                     }, {
                         name : 'active',
+                        meta : 'болеют',
+                        color: 'red-light',
                         data : activeCases
                     }, {
                         name : 'predictCases',
+                        meta : 'прогноз заражений',
+                        color: 'red',
                         data : predictAllCases
                     }, {
                         name : 'predictRedcovered',
+                        meta : 'прогноз выздоровлений',
+                        color: 'green',
                         data : predictAllRecovered
                     }, {
                         name : 'predictActive',
+                        meta : 'прогноз болеющих',
+                        color: 'red-light',
                         data : predictActive
                     }, {
                         name : 'predictDeaths',
+                        meta : 'прогноз смертей',
+                        color: 'black',
                         data : predictAllDeaths
                     }
                 ];
@@ -276,30 +300,45 @@ export default class Chart {
                 result = [
                     {
                         name : 'deaths',
+                        meta : 'смертей',
+                        color: 'black',
                         data : newDeaths
                     }, {
                         name : 'newDeathsInterpolated',
+                        off : true,
                         data : newDeathsInterpolated
                     }, {
                         name : 'predictNewDeaths',
+                        meta : 'прогноз смертей',
+                        color: 'black',
                         data : predictNewDeaths
                     }, {
                         name : 'recovered',
+                        meta : 'выздоровлений',
+                        color: 'green',
                         data : newRecovered
                     }, {
                         name : 'newCasesInterpolated',
+                        off : true,
                         data : newCasesInterpolated
                     },{
                         name : 'predictNewCases',
+                        meta : 'прогноз заражений',
+                        color: 'red',
                         data : predictNewCases
                     }, {
                         name : 'newRecoveredInterpolated',
+                        off : true,
                         data : newRecoveredInterpolated    
                     }, {
                         name : 'predictNewRecovered',
+                        meta : 'прогноз выздоровлений',
+                        color: 'green',
                         data : predictNewRecovered    
                     }, {
                         name : 'newCases',
+                        meta : 'заражений',
+                        color: 'red',
                         data : newCases
                     }
                 ];
@@ -310,14 +349,20 @@ export default class Chart {
                 result = [
                     {
                         name : 'testPerPopulation',
+                        meta : 'тестов',
+                        color: 'blue',
                         data : allTests
                     },
                     {
                         name : 'cases',
+                        meta : 'заражений',
+                        color: 'red',
                         data : allCases
                     },
                     {
                         name : 'predictCases',
+                        meta : 'прогноз заражений',
+                        color: 'red',
                         data : predictAllCases
                     }
                 ]    
@@ -328,6 +373,9 @@ export default class Chart {
                 result = [
                     {
                         name : 'casesDetectability',
+                        meta : 'выявляемость',
+                        color: 'red',
+                        unit : 'percent',
                         data : casesDetectability
                     }
                 ]
@@ -339,14 +387,23 @@ export default class Chart {
                 result = [
                     {
                         name : 'mortalytyRate_1',
+                        meta : 'летальность 1',
+                        color: 'black',
+                        unit : 'percent',
                         data : mortalytyRate_1
                     },
                     {
                         name : 'mortalytyRate_2',
+                        meta : 'летальность 2 (ВОЗ)',
+                        color: 'black-light',
+                        unit : 'percent',
                         data : mortalytyRate_2
                     },
                     {
                         name : 'mortalytyRate_3',
+                        meta : 'летальность 3',
+                        color: 'black',
+                        unit : 'percent',
                         data : mortalytyRate_3
                     }
                 ]
@@ -358,14 +415,23 @@ export default class Chart {
                 result = [
                     {
                         name : 'cases',
+                        meta : 'заражений',
+                        color: 'red',
+                        unit : 'percent',
                         data : casesRate
                     },
                     {
                         name : 'recovered',
+                        meta : 'выздоровлений',
+                        color: 'green',
+                        unit : 'percent',
                         data : recoveredRate
                     },
                     {
                         name : 'deaths',
+                        meta : 'смертей',
+                        color: 'black',
+                        unit : 'percent',
                         data : deathsRate
                     }
                 ]
@@ -385,12 +451,10 @@ export default class Chart {
             fullWidth: true,
             series: {
                 'deaths': {
-                    lineSmooth: Chartist.Interpolation.none(),
-                    showPoint: false
+                    lineSmooth: Chartist.Interpolation.none()
                 },
                 'recovered': {
-                    lineSmooth: Chartist.Interpolation.none(),
-                    showPoint: false
+                    lineSmooth: Chartist.Interpolation.none()
                 },
                 'cases': {
                     lineSmooth: Chartist.Interpolation.none()
@@ -413,6 +477,7 @@ export default class Chart {
                       let result = '';  
                       
 
+
                       let currentValue = data.value.y;
                       let prevValue = (data.series.data[data.index - 1]) ? data.series.data[data.index - 1] : 0;
                       let differenceValue = Math.abs(currentValue - prevValue);  
@@ -434,6 +499,31 @@ export default class Chart {
                          }    
 
                          result = `+${format(currentValue)}`;
+
+                      }
+
+                      _this._points.push({
+                          series : data.series,
+                          meta : (data.series.meta) ? data.series.meta : '',
+                          value : (data.series.unit && data.series.unit == 'percent') ? `${data.value.y.toFixed(2)}%` : format(data.value.y),
+                          off : (data.series.off) ? data.series.off : false,
+                          color : (data.series.color) ? data.series.color : null,
+                          x : data.x,
+                          elem : data.element._node,
+                          date : data.axisX.ticks[data.index]
+                      });
+
+                      if (!_this._x1) {
+
+                        _this._x1 = data.x
+
+                      } else {
+
+                        if (!_this._x2) {
+
+                            _this._x2 = data.x
+
+                        }    
 
                       }
 
@@ -480,6 +570,7 @@ export default class Chart {
             low: 0
         });
 
+       
 
         function format(value) {
 
@@ -494,6 +585,8 @@ export default class Chart {
 
             const lines = document.querySelectorAll(`${_this.id} .ct-series`);
 
+            let hoverTimer = null;
+
             for (var l of lines) {
 
                 let name = l.getAttribute('ct:series-name')
@@ -503,6 +596,7 @@ export default class Chart {
             }
                 
             const points = document.querySelectorAll(`${_this.id} .ct-cases .ct-point, ${_this.id} .ct-newCases .ct-point`);
+
             const dateLabels = document.querySelectorAll(`${_this.id} .ct-label.ct-horizontal`);
             
             dateLabels[0].classList.add('visible');    
@@ -514,6 +608,8 @@ export default class Chart {
             for (var p of points) {
                 
                 p.setAttribute('data-step', count);
+
+
                 
                 count++
             
@@ -541,7 +637,102 @@ export default class Chart {
             
             _this.setStep(_this._data.length - 1);
 
+            
+
+
+            /////
+
+            const screen = document.querySelector(_this.id).closest('.screen');
+
+        if (screen) {
+
+            const chart = screen.querySelector(_this.id);
+
+            let horisontalLine  = document.createElement('div');
+            horisontalLine.classList.add('screen__horisontalLine');
+            chart.appendChild(horisontalLine);
+
+            screen.addEventListener('mousemove',function(e){
+
+                horisontalLine.style.transform = `translateX(${e.screenX - 40}px)`
+                
+                clearInterval(hoverTimer);
+
+                hoverTimer = setInterval(function(){
+
+                    let date = '';
+
+                    let content = '';
+
+                for (var el = 0; el < _this._points.length; el++) {
+
+                    let elem = _this._points[el].elem;
+
+                    let position = _this._points[el].x + 40;
+
+                    let d = _this._x2 - _this._x1;
+
+                    
+
+                    if ( position > e.screenX - d && position < e.screenX ){
+
+                        if (!_this._points[el].off) {
+
+                            date = _this._points[el].date;
+
+                            content += `<div class="color-${_this._points[el].color}">${_this._points[el].value} ${_this._points[el].meta}</div>`;
+                        
+                            elem.classList.add('ct-point_hover');
+
+                        }
+
+                    } else {
+
+                        elem.classList.remove('ct-point_hover');  
+
+                    }
+                    
+
+                }
+
+                    horisontalLine.innerHTML = (date) ? `<div class="screen__graph-description"><div>${date}</div>${content}</div>` : '';
+
+                clearInterval(hoverTimer);
+
+                },10)
+                
+                
+
+            
+
+            })
+            
+            screen.addEventListener('mouseout',function(e){
+
+                for (var el = 0; el < _this._points.length; el++) {
+
+                    let elem = _this._points[el].elem;
+
+                    elem.classList.remove('ct-point_hover');    
+
+                }
+                
+                clearInterval(hoverTimer);
+
+            });    
+
+        }
+
+
+            /////
+
+
         });
+
+        
+
+        
+
 
         if (!_this._controls){
 

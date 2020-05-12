@@ -1372,7 +1372,14 @@ canvas {
 }
 
 .metrics-page .ct-point {
-  display: none !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.metrics-page .ct-point.ct-point_hover {
+  opacity: 1;
+  stroke-width: 5px;
+  stroke-linecap: round;
 }
 
 #content {
@@ -1555,8 +1562,109 @@ span[data-legend="total-deaths"] b:before {
 
 .screen {
   margin: 80px 0;
+  line-height: 1.6;
+}
+
+.screen .chart {
+  position: relative;
+  overflow: hidden;
 }
 
 .screen__description {
   margin: 0 40px 40px;
+}
+
+.screen__horisontalLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  border-left: 1px dotted rgba(0, 0, 0, 0.5);
+}
+
+.screen__graph-description {
+  font-size: 12px;
+  min-width: 200px;
+  transform: translate(5px, 5px);
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: absolute;
+}
+
+.screen__graph-description_right {
+  transform: translate(5px, 5px);
+  right: 0;
+}
+
+.screen__graph-description > div {
+  word-break: keep-all;
+  word-wrap: none;
+  white-space: nowrap;
+  padding: 5px;
+}
+
+.color-red:before {
+  content: '';
+  display: inline-block;
+  margin: 0 5px 0 0;
+  background-color: red;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.color-red-light:before {
+  content: '';
+  display: inline-block;
+  margin: 0 5px 0 0;
+  background-color: rgba(255, 0, 0, 0.4);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.color-green:before {
+  content: '';
+  display: inline-block;
+  margin: 0 5px 0 0;
+  background-color: rgba(44, 145, 56, 0.8);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.color-black:before {
+  content: '';
+  display: inline-block;
+  margin: 0 5px 0 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.color-black-light:before {
+  content: '';
+  display: inline-block;
+  margin: 0 5px 0 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.color-blue:before {
+  content: '';
+  display: inline-block;
+  margin: 0 5px 0 0;
+  background-color: #2196f3;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
 }

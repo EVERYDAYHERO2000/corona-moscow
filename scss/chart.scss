@@ -106,7 +106,7 @@
 }
 
 .ct-newRecoveredInterpolated, .ct-predictNewRecovered {
-    stroke: rgba(44, 145, 56, .8); ;
+    stroke: rgba(44, 145, 56, .8); 
     fill: none;
     stroke-width: 2px;
     stroke-dasharray: 3;
@@ -273,6 +273,14 @@
 }
 
 .metrics-page .ct-point {
-    
-    display: none!important;
+    opacity: 0;
+    pointer-events: none;
+    //display: none!important;
 }
+
+.metrics-page .ct-point.ct-point_hover {
+    opacity: 1;
+    stroke-width: 5px;
+    stroke-linecap: round;
+}
+
