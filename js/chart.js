@@ -153,9 +153,9 @@ export default class Chart {
 
                 let prevDay = (data[i - 1]) ? data[i - 1] : data[i];
 
-                casesRate.push( (data[i].moscowAndOblast.total.cases / prevDay.moscowAndOblast.total.cases * 100) - 100 );
-                recoveredRate.push( (data[i].moscowAndOblast.total.recovered / prevDay.moscowAndOblast.total.recovered * 100) - 100 );
-                deathsRate.push( (data[i].moscowAndOblast.total.deaths / prevDay.moscowAndOblast.total.deaths * 100) - 100 );
+                casesRate.push( (i > 20) ? (data[i].moscowAndOblast.total.cases / prevDay.moscowAndOblast.total.cases * 100) - 100 : null );
+                recoveredRate.push( (i > 20) ? (data[i].moscowAndOblast.total.recovered / prevDay.moscowAndOblast.total.recovered * 100) - 100 : null );
+                deathsRate.push( (i > 20) ? (data[i].moscowAndOblast.total.deaths / prevDay.moscowAndOblast.total.deaths * 100) - 100 : null );
 
                 
 
