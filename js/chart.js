@@ -598,7 +598,7 @@ export default class Chart {
 
             const zeroLine = document.querySelectorAll(`.screen ${_this.id} .ct-vertical`);
 
-            if (zeroLine) zeroLine[0].classList.add('ct-zero-line');
+            if (zeroLine.length) zeroLine[0].classList.add('ct-zero-line');
         
             let count = 0;
         
