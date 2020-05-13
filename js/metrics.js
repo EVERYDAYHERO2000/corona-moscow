@@ -7,6 +7,8 @@ import setResponsiveHeight from "./responsiveHeight.js";
 
     const dataSet = new DataSet();
 
+    const content = document.querySelector('#content-description');
+
     const allCases = new Chart('#allCases');
     const newCases = new Chart('#newCases');
     const testsPerPeriod = new Chart('#testsPerPeriod');
@@ -15,7 +17,18 @@ import setResponsiveHeight from "./responsiveHeight.js";
     const rate = new Chart('#rate');
     const age = new Chart('#age');
 
+    function format(value) {
+
+        value = (/\.\d/.test(value)) ? value + '' : value + '.00';
+        value = (value).replace(/\d(?=(\d{3})+\.)/g, '$& ').split('.')[0]
+        
+        return value;
+    }
+
     dataSet.load(function(data, predict){
+
+        content.innerHTML = `${data[data.length - 1].date} в Москве и МО выявили <b>${format(data[data.length - 1].moscowAndOblast.new.cases)}</b> новых случая коронавируса. Всего с ${data[0].date} выявлено <b>${format(data[data.length - 1].moscowAndOblast.total.cases)}</b> случая. За весь период зафиксировано <b>${format(data[data.length - 1].moscowAndOblast.total.deaths)}</b> летальных исходов, выздоровели <b>${format(data[data.length - 1].moscowAndOblast.total.recovered)}</b> человека.`
+
 
         allCases.setData(data, predict, 'all');
 
