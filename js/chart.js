@@ -398,13 +398,6 @@ export default class Chart {
                         color: 'black-light',
                         unit : 'percent',
                         data : mortalytyRate_2
-                    },
-                    {
-                        name : 'mortalytyRate_3',
-                        meta : 'летальность 3',
-                        color: 'black',
-                        unit : 'percent',
-                        data : mortalytyRate_3
                     }
                 ]
 
