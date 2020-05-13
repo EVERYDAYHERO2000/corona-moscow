@@ -635,15 +635,26 @@ export default class Chart {
 
             /////
 
-            const screen = document.querySelector(_this.id).closest('.screen');
+            const screen = document.querySelector(_this.id).closest('.screen:not(.screen_created)');
 
         if (screen) {
+
+
+            screen.classList.add('screen_created')
 
             const chart = screen.querySelector(_this.id);
 
             let horisontalLine  = document.createElement('div');
             horisontalLine.classList.add('screen__horisontalLine');
-            chart.appendChild(horisontalLine);
+
+            let screenGraphDescription = horisontalLine.querySelector('.screen__graph-description');
+
+            if (screenGraphDescription) {
+                screenGraphDescription.remove();
+                horisontalLine.innerHTML = '';
+            }  
+
+            if (!chart.querySelector('.screen__horisontalLine')) chart.appendChild(horisontalLine);
 
             screen.addEventListener('mousemove',function(e){
 
@@ -672,11 +683,15 @@ export default class Chart {
             });  
             
             function showInformation (e) {
+
+
                 horisontalLine.style.transform = `translateX(${e.clientX}px)`
                 
                 clearInterval(hoverTimer);
 
                 hoverTimer = setInterval(function(){
+
+                    horisontalLine.innerHTML = '';
 
                     let date = '';
 
