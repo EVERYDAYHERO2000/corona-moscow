@@ -654,7 +654,7 @@ export default class Chart {
 
             screen.addEventListener('mousemove',function(e){
 
-                horisontalLine.style.transform = `translateX(${e.screenX - 40}px)`
+                horisontalLine.style.transform = `translateX(${e.clientX}px)`
                 
                 clearInterval(hoverTimer);
 
@@ -668,13 +668,13 @@ export default class Chart {
 
                     let elem = _this._points[el].elem;
 
-                    let position = _this._points[el].x + 40;
+                    let position = _this._points[el].x;
 
                     let d = _this._x2 - _this._x1;
 
                     
 
-                    if ( position > e.screenX - d && position < e.screenX ){
+                    if ( position > e.clientX - d && position < e.clientX ){
 
                         if (!_this._points[el].off) {
 
@@ -696,6 +696,22 @@ export default class Chart {
                 }
 
                     horisontalLine.innerHTML = (date) ? `<div class="screen__graph-description"><div>${date}</div>${content}</div>` : '';
+
+                    let screenGraphDescription = horisontalLine.querySelector('.screen__graph-description');
+                    
+                    if (screenGraphDescription) {
+
+                        if (horisontalLine.getBoundingClientRect().left + screenGraphDescription.clientWidth > document.body.clientWidth) {
+                        
+                            screenGraphDescription.classList.add('screen__graph-description_right');
+
+                        } else {
+        
+                            screenGraphDescription.classList.remove('screen__graph-description_right');
+                            
+                        }
+
+                    }
 
                 clearInterval(hoverTimer);
 
