@@ -108,3 +108,25 @@
 .screen .ct-series .ct-label {
     display: none!important;
 }
+
+.screen__legend {
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+    flex-wrap: wrap;
+}
+
+.screen__legend > div {
+    display: inline-block;
+    padding: 10px;
+}
+
+.code {
+    font-family: sans-serif;
+    padding: 0 4px;
+    border-radius: 3px;
+    background-color: #feffd4;
+    border: 1px solid #feffb8;
+    display: inline-block;
+}

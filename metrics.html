@@ -53,6 +53,12 @@
             <p></p>
         </div>    
         <div id="allCases" class="chart"></div>
+        <div class="screen__legend">
+            <div class="color-red">Заражения</div>
+            <div class="color-red-light">Болеют сейчас</div>
+            <div class="color-green">Выздоровления</div>
+            <div class="color-black">Смерти</div>
+        </div>    
     </div>    
 
     <div class="screen">
@@ -61,6 +67,11 @@
             <p>Суточная динамика новых заболевших, выздоровлений и смертей</p>
         </div>
         <div id="newCases" class="chart"></div>
+        <div class="screen__legend">
+            <div class="color-red">Заражения</div>
+            <div class="color-green">Выздоровления</div>
+            <div class="color-black">Смерти</div>
+        </div> 
     </div>
 
     <div class="screen">
@@ -69,6 +80,11 @@
             <p></p>
         </div>
         <div id="rate" class="chart"></div>
+        <div class="screen__legend">
+            <div class="color-red">Заражения</div>
+            <div class="color-green">Выздоровления</div>
+            <div class="color-black">Смерти</div>
+        </div> 
     </div>
 
     <div class="screen">
@@ -77,6 +93,10 @@
             <p>Кумулятивный прирост тестов и выявленных случаев</p>
         </div>
         <div id="testsPerPeriod" class="chart"></div>
+        <div class="screen__legend">
+            <div class="color-blue">Тесты</div>
+            <div class="color-red">Заражения</div>
+        </div> 
     </div>    
 
     <div class="screen">
@@ -85,6 +105,11 @@
             <p>Выявляемость новых случаев по результатам тестирования</p>
         </div>
         <div id="detectability" class="chart"></div>
+        <div class="screen__legend">
+            <div class="color-red"><span>Выявляемость</span> 
+            <div class="code">всего заражений / всего тестов * 100</div>    
+        </div>
+        </div> 
     </div>
 
     <div class="screen">
@@ -93,6 +118,14 @@
             <p>Консервативная оценка летальности — в данном случае это выраженный в процентах показатель на дату отчёта, который считается как отношение «всего смертей» к «всего выбыло»</p>
         </div>
         <div id="mortalyty" class="chart"></div>
+        <div class="screen__legend">
+            <div class="color-black"><span>Летальность 1</span> 
+                <div class="code">всего смертей / (всего смертей + всего выздоровлений) * 100</div>
+            </div>
+            <div class="color-black-light"><span>Летальность 2 (ВОЗ)</span> 
+                <div class="code">всего смертей / всего заболело * 100</div>
+            </div>
+        </div> 
     </div>
 
     <script src="js/metrics.js" type="module"></script>
