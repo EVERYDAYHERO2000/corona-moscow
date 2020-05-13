@@ -1683,7 +1683,7 @@ span[data-legend="total-deaths"] b:before {
 
 .screen__legend > div {
   display: inline-block;
-  padding: 10px;
+  padding: 5px 10px;
 }
 
 .code {
