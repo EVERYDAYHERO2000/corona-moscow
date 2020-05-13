@@ -183,9 +183,38 @@
 .ct-testPerPopulation {
     stroke: rgb(33, 150, 243);
     fill: none;
-    stroke-width: 2px;
-    stroke-dasharray: 3;
+    stroke-width: 3px;
 } 
+
+.ct-age_0_17 {
+    stroke:rgb(241, 113, 192);
+    fill: none;
+    stroke-width: 3px;
+}
+
+.ct-age_18_45 {
+    stroke:rgb(9, 148, 50);
+    fill: none;
+    stroke-width: 3px;
+}
+
+.ct-age_46_65 {
+    stroke:rgb(47, 33, 243);
+    fill: none;
+    stroke-width: 3px;
+}
+
+.ct-age_66_79 {
+    stroke:rgb(255, 115, 0);
+    fill: none;
+    stroke-width: 3px;
+}
+
+.ct-age_80 {
+    stroke:rgb(109, 21, 5);
+    fill: none;
+    stroke-width: 3px;
+}
 
 
 .ct-vertical {

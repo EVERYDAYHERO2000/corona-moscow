@@ -1,6 +1,11 @@
 .screen {
     margin: 80px 0;
     line-height: 1.6;
+    opacity: 0;
+}
+
+.screen_created {
+    opacity: 1;
 }
 
 .screen .chart {
@@ -45,64 +50,57 @@
     padding: 5px;
 }
 
-.color-red:before {
+.color:before {
     content: '';
     display: inline-block;
     margin: 0 5px 0 0;
-    background-color:rgba(255,0,0, 1);
     width: 8px;
     height: 8px;
     border-radius: 50%;
+}
+
+.color-red:before {
+    background-color:rgba(255,0,0, 1);
 }
 
 .color-red-light:before {
-    content: '';
-    display: inline-block;
-    margin: 0 5px 0 0;
     background-color:rgba(255,0,0, .4);
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
 }
 
 .color-green:before {
-    content: '';
-    display: inline-block;
-    margin: 0 5px 0 0;
     background-color:rgba(44, 145, 56, .8);
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
 }
 
 .color-black:before {
-    content: '';
-    display: inline-block;
-    margin: 0 5px 0 0;
     background-color:rgba(0,0,0,.8);
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
 }
 
 .color-black-light:before {
-    content: '';
-    display: inline-block;
-    margin: 0 5px 0 0;
     background-color:rgba(0,0,0,.4);
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
 }
 
 .color-blue:before {
-    content: '';
-    display: inline-block;
-    margin: 0 5px 0 0;
     background-color:rgb(33, 150, 243);
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
+}
+
+.color-с_1:before {
+    background-color:rgb(241, 113, 192);
+}
+
+.color-с_2:before {
+    background-color:rgb(9, 148, 50);
+}
+
+.color-с_3:before {
+    background-color:rgb(47, 33, 243);
+}
+
+.color-с_4:before {
+    background-color:rgb(255, 115, 0);
+}
+
+.color-с_5:before {
+    background-color:rgb(109, 21, 5);
 }
 
 .screen .ct-series .ct-label {

@@ -131,31 +131,14 @@ export default class Map {
 
     drawData(step) {
 
-        this._verts = [];
-        this._vertsLength = 0;
-
+        
         this._step = (typeof step == 'number') ? step : this._step;
 
         const _this = this;
 
         if (this._data) {
 
-            for (var i = 0; i < this._data[this._step].points.total.length; i++) {
-
-                addPoint(_this, this._step, i, false);
-
-            }
-
-            function addPoint(_this, d, i, now) {
-
-                const dot = _this._data[d].points.total[i];
-                const pixel = LatLongToPixelXY(dot[0], dot[1]);
-                const color = (now) ? [1,0.01,0] : [1,0,0];
-
-                _this._verts.push(pixel.x, pixel.y, color[0], color[1], color[2]);
-                _this._vertsLength++;
-
-            }
+            
 
 
             //add markers

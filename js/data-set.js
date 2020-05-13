@@ -4,7 +4,7 @@ export default class DataSet {
 
     constructor(url) {
 
-        this._url = ['./data/stats.json','./data/oblast.json','./data/prediction.json','./data/test.json'];
+        this._url = ['./data/stats.json','./data/oblast.json','./data/prediction.json','./data/test.json','./data/age.json'];
 
         const _this = this;
 
@@ -53,10 +53,14 @@ export default class DataSet {
                     _this._dataRequest(_this._url[2], function (predict) {
 
                         _this._dataRequest(_this._url[3], function (test) {
+
+                            _this._dataRequest(_this._url[4], function (age) {
                     
-                            _this.data = [stats, oblast, predict, test];
+                            _this.data = [stats, oblast, predict, test, age];
                     
                         collect(_this.data, callback);
+
+                            })    
 
                         })
                         
@@ -77,6 +81,7 @@ export default class DataSet {
             const markers = data[1];
             const predict = data[2];
             const test = data[3];
+            const age = data[4];
             
             let byDates = {};
             let tests = {};
@@ -100,8 +105,7 @@ export default class DataSet {
                 return dates;
 
             })(byDates));
-            
-        
+
 
             for (var i in byDates) {
 
@@ -144,11 +148,6 @@ export default class DataSet {
                     
                 }
                 
-                byDates[i].points = {
-                    new : [],
-                    total : []
-                };
-                
                 if (news[i]) {
                     
                     byDates[i].news = {
@@ -156,6 +155,12 @@ export default class DataSet {
                         url : news[i][1]
                     }
                     
+                }
+
+                if (age[i]) {
+
+                    byDates[i].age = age[i];
+
                 }
                 
             }

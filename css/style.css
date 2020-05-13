@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 /* Document
    ========================================================================== */
@@ -1291,8 +1292,37 @@ canvas {
 .ct-testPerPopulation {
   stroke: #2196f3;
   fill: none;
-  stroke-width: 2px;
-  stroke-dasharray: 3;
+  stroke-width: 3px;
+}
+
+.ct-age_0_17 {
+  stroke: #f171c0;
+  fill: none;
+  stroke-width: 3px;
+}
+
+.ct-age_18_45 {
+  stroke: #099432;
+  fill: none;
+  stroke-width: 3px;
+}
+
+.ct-age_46_65 {
+  stroke: #2f21f3;
+  fill: none;
+  stroke-width: 3px;
+}
+
+.ct-age_66_79 {
+  stroke: #ff7300;
+  fill: none;
+  stroke-width: 3px;
+}
+
+.ct-age_80 {
+  stroke: #6d1505;
+  fill: none;
+  stroke-width: 3px;
 }
 
 @media screen and (max-width: 500px) {
@@ -1563,6 +1593,11 @@ span[data-legend="total-deaths"] b:before {
 .screen {
   margin: 80px 0;
   line-height: 1.6;
+  opacity: 0;
+}
+
+.screen_created {
+  opacity: 1;
 }
 
 .screen .chart {
@@ -1609,64 +1644,57 @@ span[data-legend="total-deaths"] b:before {
   padding: 5px;
 }
 
-.color-red:before {
+.color:before {
   content: '';
   display: inline-block;
   margin: 0 5px 0 0;
-  background-color: red;
   width: 8px;
   height: 8px;
   border-radius: 50%;
+}
+
+.color-red:before {
+  background-color: red;
 }
 
 .color-red-light:before {
-  content: '';
-  display: inline-block;
-  margin: 0 5px 0 0;
   background-color: rgba(255, 0, 0, 0.4);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
 }
 
 .color-green:before {
-  content: '';
-  display: inline-block;
-  margin: 0 5px 0 0;
   background-color: rgba(44, 145, 56, 0.8);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
 }
 
 .color-black:before {
-  content: '';
-  display: inline-block;
-  margin: 0 5px 0 0;
   background-color: rgba(0, 0, 0, 0.8);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
 }
 
 .color-black-light:before {
-  content: '';
-  display: inline-block;
-  margin: 0 5px 0 0;
   background-color: rgba(0, 0, 0, 0.4);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
 }
 
 .color-blue:before {
-  content: '';
-  display: inline-block;
-  margin: 0 5px 0 0;
   background-color: #2196f3;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+}
+
+.color-с_1:before {
+  background-color: #f171c0;
+}
+
+.color-с_2:before {
+  background-color: #099432;
+}
+
+.color-с_3:before {
+  background-color: #2f21f3;
+}
+
+.color-с_4:before {
+  background-color: #ff7300;
+}
+
+.color-с_5:before {
+  background-color: #6d1505;
 }
 
 .screen .ct-series .ct-label {

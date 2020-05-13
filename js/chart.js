@@ -112,7 +112,11 @@ export default class Chart {
             const recoveredRate = [];
             const deathsRate = [];
             
-            
+            const age_0_17 = [];
+            const age_18_45 = [];
+            const age_46_65 = []; 
+            const age_66_79 = [];
+            const age_80 = [];
 
             
             function interpolation (arr, steps) {
@@ -165,7 +169,23 @@ export default class Chart {
                 recoveredRate.push( (i > 20) ? (data[i].moscowAndOblast.total.recovered / prevDay.moscowAndOblast.total.recovered * 100) - 100 : null );
                 deathsRate.push( (i > 20) ? (data[i].moscowAndOblast.total.deaths / prevDay.moscowAndOblast.total.deaths * 100) - 100 : null );
 
-                
+                if (data[i].age) {
+
+                    age_0_17.push(data[i].age[4])
+                    age_18_45.push(data[i].age[0])
+                    age_46_65.push(data[i].age[1])
+                    age_66_79.push(data[i].age[2])
+                    age_80.push(data[i].age[3])
+
+                } else {
+
+                    age_0_17.push(null)
+                    age_18_45.push(null)
+                    age_46_65.push(null)
+                    age_66_79.push(null)
+                    age_80.push(null)
+                    
+                }
 
                 
             }
@@ -431,6 +451,49 @@ export default class Chart {
 
             }
 
+            if (_this._type == 'age') {
+
+                result = [
+                    {
+                        name : 'age_0_17',
+                        meta : 'дети',
+                        color: 'с_1',
+                        unit : 'percent',
+                        data : age_0_17
+                    },
+                    {
+                        name : 'age_18_45',
+                        meta : '18–45',
+                        color: 'с_2',
+                        unit : 'percent',
+                        data : age_18_45
+                    },
+                    {
+                        name : 'age_46_65',
+                        meta : '46–65',
+                        color: 'с_3',
+                        unit : 'percent',
+                        data : age_46_65
+                    },
+                    {
+                        name : 'age_66_79',
+                        meta : '66–79',
+                        color: 'с_4',
+                        unit : 'percent',
+                        data : age_66_79
+                    },
+                    {
+                        name : 'age_80',
+                        meta : '80+',
+                        color: 'с_5',
+                        unit : 'percent',
+                        data : age_80
+                    }
+                    
+                ]
+
+            }
+
             return result;
               
         })(this._data, this._predict);
@@ -459,6 +522,21 @@ export default class Chart {
                     lineSmooth: Chartist.Interpolation.none()
                 },
                 'mortalytyRate_2': {
+                    lineSmooth: Chartist.Interpolation.none()
+                },
+                'age_0_17': {
+                    lineSmooth: Chartist.Interpolation.none()
+                },
+                'age_18_45': {
+                    lineSmooth: Chartist.Interpolation.none()
+                },
+                'age_46_65': {
+                    lineSmooth: Chartist.Interpolation.none()
+                },
+                'age_66_79': {
+                    lineSmooth: Chartist.Interpolation.none()
+                },
+                'age_80': {
                     lineSmooth: Chartist.Interpolation.none()
                 }   
             },
@@ -717,7 +795,7 @@ export default class Chart {
 
                             date = _this._points[el].date;
 
-                            content += `<div class="color-${_this._points[el].color}">${_this._points[el].value} ${_this._points[el].meta}</div>`;
+                            content += `<div class="color color-${_this._points[el].color}">${_this._points[el].value} ${_this._points[el].meta}</div>`;
                         
                             elem.classList.add('ct-point_hover');
 
