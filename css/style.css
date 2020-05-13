@@ -1668,3 +1668,7 @@ span[data-legend="total-deaths"] b:before {
   height: 8px;
   border-radius: 50%;
 }
+
+.screen .ct-series .ct-label {
+  display: none !important;
+}

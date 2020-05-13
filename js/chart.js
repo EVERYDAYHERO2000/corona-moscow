@@ -670,11 +670,11 @@ export default class Chart {
 
                     let position = _this._points[el].x;
 
-                    let d = _this._x2 - _this._x1;
+                    let d = _this._x2 - _this._x1 - 3;
 
                     
 
-                    if ( position > e.clientX - d && position < e.clientX ){
+                    if ( position > e.clientX - d && position < e.clientX + 3 ){
 
                         if (!_this._points[el].off) {
 
