@@ -1694,3 +1694,8 @@ span[data-legend="total-deaths"] b:before {
   border: 1px solid #feffb8;
   display: inline-block;
 }
+
+.screen .ct-zero-line {
+  stroke: rgba(0, 0, 0, 0.2);
+  stroke-width: 1px;
+}
