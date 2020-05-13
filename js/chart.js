@@ -654,6 +654,31 @@ export default class Chart {
 
             screen.addEventListener('mousemove',function(e){
 
+                showInformation(e)
+
+            })
+
+            screen.addEventListener('click',function(e){
+
+                showInformation(e)
+
+            })
+
+            screen.addEventListener('mouseout',function(e){
+
+                for (var el = 0; el < _this._points.length; el++) {
+
+                    let elem = _this._points[el].elem;
+
+                    elem.classList.remove('ct-point_hover');    
+
+                }
+                
+                clearInterval(hoverTimer);
+
+            });  
+            
+            function showInformation (e) {
                 horisontalLine.style.transform = `translateX(${e.clientX}px)`
                 
                 clearInterval(hoverTimer);
@@ -716,26 +741,7 @@ export default class Chart {
                 clearInterval(hoverTimer);
 
                 },10)
-                
-                
-
-            
-
-            })
-            
-            screen.addEventListener('mouseout',function(e){
-
-                for (var el = 0; el < _this._points.length; el++) {
-
-                    let elem = _this._points[el].elem;
-
-                    elem.classList.remove('ct-point_hover');    
-
-                }
-                
-                clearInterval(hoverTimer);
-
-            });    
+            }
 
         }
 
