@@ -134,3 +134,8 @@
     stroke : rgba(0,0,0,0.2);
     stroke-width: 1px;
 }
+
+.screen__description b {
+    white-space: nowrap;
+    word-break: keep-all;
+}
