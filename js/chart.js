@@ -573,16 +573,22 @@ export default class Chart {
 
                       }
 
-                      _this._points.push({
-                          series : data.series,
-                          meta : (data.series.meta) ? data.series.meta : '',
-                          value : (data.series.unit && data.series.unit == 'percent') ? `${data.value.y.toFixed(2)}%` : format(data.value.y),
-                          off : (data.series.off) ? data.series.off : false,
-                          color : (data.series.color) ? data.series.color : null,
-                          x : data.x,
-                          elem : data.element._node,
-                          date : data.axisX.ticks[data.index]
-                      });
+                      if (!data.element._node.closest('.screen_created')) {
+
+                          _this._points.push({
+                            series : data.series,
+                            meta : (data.series.meta) ? data.series.meta : '',
+                            value : (data.series.unit && data.series.unit == 'percent') ? `${data.value.y.toFixed(2)}%` : format(data.value.y),
+                            off : (data.series.off) ? data.series.off : false,
+                            color : (data.series.color) ? data.series.color : null,
+                            x : data.x,
+                            elem : data.element._node,
+                            date : data.axisX.ticks[data.index]
+                        });
+                        
+                      }
+
+                      
 
                       if (!_this._x1) {
 
