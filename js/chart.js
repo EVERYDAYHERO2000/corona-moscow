@@ -164,11 +164,25 @@ export default class Chart {
                 mortalytyRate_3.push( ( ( data[i].moscowAndOblast.total.deaths / (data[i].moscowAndOblast.total.deaths + data[i].moscowAndOblast.total.recovered) ) + ( data[i].moscowAndOblast.total.deaths / data[i].moscowAndOblast.total.cases ) ) / 2 * 100 );
 
                 let prevDay = (data[i - 1]) ? data[i - 1] : data[i];
+                /*
+                let cR = (casesRate[casesRate.length-1] > 0) ? casesRate[casesRate.length-1] : 0;
+                let rR = (recoveredRate[recoveredRate.length-1] > 0) ? recoveredRate[recoveredRate.length-1] : 0;
+                let dR = (deathsRate[deathsRate.length-1] > 0) ? deathsRate[deathsRate.length-1] : 0;
 
-                casesRate.push( (i > 20) ? (data[i].moscowAndOblast.total.cases / prevDay.moscowAndOblast.total.cases * 100) - 100 : null );
-                recoveredRate.push( (i > 20) ? (data[i].moscowAndOblast.total.recovered / prevDay.moscowAndOblast.total.recovered * 100) - 100 : null );
-                deathsRate.push( (i > 20) ? (data[i].moscowAndOblast.total.deaths / prevDay.moscowAndOblast.total.deaths * 100) - 100 : null );
+                let cP = (prevDay.moscowAndOblast.total.cases > 0) ? (data[i].moscowAndOblast.total.cases / prevDay.moscowAndOblast.total.cases * 100) - 100 : 0
+                let rP = (prevDay.moscowAndOblast.total.recovered > 0) ? (data[i].moscowAndOblast.total.recovered / prevDay.moscowAndOblast.total.recovered * 100) - 100 : 0
+                let dP = (prevDay.moscowAndOblast.total.deaths > 0) ? (data[i].moscowAndOblast.total.deaths / prevDay.moscowAndOblast.total.deaths * 100) - 100 : 0
 
+                casesRate.push( cR + cP );
+                recoveredRate.push( rR + rP );
+                deathsRate.push( dR + dP );
+                */
+
+
+               casesRate.push( (i > 0) ? (data[i].moscowAndOblast.total.cases / prevDay.moscowAndOblast.total.cases * 100) - 100 : null );
+               recoveredRate.push( (i > 0) ? (data[i].moscowAndOblast.total.recovered / prevDay.moscowAndOblast.total.recovered * 100) - 100 : null );
+               deathsRate.push( (i > 0) ? (data[i].moscowAndOblast.total.deaths / prevDay.moscowAndOblast.total.deaths * 100) - 100 : null );
+                
                 if (data[i].age) {
 
                     age_0_17.push(data[i].age[4])
