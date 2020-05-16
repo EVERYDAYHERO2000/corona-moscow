@@ -123,7 +123,9 @@ export default class Chart {
             const allCasesLog = [];
             const allDeathsLog = [];
             const allRecoveredLog = [];
-            const activeCasesLog = [];
+            const predictAllCasesLog = [];
+            const predictAllDeathsLog = [];
+            const predictAllRecoveredLog = [];
 
             
             function interpolation (arr, steps) {
@@ -269,7 +271,9 @@ export default class Chart {
                         predictAllRecovered.push(predict[i].value.recovered + offsetAllRecovered);
                         predictActive.push( (predict[i].value.cases + offsetAllCase) - (predict[i].value.recovered + offsetAllRecovered) - (predict[i].value.deaths + offsetAllDeath) );
 
-                        
+                        predictAllCasesLog.push(Math.log(predict[i].value.cases + offsetAllCase)/Math.log(10));
+                        predictAllDeathsLog.push(Math.log(predict[i].value.deaths + offsetAllDeath)/Math.log(10));
+                        predictAllRecoveredLog.push(Math.log(predict[i].value.recovered + offsetAllRecovered)/Math.log(10));
                         
                     }
                     
@@ -283,6 +287,10 @@ export default class Chart {
                     predictAllDeaths.push(null);
                     predictAllRecovered.push(null);
                     predictActive.push(null);
+
+                    predictAllCasesLog.push(null);
+                    predictAllDeathsLog.push(null);
+                    predictAllRecoveredLog.push(null);
                     
                 }
                 
@@ -357,6 +365,21 @@ export default class Chart {
                         meta : 'заражений',
                         color: 'red',
                         data : allCasesLog
+                    }, {
+                        name : 'predictCases',
+                        meta : 'прогноз заражений',
+                        color: 'red',
+                        data : predictAllCasesLog
+                    }, {
+                        name : 'predictRedcovered',
+                        meta : 'прогноз выздоровлений',
+                        color: 'green',
+                        data : predictAllRecoveredLog
+                    }, {
+                        name : 'predictDeaths',
+                        meta : 'прогноз смертей',
+                        color: 'black',
+                        data : predictAllDeathsLog
                     }
                 ];    
             }    
