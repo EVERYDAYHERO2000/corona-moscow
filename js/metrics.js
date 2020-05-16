@@ -11,6 +11,7 @@ import setResponsiveHeight from "./responsiveHeight.js";
 
     const allCases = new Chart('#allCases');
     const newCases = new Chart('#newCases');
+    const allCasesLog = new Chart('#allCasesLog');
     const testsPerPeriod = new Chart('#testsPerPeriod');
     const detectability = new Chart('#detectability');
     const mortalyty = new Chart('#mortalyty');
@@ -33,6 +34,8 @@ import setResponsiveHeight from "./responsiveHeight.js";
         allCases.setData(data, predict, 'all');
 
         newCases.setData(data, predict, 'new');
+
+        allCasesLog.setData(data, predict, 'log');
 
         rate.setData(data, predict, 'rate');
 

@@ -118,6 +118,13 @@ export default class Chart {
             const age_66_79 = [];
             const age_80 = [];
 
+            const allC = allCases
+
+            const allCasesLog = [];
+            const allDeathsLog = [];
+            const allRecoveredLog = [];
+            const activeCasesLog = [];
+
             
             function interpolation (arr, steps) {
 
@@ -155,6 +162,10 @@ export default class Chart {
                 newRecovered.push( data[i].moscowAndOblast.new.recovered );
                 allRecovered.push( data[i].moscowAndOblast.total.recovered );
 
+                allCasesLog.push( Math.log(data[i].moscowAndOblast.total.cases) / Math.log(10) );
+                allDeathsLog.push( Math.log(data[i].moscowAndOblast.total.deaths) / Math.log(10) );
+                allRecoveredLog.push( Math.log(data[i].moscowAndOblast.total.recovered) / Math.log(10) );
+                
                 allTests.push( data[i].tests.allTotal );
 
                 casesDetectability.push( data[i].moscowAndOblast.total.cases / data[i].tests.allTotal * 100 );
@@ -328,6 +339,27 @@ export default class Chart {
                 ];
 
             }
+
+            if (_this._type == 'log') {
+                result = [
+                    {
+                        name : 'deaths',
+                        meta : 'смертей',
+                        color: 'black',
+                        data : allDeathsLog
+                    }, {
+                        name : 'recovered',
+                        meta : 'выздоровлений',
+                        color: 'green',
+                        data : allRecoveredLog 
+                    }, {
+                        name : 'cases',
+                        meta : 'заражений',
+                        color: 'red',
+                        data : allCasesLog
+                    }
+                ];    
+            }    
 
             if (_this._type == 'new') {
 
@@ -587,6 +619,18 @@ export default class Chart {
 
                       }
 
+                      if (_this._type == 'log') {
+
+                        let pow = (Math.pow(10, data.value.y) > 1) ? Math.pow(10, data.value.y) + 1 : Math.pow(10, data.value.y)
+
+                        result = format( pow )
+                        data.value.y =  pow
+
+                        //console.log(data.value.y, Math.log(10, data.value.y))
+
+                      } 
+
+
                       if (!data.element._node.closest('.screen_created')) {
 
                           _this._points.push({
@@ -685,6 +729,17 @@ export default class Chart {
                 l.classList.add('ct-' + name);
 
             }
+
+            if (_this._type == 'log') {
+
+                const logLabels = document.querySelectorAll(`${_this.id} .ct-label.ct-vertical`);
+
+                for (var logL of logLabels ){
+                    logL.innerText = `${Math.pow(10, +logL.innerText).toFixed()}`
+                }
+                
+
+            }    
                 
             const points = document.querySelectorAll(`${_this.id} .ct-cases .ct-point, ${_this.id} .ct-newCases .ct-point`);
 
