@@ -313,3 +313,14 @@
     stroke-linecap: round;
 }
 
+.ct-label.ct-prediction {
+    @media screen and (max-width: 500px) {
+        transform: translate(-10px,10px)!important;    
+    }    
+}
+
+.screen .ct-zero-line {
+    stroke : rgba(0,0,0,0.2);
+    stroke-width: 1px;
+    display: block!important;
+}

@@ -747,7 +747,8 @@ export default class Chart {
             
             dateLabels[0].classList.add('visible');    
             dateLabels[_this._data.length - 1].classList.add('visible');
-            dateLabels[dateLabels.length - 1].classList.add('visible');
+            dateLabels[dateLabels.length - 1].classList.add('visible')
+            dateLabels[dateLabels.length - 1].classList.add('ct-prediction');
 
             const zeroLine = document.querySelectorAll(`.screen ${_this.id} .ct-vertical`);
 

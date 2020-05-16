@@ -1412,6 +1412,18 @@ canvas {
   stroke-linecap: round;
 }
 
+@media screen and (max-width: 500px) {
+  .ct-label.ct-prediction {
+    transform: translate(-10px, 10px) !important;
+  }
+}
+
+.screen .ct-zero-line {
+  stroke: rgba(0, 0, 0, 0.2);
+  stroke-width: 1px;
+  display: block !important;
+}
+
 #content {
   position: absolute;
   display: flex;
@@ -1722,11 +1734,6 @@ span[data-legend="total-deaths"] b:before {
   background-color: #feffd4;
   border: 1px solid #feffb8;
   display: inline-block;
-}
-
-.screen .ct-zero-line {
-  stroke: rgba(0, 0, 0, 0.2);
-  stroke-width: 1px;
 }
 
 .screen__description b {
