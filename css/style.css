@@ -1740,3 +1740,8 @@ span[data-legend="total-deaths"] b:before {
   white-space: nowrap;
   word-break: keep-all;
 }
+
+.screen i {
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.8);
+}
