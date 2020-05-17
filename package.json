@@ -15,7 +15,7 @@
     "node-fetch": "^2.6.0"
   },
   "scripts": {
-    "get-data": "gulp getData && node read-and-convert-oblast-data.js && node obj-to-csv.js",
+    "get-data": "node obj-to-csv.js",
     "build": "gulp build",
     "start": "gulp start"
   },
