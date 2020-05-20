@@ -56,6 +56,8 @@ export default class DataSet {
 
                             _this._dataRequest(_this._url[4], function (age) {
                     
+                                
+
                             _this.data = [stats, oblast, predict, test, age];
                     
                         collect(_this.data, callback);
@@ -359,7 +361,7 @@ export default class DataSet {
 
             }
 
-            
+                    
             
             if (callback) callback(result, resultPredict);
             

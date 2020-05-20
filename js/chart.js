@@ -252,7 +252,7 @@ export default class Chart {
                 -(predict[allDeaths.length - 1].value.deaths - allDeaths[allDeaths.length - 1]); 
 
             
-            
+                
             
             
             for (var i = 0; i < predict.length; i++) {
