@@ -862,6 +862,8 @@ export default class Chart {
                 clearInterval(hoverTimer);
 
             });  
+
+            
             
             function showInformation (e) {
 
@@ -886,6 +888,7 @@ export default class Chart {
 
                     let d = _this._x2 - _this._x1 - 3;
 
+                    
                     
 
                     if ( position > e.clientX - d && position < e.clientX + 3 ){

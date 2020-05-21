@@ -1371,10 +1371,12 @@ canvas {
   display: flex;
   background: white;
   overflow: hidden;
+  margin: 0 5px;
 }
 
 #chart-controls .leaflet-bar > div {
   padding: 7px;
+  box-sizing: border-box;
   cursor: pointer;
 }
 
@@ -1387,6 +1389,16 @@ canvas {
   pointer-events: none;
   background-color: #f4f4f4;
   color: #bbb;
+}
+
+#chart-controls .leaflet-bar .leaflet-control-metrics {
+  padding: 7px;
+  width: auto;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  height: 28px;
+  cursor: pointer;
 }
 
 #chart-controls .leaflet-bar > div.leaflet-disabled:hover {
