@@ -361,7 +361,7 @@ export default class DataSet {
 
             }
 
-                    
+            window.result = result        
             
             if (callback) callback(result, resultPredict);
             
