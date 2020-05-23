@@ -157,6 +157,12 @@
     stroke-width: 3px;
 }
 
+.ct-ActivePnMoscow {
+    stroke: rgb(255, 0, 221); 
+    fill: none;
+    stroke-width: 2px;
+}
+
 .ct-label {
     font-size: 11px;
     color: rgba(0,0,0,.8);
@@ -178,7 +184,7 @@
     }
 }
 
-.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalytyRate_1 .ct-label_visible, .ct-mortalytyRate_2 .ct-label_visible, .ct-noSymptomsMoscow .ct-label_visible{
+.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalytyRate_1 .ct-label_visible, .ct-mortalytyRate_2 .ct-label_visible, .ct-noSymptomsMoscow .ct-label_visible, .ct-ActivePnMoscow .ct-label_visible{
     display: block;
 
     @media screen and (max-width: 500px) {
