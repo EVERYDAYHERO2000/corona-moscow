@@ -15,7 +15,7 @@
     "node-fetch": "^2.6.0"
   },
   "scripts": {
-    "get-data": "node obj-to-csv.js",
+    "get-data": "gulp getData && node obj-to-csv.js",
     "build": "gulp build",
     "start": "gulp start"
   },

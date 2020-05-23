@@ -127,6 +127,11 @@ export default class Chart {
             const predictAllDeathsLog = [];
             const predictAllRecoveredLog = [];
 
+            const CasesMoscow = [];
+            const RecoveredMoscow = [];
+            const DeathsMoscow = [];
+            const ActiveMoscow = [];
+            const noSymptomsMoscow = [];
             
             function interpolation (arr, steps) {
 
@@ -156,13 +161,19 @@ export default class Chart {
 
             
             for (var i = 0; i < data.length; i++ ) {
-                activeCases.push( data[i].moscowAndOblast.total.cases - data[i].moscowAndOblast.total.deaths - data[i].moscowAndOblast.total.recovered );
+                activeCases.push( data[i].moscowAndOblast.total.active );
                 allCases.push( data[i].moscowAndOblast.total.cases );
                 newCases.push( data[i].moscowAndOblast.new.cases);
                 newDeaths.push( data[i].moscowAndOblast.new.deaths );
                 allDeaths.push( data[i].moscowAndOblast.total.deaths );
                 newRecovered.push( data[i].moscowAndOblast.new.recovered );
                 allRecovered.push( data[i].moscowAndOblast.total.recovered );
+
+                CasesMoscow.push( data[i].moscow.total.cases );
+                RecoveredMoscow.push( data[i].moscow.total.recovered );
+                DeathsMoscow.push( data[i].moscow.total.deaths );
+                ActiveMoscow.push( data[i].moscow.total.active ); 
+                noSymptomsMoscow.push( data[i].moscow.total.noSymptoms );
 
                 allCasesLog.push( Math.log(data[i].moscowAndOblast.total.cases) / Math.log(10) );
                 allDeathsLog.push( Math.log(data[i].moscowAndOblast.total.deaths) / Math.log(10) );
@@ -177,19 +188,8 @@ export default class Chart {
                 mortalytyRate_3.push( ( ( data[i].moscowAndOblast.total.deaths / (data[i].moscowAndOblast.total.deaths + data[i].moscowAndOblast.total.recovered) ) + ( data[i].moscowAndOblast.total.deaths / data[i].moscowAndOblast.total.cases ) ) / 2 * 100 );
 
                 let prevDay = (data[i - 1]) ? data[i - 1] : data[i];
-                /*
-                let cR = (casesRate[casesRate.length-1] > 0) ? casesRate[casesRate.length-1] : 0;
-                let rR = (recoveredRate[recoveredRate.length-1] > 0) ? recoveredRate[recoveredRate.length-1] : 0;
-                let dR = (deathsRate[deathsRate.length-1] > 0) ? deathsRate[deathsRate.length-1] : 0;
 
-                let cP = (prevDay.moscowAndOblast.total.cases > 0) ? (data[i].moscowAndOblast.total.cases / prevDay.moscowAndOblast.total.cases * 100) - 100 : 0
-                let rP = (prevDay.moscowAndOblast.total.recovered > 0) ? (data[i].moscowAndOblast.total.recovered / prevDay.moscowAndOblast.total.recovered * 100) - 100 : 0
-                let dP = (prevDay.moscowAndOblast.total.deaths > 0) ? (data[i].moscowAndOblast.total.deaths / prevDay.moscowAndOblast.total.deaths * 100) - 100 : 0
 
-                casesRate.push( cR + cP );
-                recoveredRate.push( rR + rP );
-                deathsRate.push( dR + dP );
-                */
 
 
                casesRate.push( (i > 0) ? (data[i].moscowAndOblast.total.cases / prevDay.moscowAndOblast.total.cases * 100) - 100 : null );
@@ -198,11 +198,11 @@ export default class Chart {
                 
                 if (data[i].age) {
 
-                    age_0_17.push(data[i].age[4])
-                    age_18_45.push(data[i].age[0])
-                    age_46_65.push(data[i].age[1])
-                    age_66_79.push(data[i].age[2])
-                    age_80.push(data[i].age[3])
+                    age_0_17.push(data[i].age.cases_0_17)
+                    age_18_45.push(data[i].cases_18_45)
+                    age_46_65.push(data[i].age.cases_46_65)
+                    age_66_79.push(data[i].age.cases_66_79)
+                    age_80.push(data[i].age.cases_80)
 
                 } else {
 
@@ -347,6 +347,39 @@ export default class Chart {
                 ];
 
             }
+
+            if (_this._type == 'allMoscow') {
+
+                result = [
+                    {
+                        name : 'deaths',
+                        meta : 'смертей',
+                        color: 'black',
+                        data : DeathsMoscow
+                    }, {
+                        name : 'recovered',
+                        meta : 'выздоровлений',
+                        color: 'green',
+                        data : RecoveredMoscow 
+                    }, {
+                        name : 'cases',
+                        meta : 'заражений',
+                        color: 'red',
+                        data : CasesMoscow
+                    }, {
+                        name : 'active',
+                        meta : 'болеют COVID-19',
+                        color: 'red-light',
+                        data : ActiveMoscow
+                    }, {
+                        name : 'noSymptomsMoscow',
+                        meta : 'беcсимптомные',
+                        color: 'orange',
+                        data : noSymptomsMoscow
+                    }
+                ];
+                
+            }    
 
             if (_this._type == 'log') {
                 result = [
@@ -527,35 +560,30 @@ export default class Chart {
                         name : 'age_0_17',
                         meta : 'дети',
                         color: 'с_1',
-                        unit : 'percent',
                         data : age_0_17
                     },
                     {
                         name : 'age_18_45',
-                        meta : '18–45',
+                        meta : 'возрвст 18–45',
                         color: 'с_2',
-                        unit : 'percent',
                         data : age_18_45
                     },
                     {
                         name : 'age_46_65',
-                        meta : '46–65',
+                        meta : 'возраст 46–65',
                         color: 'с_3',
-                        unit : 'percent',
                         data : age_46_65
                     },
                     {
                         name : 'age_66_79',
-                        meta : '66–79',
+                        meta : 'возраст 66–79',
                         color: 'с_4',
-                        unit : 'percent',
                         data : age_66_79
                     },
                     {
                         name : 'age_80',
-                        meta : '80+',
+                        meta : 'возраст 80+',
                         color: 'с_5',
-                        unit : 'percent',
                         data : age_80
                     }
                     
@@ -652,6 +680,8 @@ export default class Chart {
                         //console.log(data.value.y, Math.log(10, data.value.y))
 
                       } 
+
+                      
 
 
                       if (!data.element._node.closest('.screen_created')) {

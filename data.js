@@ -32,71 +32,163 @@ function getStats (array, rows) {
   }
 }
 
+
+
 module.exports = function (cb) {
+
   Promise.all([
-    fetch(`https://coronavirus.mash.ru/data.json`),
-    fetch(`https://coronavirus.mash.ru/`),
-    fetch(`https://ru.wikipedia.org/wiki/%D0%A5%D1%80%D0%BE%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%D1%80%D0%B0%D1%81%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D1%8F_COVID-19_%D0%B2_%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8`)
-  ]).then(async ([data, page, stats]) => {
-    const json = await data.json()
-    const html = await page.text()
-    const wiki = await stats.text()
-    return [json, html, wiki]
-  }).then(([json, html, wiki]) => {
-    const document = (new JSDOM(html)).window.document
-    const tableRows = document.querySelectorAll(`tr`)
+    fetch(`https://docs.google.com/spreadsheets/d/e/2PACX-1vRTFB2bR2DukV661JBclYxm4BFqI8dArud1cYlvVcmpurGH1_AQZQkTXSBNvfnQg1q9UvrhVYHA_HMy/pub?gid=165609775&single=true&output=tsv`)
+  ]).then(async ([data]) => {
+    const csv = await data.text()
 
-    let data = []
-    let jsonData = new Map()
+    return [csv]
+  }).then(([csv]) => {
 
-    for (const feature of json.features) {
-      const coords = feature.geometry.coordinates
-      jsonData.set(feature.properties.hintContent, [+coords[0], +coords[1]])
-    }
-
-    for (const row of tableRows) {
-      const cells = row.querySelectorAll(`td`)
-
-      if (cells.length >= 3) {
-        const address = `${cells[0].textContent}, ${cells[1].textContent}`
-        const date = cells[2].textContent.split(`.`)
-
-        data.push({
-          point: jsonData.get(`Москва, ${address}`),
-          address,
-          date: +`${date[2]}${date[1]}${date[0]}`
-        })
-      }
-    }
-
-    const wikiDocument = (new JSDOM(wiki)).window.document
-    const wikiTables = wikiDocument.querySelectorAll(`.wikitable`)
-    const moscowCityRows = wikiTables[1].querySelectorAll(`tr`)
-    const moscowOblastRows = wikiTables[2].querySelectorAll(`tr`)
+    csv = csv.replace(/	/gi, '||').replace(/,/gi,'.').split('\r\n')
 
     let stats = {
       city: [],
       oblast: []
     }
 
-    getStats(stats.city, moscowCityRows)
-    getStats(stats.oblast, moscowOblastRows)
+    let data = []
 
+    for (var i = 2; i < csv.length; i++){
 
-    if (data.length) {
-      fs.writeFileSync(`./data/data.json`, JSON.stringify(data), `utf-8`);
-    } else {
-      console.log('Mash data failure');
+      let row = csv[i].split('||');
+      let date = +(row[0].split('.')[2] + row[0].split('.')[1] + row[0].split('.')[0]);
+      let month = {
+        1  : 'января',
+        2  : 'февраля',
+        3  : 'марта',
+        4  : 'апреля',
+        5  : 'мая',
+        6  : 'июня',
+        7  : 'июля',
+        8  : 'августа',
+        9  : 'сентября',
+        10 : 'октября',
+        11 : 'ноября',
+        12 : 'декабря'
+      }
+
+      stats.city.push({
+        date : date,
+        total : {
+          cases : +row[9],
+          recovered : +row[11],
+          deaths : +row[13],
+          active : +row[15]
+        },
+        new : {
+          cases : +row[10],
+          recovered : +row[12],
+          deaths : +row[14]
+        }
+      });
+
+      stats.oblast.push({
+        date : date,
+        total : {
+          cases : +row[30],
+          recovered : +row[32],
+          deaths : +row[34],
+          active : +row[36]
+        },
+        new : {
+          cases : +row[31],
+          recovered : +row[33],
+          deaths : +row[35]
+        }
+      });
+
+      data.push({
+        dateIndex : date,
+        date : `${row[0].split('.')[0]} ${month[+row[0].split('.')[1]]}`,
+        moscow : {
+          total : {
+            cases : +row[9],
+            recovered : +row[11],
+            deaths : +row[13],
+            active : +row[15],
+            activePn : +row[8], 
+            hospitalised : +row[4],
+            hospitalisedPn : +row[5],
+            noSymptoms : +row[7]
+          },
+          new : {
+            cases : +row[10],
+            recovered : +row[12],
+            deaths : +row[14],
+            noSymptoms : +row[6]
+          }
+        },
+        oblast : {
+          total : {
+            cases : +row[30],
+            recovered : +row[32],
+            deaths : +row[34],
+            active : +row[36]
+          },
+          new : {
+            cases : +row[31],
+            recovered : +row[33],
+            deaths : +row[35]
+          }
+        },
+        tests : {
+          allTotal: +row[28] + +row[39],
+          moscowTotal: +row[28],
+          oblastTotal: +row[39],
+        },
+        age : {
+          age_18_45 : +row[18],
+          age_46_65 : +row[19],
+          age_66_79  : +row[20],
+          age_80 : +row[21],
+          age_0_17 : +row[22],
+          cases_18_45 : +row[23],
+          cases_46_65 : +row[24],
+          cases_66_79 : +row[25],
+          cases_80 : +row[26],
+          cases_0_17 : +row[27],
+        },
+        moscowHospital : {
+          totalHosp : +row[1],
+          totalCovidHosp : +row[2],
+          totalPnHosp : +row[3],
+        },
+        mortality : {
+          moscow : {
+            r1 : +row[16],
+            r2 : +row[17]  
+          },
+          oblast : {
+            r1 : +row[37],
+            r2 : +row[38]   
+          }
+        }
+      })
+
+      
+
     }
+
+    if (data) {
+      fs.writeFileSync(`./data/data.json`, JSON.stringify(data.reverse()), `utf-8`);
+    } else {
+      console.log('Google doc data failure');
+    }
+
 
     if (stats.city.length && stats.oblast.length) {
       fs.writeFileSync(`./data/stats.json`, JSON.stringify(stats), `utf-8`);
     } else {
-      console.log('Wikipedia data failure');
+      console.log('Google doc data failure');
     }
-
-    console.log('Done')
 
     return cb()
   }).catch(error => console.log(error))
 }
+
+
