@@ -1,6 +1,19 @@
 {
     "city": [
         {
+            "date": 20200523,
+            "total": {
+                "cases": 161397,
+                "deaths": 1934,
+                "recovered": 47413
+            },
+            "new": {
+                "cases": 3190,
+                "deaths": 67,
+                "recovered": 3831
+            }
+        },
+        {
             "date": 20200522,
             "total": {
                 "cases": 158207,
@@ -1068,6 +1081,19 @@
         }
     ],
     "oblast": [
+        {
+            "date": 20200523,
+            "total": {
+                "cases": 32653,
+                "deaths": 324,
+                "recovered": 5163
+            },
+            "new": {
+                "cases": 846,
+                "deaths": 12,
+                "recovered": 464
+            }
+        },
         {
             "date": 20200522,
             "total": {
