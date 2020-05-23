@@ -1262,6 +1262,12 @@ canvas {
   stroke-width: 3px;
 }
 
+.ct-ActivePnMoscow {
+  stroke: #ff00dd;
+  fill: none;
+  stroke-width: 2px;
+}
+
 .ct-label {
   font-size: 11px;
   color: rgba(0, 0, 0, 0.8);
@@ -1285,12 +1291,12 @@ canvas {
   }
 }
 
-.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalytyRate_1 .ct-label_visible, .ct-mortalytyRate_2 .ct-label_visible, .ct-noSymptomsMoscow .ct-label_visible {
+.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalytyRate_1 .ct-label_visible, .ct-mortalytyRate_2 .ct-label_visible, .ct-noSymptomsMoscow .ct-label_visible, .ct-ActivePnMoscow .ct-label_visible {
   display: block;
 }
 
 @media screen and (max-width: 500px) {
-  .ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalytyRate_1 .ct-label_visible, .ct-mortalytyRate_2 .ct-label_visible, .ct-noSymptomsMoscow .ct-label_visible {
+  .ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalytyRate_1 .ct-label_visible, .ct-mortalytyRate_2 .ct-label_visible, .ct-noSymptomsMoscow .ct-label_visible, .ct-ActivePnMoscow .ct-label_visible {
     display: none;
   }
 }
@@ -1714,6 +1720,10 @@ span[data-legend="total-deaths"] b:before {
 
 .color-с_1:before {
   background-color: #f171c0;
+}
+
+.color-pink:before {
+  background-color: #ff00dd;
 }
 
 .color-с_2:before {

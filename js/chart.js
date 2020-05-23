@@ -131,6 +131,7 @@ export default class Chart {
             const RecoveredMoscow = [];
             const DeathsMoscow = [];
             const ActiveMoscow = [];
+            const ActivePnMoscow = [];
             const noSymptomsMoscow = [];
             
             function interpolation (arr, steps) {
@@ -173,6 +174,7 @@ export default class Chart {
                 RecoveredMoscow.push( data[i].moscow.total.recovered );
                 DeathsMoscow.push( data[i].moscow.total.deaths );
                 ActiveMoscow.push( data[i].moscow.total.active ); 
+                ActivePnMoscow.push( data[i].moscow.total.activePn );
                 noSymptomsMoscow.push( data[i].moscow.total.noSymptoms );
 
                 allCasesLog.push( Math.log(data[i].moscowAndOblast.total.cases) / Math.log(10) );
@@ -199,7 +201,7 @@ export default class Chart {
                 if (data[i].age) {
 
                     age_0_17.push(data[i].age.cases_0_17)
-                    age_18_45.push(data[i].cases_18_45)
+                    age_18_45.push(data[i].age.cases_18_45)
                     age_46_65.push(data[i].age.cases_46_65)
                     age_66_79.push(data[i].age.cases_66_79)
                     age_80.push(data[i].age.cases_80)
@@ -362,21 +364,26 @@ export default class Chart {
                         color: 'green',
                         data : RecoveredMoscow 
                     }, {
-                        name : 'cases',
-                        meta : 'заражений',
-                        color: 'red',
-                        data : CasesMoscow
-                    }, {
                         name : 'active',
                         meta : 'болеют COVID-19',
                         color: 'red-light',
                         data : ActiveMoscow
                     }, {
+                        name : 'ActivePnMoscow',
+                        meta : 'болеют пневмонией',
+                        color: 'pink',
+                        data : ActivePnMoscow
+                    }, {
                         name : 'noSymptomsMoscow',
                         meta : 'беcсимптомные',
                         color: 'orange',
                         data : noSymptomsMoscow
-                    }
+                    }, {
+                        name : 'cases',
+                        meta : 'заражений',
+                        color: 'red',
+                        data : CasesMoscow
+                    },
                 ];
                 
             }    
