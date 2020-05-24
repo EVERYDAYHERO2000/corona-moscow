@@ -1263,7 +1263,7 @@ canvas {
 }
 
 .ct-ActivePnMoscow {
-  stroke: #ff00dd;
+  stroke: #ffccf4;
   fill: none;
   stroke-width: 3px;
 }
@@ -1271,13 +1271,15 @@ canvas {
 .ct-hospMoscow {
   stroke: #9900ff;
   fill: none;
-  stroke-width: 3px;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
 }
 
 .ct-hospPnMoscow {
   stroke: #4989ff;
   fill: none;
-  stroke-width: 3px;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
 }
 
 .ct-label {
@@ -1735,7 +1737,7 @@ span[data-legend="total-deaths"] b:before {
 }
 
 .color-pink:before {
-  background-color: #ff00dd;
+  background-color: #ffccf4;
 }
 
 .color-с_2:before {
