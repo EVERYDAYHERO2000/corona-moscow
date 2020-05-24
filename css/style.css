@@ -1265,7 +1265,19 @@ canvas {
 .ct-ActivePnMoscow {
   stroke: #ff00dd;
   fill: none;
-  stroke-width: 2px;
+  stroke-width: 3px;
+}
+
+.ct-hospMoscow {
+  stroke: #9900ff;
+  fill: none;
+  stroke-width: 3px;
+}
+
+.ct-hospPnMoscow {
+  stroke: #4989ff;
+  fill: none;
+  stroke-width: 3px;
 }
 
 .ct-label {
@@ -1291,12 +1303,12 @@ canvas {
   }
 }
 
-.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalytyRate_1 .ct-label_visible, .ct-mortalytyRate_2 .ct-label_visible, .ct-noSymptomsMoscow .ct-label_visible, .ct-ActivePnMoscow .ct-label_visible {
+.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalytyRate_1 .ct-label_visible, .ct-mortalytyRate_2 .ct-label_visible, .ct-noSymptomsMoscow .ct-label_visible, .ct-ActivePnMoscow .ct-label_visible, .ct-hospMoscow .ct-label_visible, .ct-hospPnMoscow .ct-label_visible {
   display: block;
 }
 
 @media screen and (max-width: 500px) {
-  .ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalytyRate_1 .ct-label_visible, .ct-mortalytyRate_2 .ct-label_visible, .ct-noSymptomsMoscow .ct-label_visible, .ct-ActivePnMoscow .ct-label_visible {
+  .ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalytyRate_1 .ct-label_visible, .ct-mortalytyRate_2 .ct-label_visible, .ct-noSymptomsMoscow .ct-label_visible, .ct-ActivePnMoscow .ct-label_visible, .ct-hospMoscow .ct-label_visible, .ct-hospPnMoscow .ct-label_visible {
     display: none;
   }
 }
@@ -1740,6 +1752,14 @@ span[data-legend="total-deaths"] b:before {
 
 .color-с_5:before {
   background-color: #6d1505;
+}
+
+.color-c_6:before {
+  background-color: #9900ff;
+}
+
+.color-c_7:before {
+  background-color: #4989ff;
 }
 
 .screen .ct-series .ct-label {

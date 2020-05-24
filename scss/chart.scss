@@ -160,7 +160,19 @@
 .ct-ActivePnMoscow {
     stroke: rgb(255, 0, 221); 
     fill: none;
-    stroke-width: 2px;
+    stroke-width: 3px;
+}
+
+.ct-hospMoscow {
+    stroke: rgb(153, 0, 255); 
+    fill: none;
+    stroke-width: 3px;
+}
+
+.ct-hospPnMoscow {
+    stroke: rgb(73, 137, 255); 
+    fill: none;
+    stroke-width: 3px;
 }
 
 .ct-label {
@@ -184,7 +196,7 @@
     }
 }
 
-.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalytyRate_1 .ct-label_visible, .ct-mortalytyRate_2 .ct-label_visible, .ct-noSymptomsMoscow .ct-label_visible, .ct-ActivePnMoscow .ct-label_visible{
+.ct-cases .ct-label_visible, .ct-newCases .ct-label_visible, .ct-casesDetectability .ct-label_visible, .ct-testPerPopulation .ct-label_visible, .ct-mortalytyRate_1 .ct-label_visible, .ct-mortalytyRate_2 .ct-label_visible, .ct-noSymptomsMoscow .ct-label_visible, .ct-ActivePnMoscow .ct-label_visible, .ct-hospMoscow .ct-label_visible, .ct-hospPnMoscow .ct-label_visible{
     display: block;
 
     @media screen and (max-width: 500px) {

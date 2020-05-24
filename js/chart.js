@@ -133,6 +133,8 @@ export default class Chart {
             const ActiveMoscow = [];
             const ActivePnMoscow = [];
             const noSymptomsMoscow = [];
+            const hospMoscow = [];
+            const hospPnMoscow = [];
             
             function interpolation (arr, steps) {
 
@@ -176,6 +178,8 @@ export default class Chart {
                 ActiveMoscow.push( data[i].moscow.total.active ); 
                 ActivePnMoscow.push( data[i].moscow.total.activePn );
                 noSymptomsMoscow.push( data[i].moscow.total.noSymptoms );
+                hospMoscow.push( data[i].moscow.total.hospitalised );
+                hospPnMoscow.push( data[i].moscow.total.hospitalisedPn );
 
                 allCasesLog.push( Math.log(data[i].moscowAndOblast.total.cases) / Math.log(10) );
                 allDeathsLog.push( Math.log(data[i].moscowAndOblast.total.deaths) / Math.log(10) );
@@ -353,6 +357,18 @@ export default class Chart {
             if (_this._type == 'allMoscow') {
 
                 result = [
+                    {
+                        name : 'hospMoscow',
+                        meta : 'в больнице с COVID-19',
+                        color: 'c_6',
+                        data : hospMoscow
+                    },
+                    {
+                        name : 'hospPnMoscow',
+                        meta : 'в больнице с пневмонией',
+                        color: 'c_7',
+                        data : hospPnMoscow
+                    },
                     {
                         name : 'deaths',
                         meta : 'смертей',
