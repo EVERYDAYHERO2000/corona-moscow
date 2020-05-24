@@ -357,6 +357,7 @@ export default class Chart {
             if (_this._type == 'allMoscow') {
 
                 result = [
+                    /*
                     {
                         name : 'hospMoscow',
                         meta : 'в больнице с COVID-19',
@@ -369,6 +370,7 @@ export default class Chart {
                         color: 'c_7',
                         data : hospPnMoscow
                     },
+                    */
                     {
                         name : 'deaths',
                         meta : 'смертей',
