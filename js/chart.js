@@ -189,9 +189,9 @@ export default class Chart {
 
                 casesDetectability.push( data[i].moscowAndOblast.total.cases / data[i].tests.allTotal * 100 );
                 
-                mortalytyRate_1.push( data[i].moscowAndOblast.total.deaths / (data[i].moscowAndOblast.total.deaths + data[i].moscowAndOblast.total.recovered) * 100 );
-                mortalytyRate_2.push( data[i].moscowAndOblast.total.deaths / data[i].moscowAndOblast.total.cases * 100 );
-                mortalytyRate_3.push( ( ( data[i].moscowAndOblast.total.deaths / (data[i].moscowAndOblast.total.deaths + data[i].moscowAndOblast.total.recovered) ) + ( data[i].moscowAndOblast.total.deaths / data[i].moscowAndOblast.total.cases ) ) / 2 * 100 );
+                mortalytyRate_1.push( data[i].mortality.moscowAndOblast.r1 );
+                mortalytyRate_2.push( data[i].mortality.moscowAndOblast.r2 );
+                mortalytyRate_3.push( data[i].mortality.moscowAndOblast.r3 );
 
                 let prevDay = (data[i - 1]) ? data[i - 1] : data[i];
 
@@ -226,9 +226,6 @@ export default class Chart {
             newCasesInterpolated = interpolation(newCases, 10);
             newRecoveredInterpolated = interpolation(newRecovered, 10);
             newDeathsInterpolated = interpolation(newDeaths, 10);   
-
-
-            mortalytyRate_3 = interpolation(mortalytyRate_3, 3);
             
             
             
@@ -545,6 +542,13 @@ export default class Chart {
                         color: 'black-light',
                         unit : 'percent',
                         data : mortalytyRate_2
+                    },
+                    {
+                        name : 'mortalytyRate_3',
+                        meta : 'летальность 3',
+                        color: 'black-light',
+                        unit : 'percent',
+                        data : mortalytyRate_3
                     }
                 ]
 

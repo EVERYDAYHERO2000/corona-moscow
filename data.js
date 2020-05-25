@@ -161,11 +161,18 @@ module.exports = function (cb) {
         mortality : {
           moscow : {
             r1 : +row[16],
-            r2 : +row[17]  
+            r2 : +row[17],
+            r3 : +row[41]  
           },
           oblast : {
             r1 : +row[37],
-            r2 : +row[38]   
+            r2 : +row[38],
+            r3 : +row[42]     
+          },
+          moscowAndOblast: {
+            r1 : +row[43],
+            r2 : +row[44],
+            r3 : +row[45] 
           }
         }
       })
