@@ -154,7 +154,8 @@
 .ct-noSymptomsMoscow {
     stroke: rgb(255, 166, 0); 
     fill: none;
-    stroke-width: 3px;
+    stroke-width: 2px;
+    stroke-dasharray: 3;
 }
 
 .ct-ActivePnMoscow {

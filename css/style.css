@@ -1259,7 +1259,8 @@ canvas {
 .ct-noSymptomsMoscow {
   stroke: #ffa600;
   fill: none;
-  stroke-width: 3px;
+  stroke-width: 2px;
+  stroke-dasharray: 3;
 }
 
 .ct-ActivePnMoscow {

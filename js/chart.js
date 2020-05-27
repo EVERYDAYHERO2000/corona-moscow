@@ -208,7 +208,7 @@ export default class Chart {
                recoveredRate.push( (i > 0) ? (data[i].moscowAndOblast.total.recovered / prevDay.moscowAndOblast.total.recovered * 100) - 100 : null );
                deathsRate.push( (i > 0) ? (data[i].moscowAndOblast.total.deaths / prevDay.moscowAndOblast.total.deaths * 100) - 100 : null );
                 
-                if (data[i].age) {
+                if (i > 35) {
 
                     age_0_17.push(data[i].age.cases_0_17)
                     age_18_45.push(data[i].age.cases_18_45)
