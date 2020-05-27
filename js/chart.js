@@ -122,6 +122,7 @@ export default class Chart {
 
             const allCasesLog = [];
             const allDeathsLog = [];
+            const allTestsLog = [];
             const allRecoveredLog = [];
             const predictAllCasesLog = [];
             const predictAllDeathsLog = [];
@@ -184,6 +185,7 @@ export default class Chart {
                 allCasesLog.push( Math.log(data[i].moscowAndOblast.total.cases) / Math.log(10) );
                 allDeathsLog.push( Math.log(data[i].moscowAndOblast.total.deaths) / Math.log(10) );
                 allRecoveredLog.push( Math.log(data[i].moscowAndOblast.total.recovered) / Math.log(10) );
+                allTestsLog.push( Math.log(data[i].tests.allTotal) / Math.log(10) );
                 
                 allTests.push( data[i].tests.allTotal );
 
@@ -435,6 +437,12 @@ export default class Chart {
                         meta : 'прогноз смертей',
                         color: 'black',
                         data : predictAllDeathsLog
+                    },
+                    {
+                        name : 'testPerPopulation',
+                        meta : 'тестов',
+                        color: 'blue',
+                        data : allTestsLog
                     }
                 ];    
             }    
