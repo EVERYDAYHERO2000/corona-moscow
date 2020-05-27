@@ -140,6 +140,10 @@ export default class Chart {
             const noSymptomsMoscow = [];
             const hospMoscow = [];
             const hospPnMoscow = [];
+
+            const totalCovidHosp = [];
+            const totalHosp = [];
+            const totalPnHosp = [];
             
             function interpolation (arr, steps) {
 
@@ -199,14 +203,16 @@ export default class Chart {
                 mortalytyRate_2.push( data[i].mortality.moscowAndOblast.r2 );
                 mortalytyRate_3.push( data[i].mortality.moscowAndOblast.r3 );
 
-                let prevDay = (data[i - 1]) ? data[i - 1] : data[i];
+                if (i > 21) {
+                    totalPnHosp.push( data[i].moscowHospital.totalPnHosp );
+                    totalHosp.push( data[i].moscowHospital.totalHosp );
+                    totalCovidHosp.push( data[i].moscowHospital.totalCovidHosp );
+                } else {
+                    totalPnHosp.push( null );
+                    totalHosp.push( null );
+                    totalCovidHosp.push( null );
+                }
 
-
-
-
-               casesRate.push( (i > 0) ? (data[i].moscowAndOblast.total.cases / prevDay.moscowAndOblast.total.cases * 100) - 100 : null );
-               recoveredRate.push( (i > 0) ? (data[i].moscowAndOblast.total.recovered / prevDay.moscowAndOblast.total.recovered * 100) - 100 : null );
-               deathsRate.push( (i > 0) ? (data[i].moscowAndOblast.total.deaths / prevDay.moscowAndOblast.total.deaths * 100) - 100 : null );
                 
                 if (i > 35) {
 
@@ -431,6 +437,31 @@ export default class Chart {
                 
             }    
 
+            if (_this._type == 'totalHosp') {
+
+                result = [
+
+                    {
+                        name : 'testPerPopulation',
+                        meta : 'всего',
+                        color: 'blue',
+                        data : totalHosp
+                    }, 
+                    {
+                        name : 'age_80',
+                        meta : 'пневмония',
+                        color: 'с_5',
+                        data : totalPnHosp
+                    }, {
+                        name : 'cases',
+                        meta : 'covid-19',
+                        color: 'red',
+                        data : totalCovidHosp
+                    }
+                ];
+                
+            }    
+
             if (_this._type == 'log') {
                 result = [
                     {
@@ -588,33 +619,7 @@ export default class Chart {
 
             }
 
-            if (_this._type == 'rate') {
-
-                result = [
-                    {
-                        name : 'cases',
-                        meta : 'заражений',
-                        color: 'red',
-                        unit : 'percent',
-                        data : casesRate
-                    },
-                    {
-                        name : 'recovered',
-                        meta : 'выздоровлений',
-                        color: 'green',
-                        unit : 'percent',
-                        data : recoveredRate
-                    },
-                    {
-                        name : 'deaths',
-                        meta : 'смертей',
-                        color: 'black',
-                        unit : 'percent',
-                        data : deathsRate
-                    }
-                ]
-
-            }
+            
 
             if (_this._type == 'age') {
 
@@ -736,7 +741,10 @@ export default class Chart {
                 },
                 'age_80': {
                     lineSmooth: Chartist.Interpolation.none()
-                }   
+                },
+                'testPerPopulation': {
+                    lineSmooth: Chartist.Interpolation.none()
+                }    
             },
             plugins: [
                 Chartist.plugins.ctPointLabels({
