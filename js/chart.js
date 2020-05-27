@@ -118,7 +118,11 @@ export default class Chart {
             const age_66_79 = [];
             const age_80 = [];
 
-            const allC = allCases
+            const ageNew_0_17 = [];
+            const ageNew_18_45 = [];
+            const ageNew_46_65 = []; 
+            const ageNew_66_79 = [];
+            const ageNew_80 = [];
 
             const allCasesLog = [];
             const allDeathsLog = [];
@@ -212,6 +216,12 @@ export default class Chart {
                     age_66_79.push(data[i].age.cases_66_79)
                     age_80.push(data[i].age.cases_80)
 
+                    ageNew_0_17.push(data[i].age.newCases_0_17)
+                    ageNew_18_45.push(data[i].age.newCases_18_45)
+                    ageNew_46_65.push(data[i].age.newCases_46_65)
+                    ageNew_66_79.push(data[i].age.newCases_66_79)
+                    ageNew_80.push(data[i].age.newCases_80)
+
                 } else {
 
                     age_0_17.push(null)
@@ -219,6 +229,12 @@ export default class Chart {
                     age_46_65.push(null)
                     age_66_79.push(null)
                     age_80.push(null)
+
+                    ageNew_0_17.push(null)
+                    ageNew_18_45.push(null)
+                    ageNew_46_65.push(null)
+                    ageNew_66_79.push(null)
+                    ageNew_80.push(null)
                     
                 }
 
@@ -622,6 +638,44 @@ export default class Chart {
                         meta : 'возраст 80+',
                         color: 'с_5',
                         data : age_80
+                    }
+                    
+                ]
+
+            }
+
+            if (_this._type == 'ageNew') {
+
+                result = [
+                    {
+                        name : 'age_0_17',
+                        meta : 'дети',
+                        color: 'с_1',
+                        data : ageNew_0_17
+                    },
+                    {
+                        name : 'age_18_45',
+                        meta : 'возрвст 18–45',
+                        color: 'с_2',
+                        data : ageNew_18_45
+                    },
+                    {
+                        name : 'age_46_65',
+                        meta : 'возраст 46–65',
+                        color: 'с_3',
+                        data : ageNew_46_65
+                    },
+                    {
+                        name : 'age_66_79',
+                        meta : 'возраст 66–79',
+                        color: 'с_4',
+                        data : ageNew_66_79
+                    },
+                    {
+                        name : 'age_80',
+                        meta : 'возраст 80+',
+                        color: 'с_5',
+                        data : ageNew_80
                     }
                     
                 ]

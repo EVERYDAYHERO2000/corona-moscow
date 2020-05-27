@@ -18,6 +18,7 @@ import setResponsiveHeight from "./responsiveHeight.js";
     const mortalyty = new Chart('#mortalyty');
     const rate = new Chart('#rate');
     const age = new Chart('#age');
+    const ageNew = new Chart('#ageNew');
 
     function format(value) {
 
@@ -48,6 +49,8 @@ import setResponsiveHeight from "./responsiveHeight.js";
         mortalyty.setData(data, predict, 'mortalyty');
 
         age.setData(data, predict, 'age');
+
+        ageNew.setData(data, predict, 'ageNew');
 
 
     });

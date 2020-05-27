@@ -152,6 +152,11 @@ module.exports = function (cb) {
           cases_66_79 : +row[25],
           cases_80 : +row[26],
           cases_0_17 : +row[27],
+          newCases_18_45 : +row[46],
+          newCases_46_65 : +row[47],
+          newCases_66_79 : +row[48],
+          newCases_80 : +row[49],
+          newCases_0_17 : +row[50]
         },
         moscowHospital : {
           totalHosp : +row[1],
