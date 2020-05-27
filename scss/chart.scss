@@ -156,6 +156,11 @@
     fill: none;
     stroke-width: 2px;
     stroke-dasharray: 3;
+    display:none;
+}
+
+.metrics-page .ct-noSymptomsMoscow {
+    display: block;
 }
 
 .ct-ActivePnMoscow {

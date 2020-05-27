@@ -325,6 +325,12 @@ export default class Chart {
 
                 result = [
                     {
+                        name : 'noSymptomsMoscow',
+                        meta : 'беcсимптомные в Москве',
+                        color: 'orange',
+                        data : noSymptomsMoscow
+                    },
+                    {
                         name : 'deaths',
                         meta : 'смертей',
                         color: 'black',
@@ -401,12 +407,16 @@ export default class Chart {
                         meta : 'болеют COVID-19',
                         color: 'red-light',
                         data : ActiveMoscow
-                    }, {
+                    }, 
+                    /*
+                    {
                         name : 'ActivePnMoscow',
                         meta : 'болеют пневмонией',
                         color: 'pink',
                         data : ActivePnMoscow
-                    }, {
+                    }, 
+                    */
+                    {
                         name : 'noSymptomsMoscow',
                         meta : 'беcсимптомные',
                         color: 'orange',
