@@ -162,6 +162,8 @@ module.exports = function (cb) {
           totalHosp : +row[1],
           totalCovidHosp : +row[2],
           totalPnHosp : +row[3],
+          totalICU : +row[51],
+          totalVentilation : +row[52]
         },
         mortality : {
           moscow : {

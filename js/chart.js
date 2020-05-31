@@ -144,6 +144,8 @@ export default class Chart {
             const totalCovidHosp = [];
             const totalHosp = [];
             const totalPnHosp = [];
+            const totalICU = [];
+            const totalVentilation = [];
             
             function interpolation (arr, steps) {
 
@@ -207,10 +209,14 @@ export default class Chart {
                     totalPnHosp.push( data[i].moscowHospital.totalPnHosp );
                     totalHosp.push( data[i].moscowHospital.totalHosp );
                     totalCovidHosp.push( data[i].moscowHospital.totalCovidHosp );
+                    totalICU.push( data[i].moscowHospital.totalICU );
+                    totalVentilation.push( data[i].moscowHospital.totalVentilation );
                 } else {
                     totalPnHosp.push( null );
                     totalHosp.push( null );
                     totalCovidHosp.push( null );
+                    totalICU.push( null );
+                    totalVentilation.push( null );
                 }
 
                 
@@ -457,7 +463,21 @@ export default class Chart {
                         meta : 'covid-19',
                         color: 'red',
                         data : totalCovidHosp
+                    },
+                    /*
+                    {
+                        name : 'cases',
+                        meta : 'в реанимации',
+                        color: 'red',
+                        data : totalICU
+                    },
+                    {
+                        name : 'deaths',
+                        meta : 'на ИВЛ',
+                        color: 'red',
+                        data : totalVentilation
                     }
+                    */
                 ];
                 
             }    
