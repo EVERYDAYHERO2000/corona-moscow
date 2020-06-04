@@ -464,20 +464,19 @@ export default class Chart {
                         color: 'red',
                         data : totalCovidHosp
                     },
-                    /*
                     {
-                        name : 'cases',
+                        name : 'age_66_79',
                         meta : 'в реанимации',
-                        color: 'red',
+                        color: 'с_4',
                         data : totalICU
                     },
                     {
-                        name : 'deaths',
+                        name : 'age_18_45',
                         meta : 'на ИВЛ',
-                        color: 'red',
+                        color: 'с_2',
                         data : totalVentilation
                     }
-                    */
+                    
                 ];
                 
             }    
