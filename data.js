@@ -8,30 +8,32 @@ function strToNum (str) {
   return +(str.replace(` `, ``))
 }
 
-function getStats (array, rows) {
-  for (const row of rows) {
-    const cells = row.querySelectorAll(`td`)
 
-    if (!cells.length) continue;
+function interpolation (arr, steps) {
 
-    const date = cells[0].textContent.split(`.`)
+  let tempArr = [];
 
-    array.push({
-      date: +`${date[2]}${date[1]}${date[0]}`,
-      total: {
-        cases: strToNum(cells[1].textContent),
-        deaths: strToNum(cells[5].textContent),
-        recovered: strToNum(cells[9].textContent)
-      },
-      new: {
-        cases: strToNum(cells[2].textContent),
-        deaths: strToNum(cells[6].textContent),
-        recovered: strToNum(cells[10].textContent)
-      }
-    })
+  steps--
+
+  for (var i = 0; i < arr.length; i++) {
+
+      let leftP = (arr[i - 1]) ? arr[i - 1] : arr[i];
+      let rightP = (arr[i + 1]) ? arr[i + 1] : arr[i];
+      let currentP = arr[i];
+
+      let left = (leftP + currentP) / 2;
+      let right = (rightP + currentP) / 2;
+      let current = (left + right) / 2;
+
+      tempArr.push(+current);
+
   }
-}
 
+  if (steps) tempArr = interpolation(tempArr, steps);
+
+  return tempArr;
+
+}
 
 
 module.exports = function (cb) {
@@ -45,6 +47,36 @@ module.exports = function (cb) {
   }).then(([csv]) => {
 
     csv = csv.replace(/	/gi, '||').replace(/,/gi,'.').split('\r\n')
+
+    ///
+
+    let temp = {
+      moscowHospitalisedCovid : [],
+      moscowHospitalisedPn : [],
+      moscowICU : [],
+      moscowVentilation : []
+    }
+
+    for (var i = 2; i < csv.length; i++){
+
+      let row = csv[i].split('||');
+
+      if (+row[4] > 0) temp.moscowHospitalisedCovid.push(+row[4])
+      if (+row[5] > 0) temp.moscowHospitalisedPn.push(+row[5])
+      if (+row[53] > 0) temp.moscowICU.push(+row[53])
+      if (+row[54] > 0) temp.moscowVentilation.push(+row[54])
+
+    }  
+
+    temp.moscowHospitalisedCovid = interpolation (temp.moscowHospitalisedCovid, 3);    
+    temp.moscowHospitalisedPn = interpolation (temp.moscowHospitalisedPn, 3);
+    temp.moscowICU = interpolation (temp.moscowICU, 3);
+    temp.moscowVentilation = interpolation (temp.moscowVentilation, 3);
+
+    
+    ///
+
+    
 
     let stats = {
       city: [],
@@ -112,8 +144,10 @@ module.exports = function (cb) {
             deaths : +row[13],
             active : +row[15],
             activePn : +row[8], 
-            hospitalised : +row[4],
-            hospitalisedPn : +row[5],
+            hospitalisedCovid : (temp.moscowHospitalisedCovid[i-2]) ? +temp.moscowHospitalisedCovid[i-2].toFixed() : 0,//+row[4],
+            hospitalisedPn : (temp.moscowHospitalisedPn[i-2]) ? +temp.moscowHospitalisedPn[i-2].toFixed() : 0,//+row[5],
+            hospitalIcu : (temp.moscowICU[i-2]) ? +temp.moscowICU[i-2].toFixed() : 0,
+            hospitalVentilation : (temp.moscowVentilation[i-2]) ? +temp.moscowVentilation[i-2].toFixed() : 0,
             noSymptoms : +row[7]
           },
           new : {
@@ -203,6 +237,7 @@ module.exports = function (cb) {
 
     return cb()
   }).catch(error => console.log(error))
+
 }
 
 

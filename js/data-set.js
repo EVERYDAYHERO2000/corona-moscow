@@ -53,6 +53,8 @@ export default class DataSet {
                     _this._dataRequest(_this._url[2], function (predict) {
 
                         _this.data = [stats, oblast, predict];
+
+                        
                     
                         collect(_this.data, callback);
                         
