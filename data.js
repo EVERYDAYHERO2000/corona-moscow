@@ -51,6 +51,7 @@ module.exports = function (cb) {
     ///
 
     let temp = {
+      moscowHospitalised : [],
       moscowHospitalisedCovid : [],
       moscowHospitalisedPn : [],
       moscowICU : [],
@@ -65,13 +66,15 @@ module.exports = function (cb) {
       if (+row[5] > 0) temp.moscowHospitalisedPn.push(+row[5])
       if (+row[53] > 0) temp.moscowICU.push(+row[53])
       if (+row[54] > 0) temp.moscowVentilation.push(+row[54])
+      if (+row[56] > 0) temp.moscowHospitalised.push(+row[56])
 
     }  
 
-    temp.moscowHospitalisedCovid = interpolation (temp.moscowHospitalisedCovid, 3);    
-    temp.moscowHospitalisedPn = interpolation (temp.moscowHospitalisedPn, 3);
-    temp.moscowICU = interpolation (temp.moscowICU, 3);
-    temp.moscowVentilation = interpolation (temp.moscowVentilation, 3);
+    temp.moscowHospitalised = interpolation (temp.moscowHospitalised, 5);  
+    temp.moscowHospitalisedCovid = interpolation (temp.moscowHospitalisedCovid, 5);    
+    temp.moscowHospitalisedPn = interpolation (temp.moscowHospitalisedPn, 5);
+    temp.moscowICU = interpolation (temp.moscowICU, 5);
+    temp.moscowVentilation = interpolation (temp.moscowVentilation, 5);
 
     
     ///
@@ -144,6 +147,8 @@ module.exports = function (cb) {
             deaths : +row[13],
             active : +row[15],
             activePn : +row[8], 
+            hospitalisedBeds : +row[55],
+            hospitalised : (temp.moscowHospitalised[i-2]) ? +temp.moscowHospitalised[i-2].toFixed() : 0,
             hospitalisedCovid : (temp.moscowHospitalisedCovid[i-2]) ? +temp.moscowHospitalisedCovid[i-2].toFixed() : 0,//+row[4],
             hospitalisedPn : (temp.moscowHospitalisedPn[i-2]) ? +temp.moscowHospitalisedPn[i-2].toFixed() : 0,//+row[5],
             hospitalIcu : (temp.moscowICU[i-2]) ? +temp.moscowICU[i-2].toFixed() : 0,

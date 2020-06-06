@@ -138,14 +138,19 @@ export default class Chart {
             const ActiveMoscow = [];
             const ActivePnMoscow = [];
             const noSymptomsMoscow = [];
+
             const hospMoscow = [];
             const hospPnMoscow = [];
+            const hospCovidMoscow = [];
+            const hospBeds = [];
 
             const totalCovidHosp = [];
             const totalHosp = [];
             const totalPnHosp = [];
             const totalICU = [];
             const totalVentilation = [];
+
+
             
             function interpolation (arr, steps) {
 
@@ -189,8 +194,8 @@ export default class Chart {
                 ActiveMoscow.push( data[i].moscow.total.active ); 
                 ActivePnMoscow.push( data[i].moscow.total.activePn );
                 noSymptomsMoscow.push( data[i].moscow.total.noSymptoms );
-                hospMoscow.push( data[i].moscow.total.hospitalised );
-                hospPnMoscow.push( data[i].moscow.total.hospitalisedPn );
+
+                
 
                 allCasesLog.push( Math.log(data[i].moscowAndOblast.total.cases) / Math.log(10) );
                 allDeathsLog.push( Math.log(data[i].moscowAndOblast.total.deaths) / Math.log(10) );
@@ -205,13 +210,27 @@ export default class Chart {
                 mortalytyRate_2.push( data[i].mortality.moscowAndOblast.r2 );
                 mortalytyRate_3.push( data[i].mortality.moscowAndOblast.r3 );
 
+                hospBeds.push( data[i].moscow.total.hospitalisedBeds );
+
                 if (i > 21) {
+
+                    hospMoscow.push( data[i].moscow.total.hospitalised );
+                    hospCovidMoscow.push( data[i].moscow.total.hospitalisedCovid );
+                    hospPnMoscow.push( data[i].moscow.total.hospitalisedPn );
+                    
+
                     totalPnHosp.push( data[i].moscowHospital.totalPnHosp );
                     totalHosp.push( data[i].moscowHospital.totalHosp );
                     totalCovidHosp.push( data[i].moscowHospital.totalCovidHosp );
                     totalICU.push( data[i].moscowHospital.totalICU );
                     totalVentilation.push( data[i].moscowHospital.totalVentilation );
                 } else {
+
+                    hospMoscow.push( null );
+                    hospCovidMoscow.push( null );
+                    hospPnMoscow.push( null );
+                    
+
                     totalPnHosp.push( null );
                     totalHosp.push( null );
                     totalCovidHosp.push( null );
@@ -476,6 +495,38 @@ export default class Chart {
                         color: 'с_2',
                         data : totalVentilation
                     }
+                    
+                ];
+                
+            }    
+
+            if (_this._type == 'totalHospAll') {
+
+                result = [
+
+                    {
+                        name : 'testPerPopulation',
+                        meta : 'всего',
+                        color: 'blue',
+                        data : hospMoscow
+                    }, 
+                    {
+                        name : 'age_80',
+                        meta : 'пневмония',
+                        color: 'с_5',
+                        data : hospPnMoscow
+                    }, {
+                        name : 'cases',
+                        meta : 'covid-19',
+                        color: 'red',
+                        data : hospCovidMoscow
+                    },
+                    {
+                        name : 'age_18_45',
+                        meta : 'койки',
+                        color: 'с_2',
+                        data : hospBeds
+                    },
                     
                 ];
                 

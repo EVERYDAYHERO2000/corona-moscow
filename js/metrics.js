@@ -20,6 +20,7 @@ import setResponsiveHeight from "./responsiveHeight.js";
     const age = new Chart('#age');
     const ageNew = new Chart('#ageNew');
     const totalHosp = new Chart('#totalHosp');
+    const totalHospAll = new Chart('#totalHospAll');
 
     function format(value) {
 
@@ -44,6 +45,8 @@ import setResponsiveHeight from "./responsiveHeight.js";
         //rate.setData(data, predict, 'rate');
 
         totalHosp.setData(data, predict, 'totalHosp');
+
+        totalHospAll.setData(data, predict, 'totalHospAll');
 
 
         testsPerPeriod.setData(data, predict, 'test');
