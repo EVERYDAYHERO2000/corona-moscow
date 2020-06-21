@@ -68,7 +68,7 @@ export default class Chart {
                 
                 
 
-                arr.push( predict[i].date );
+                if (predict[i]) arr.push( predict[i].date );
             }
             
             return arr;
