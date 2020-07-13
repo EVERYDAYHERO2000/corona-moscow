@@ -45,13 +45,10 @@ export default class Chart {
         
         
         const _this = this;
-
-
-        
         this._type = type;
         this._predict = predict;
         this._data = data;
-        this._predictLength = 13;
+        this._predictLength = 14;
 
         this._step = this._data.length - 1;
 
