@@ -12,7 +12,7 @@
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^4.0.2",
     "jsdom": "^16.2.2",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.7"
   },
   "scripts": {
     "get-data": "gulp getData && node obj-to-csv.js",
